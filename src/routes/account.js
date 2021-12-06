@@ -10,15 +10,7 @@ router.post("/login", passport.authenticate('local',
         successRedirect: '/',
         failureRedirect: '/account/register-login',
         failureFlash: true 
-    }),function(req, res, next) {
-        if (!req.body.remember_me) { return next(); }
-        var token = utils.generateToken(64);
-        Token.save(token, { userId: req.user.id }, function(err) {
-          if (err) { return done(err); }
-          res.cookie('remember_me', token, { path: '/', httpOnly: true, maxAge: 604800000 }); // 7 days
-          return next();
-        });
-      }, AccountController.login);
+    }), AccountController.login);
 router.post("/register", AccountController.register)
 router.get('/register-login', AccountController.registerLogin);
 router.get('/forgot-password', AccountController.forgotPassword);
