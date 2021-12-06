@@ -71,3 +71,13 @@
     width: 80%;
     text-overflow: ellipsis;
 }
+
+.my-invalid-feedback{
+    color: red;
+    font-size: 0.75em;
+    padding: 0;
+    margin-bottom: 20px;
+    font-family: 'Roboto', sans-serif;
+    display: none;
+}
+

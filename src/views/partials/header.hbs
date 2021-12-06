@@ -6,15 +6,9 @@
 					Questions? Do you need help? Send us an email to: 
 					<a href="mailto:hkm19Team@gmail.com">hkm19Team@gmail.com</a>
 				</p>
-
-
-				{{!-- <p class="login">
-					Welcome visitor, if you have an account 
-					<a href="/account/register-login">Login</a>, or 
-					<a href="/account/register-login">Register</a>
-				</p> --}}
-				<!-- WESTEROS DROPDOWN CONTAINER-->
-				<div class="westeros-dropdown-container">
+				{{#if user}}
+					<!-- WESTEROS DROPDOWN CONTAINER-->
+					<div class="westeros-dropdown-container">
 					<p class="login logged">
 						<!-- SVG LOGGED -->
 						<svg class="svg-logged">
@@ -22,7 +16,7 @@
 						</svg>
 						<!-- /SVG LOGGED -->
 						Welcome Back
-						<a href="/me/profile">Kudo Kohari</a>
+						<a href="/me/profile">{{user.f_firstname}} {{user.f_lastname}}</a>
 						<!-- SVG ARROW -->
 						<svg class="svg-arrow westeros-dropdown-control">
 							<use xlink:href="#svg-arrow"></use>
@@ -41,16 +35,7 @@
 							Your Profile
 							</a>
 						</li>
-						{{!-- <li>
-							<a href="/me/wishlist">
-							<!-- SVG WISHLIST -->
-							<svg class="svg-wishlist">
-								<use xlink:href="#svg-wishlist"></use>	
-							</svg>
-							<!-- /SVG WISHLIST -->
-							Your Wishlist
-							</a>
-						</li> --}}
+					
 						<li>
 							<a href="/me/cart">
 							<!-- SVG CART -->
@@ -83,13 +68,13 @@
 						</li>
 						
 						<li>
-							<a href="/account/register-login">
+							<a href="/account/logout">
 							<!-- SVG log out -->
 							<svg class="svg-logged" style="width: 11px; height: 11px">
 								<use xlink:href="#svg-logged"></use>
 							</svg>
 							<!-- /SVG log out -->
-							Sign out
+								Sign out
 							</a>
 						</li>
 						
@@ -97,6 +82,20 @@
 					<!-- /WESTEROS DROPDOWN -->
 				</div>
 				<!-- /WESTEROS DROPDOWN CONTAINER-->
+				{{else}}
+					<p class="login">
+						Welcome visitor, if you have an account 
+						<a href="/account/register-login">Login</a>, or 
+						<a href="/account/register-login">Register</a>
+					</p>
+				{{/if}}
+
+				{{!-- <p class="login">
+					Welcome visitor, if you have an account 
+					<a href="/account/register-login">Login</a>, or 
+					<a href="/account/register-login">Register</a>
+				</p> --}}
+				
 			</section>
 			<!-- /HEADER TOP -->
 		</div>

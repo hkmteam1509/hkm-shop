@@ -4,15 +4,9 @@ const router = express.Router();
 
 const AccountController = require('../controllers/AccountController');
 
-router.post("/login",  
-    passport.authenticate('local'),
-    function(req, res) {
-        if(req.user){
-            res.redirect("/");
-        }else{
-            res.redirect("/account/login");
-        }
-    });
+router.get("/logout", AccountController.logout);
+router.post("/login", passport.authenticate('local'),AccountController.login);
+router.post("/register", AccountController.register)
 router.get('/register-login', AccountController.registerLogin);
 router.get('/forgot-password', AccountController.forgotPassword);
 router.get('/verification-code', AccountController.verificationCode);

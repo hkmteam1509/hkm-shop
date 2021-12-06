@@ -7,6 +7,8 @@ const handlebars  = require('express-handlebars');
 const route = require('./routes');
 const session = require('express-session');
 const passport = require('./auth/passport');
+const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
 const app = express();
 const port = 3000;
 
@@ -49,10 +51,16 @@ app.set('view engine', 'hbs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(methodOverride('_method'));
 app.use(session({ secret: process.env.SECRET_SESSION, resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(function (req, res, next) {
+	res.locals.user = req.user
+	next();
+})
 route(app);
 
 

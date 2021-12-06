@@ -55,6 +55,14 @@
 		}
 	}
 
+	input[type="email"] {
+		margin-bottom: 22px;
+				
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
 	input[type="password"] {
 		width:100%;
 		height: 38px;
