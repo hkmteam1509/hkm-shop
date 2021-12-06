@@ -11,21 +11,92 @@
     <section id="register-login">
         <div class="featured-form">
             <h3>New? Register Now!</h3>
-            <form class="westeros-form">
-                <label class="rl-label required">Your Name</label>
-                <input type="text" placeholder="Enter your full name here...">
-				<label class="rl-label required">Your Username</label>
-                <input type="text" placeholder="Enter your username here...">
-                <label class="rl-label required">Your Email Address</label>
-                <input type="text" placeholder="Enter your email address here...">
-                <label class="rl-label required">Password</label>
-                <input id="password" type="password" placeholder="Enter your password here...">
-				<label class="rl-label required">Confirm Password</label>
-                <input id="confirm-password"  style="margin-bottom: 0;" type="password" placeholder="Enter your password here...">
-				<p id="confirm-error" style="color: red; display: none">The confirmation password must be the same as the password</p>
-				<button class="button register" id="submit-register-btn" style="font-size: 16px;" type="button">Create your account</button>
-                <a href="/account/verification-code" id="register-link">
-				</a>
+            <form id="register-form" method="post" action="/account/register" class="westeros-form needs-validation" novalidate>
+                <div class="form-group">
+					<label class="rl-label required">First Name</label>
+					<input type="text" name="firstname"
+						{{#if firstname}}
+							value="{{firstname}}"
+						{{/if}}
+						 class="form-control" required placeholder="Enter your first name here...">
+					<div class="my-invalid-feedback" id="my-invalid-firstname">
+						Please provide a valid name.
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="rl-label required">Last Name</label>
+					<input type="text" name="lastname"
+						{{#if lastname}}
+							value="{{lastname}}"
+						{{/if}}
+					 class="form-control" required placeholder="Enter your last name here...">
+					<div class="my-invalid-feedback" id="my-invalid-lastname">
+						Please provide a valid name.
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="rl-label required">Username</label>
+					<input type="text" name="username"
+						{{#isEqual errorCode 1 }}
+							style="margin-bottom: 5px"
+						{{/isEqual}}
+						{{#if username}}
+							value="{{username}}"
+						{{/if}}
+					 class="form-control" required placeholder="Enter your username here...">
+					<div class="my-invalid-feedback" id="my-invalid-username">
+						Please provide a valid username.
+					</div>
+					{{#isEqual errorCode 1}}
+						<div class="my-invalid-feedback" style="margin-bottom: 2; display: block">
+							Username existed
+						</div>
+					{{/isEqual}}
+					
+				</div>
+				<div class="form-group">
+					 <label class="rl-label required">Your Email Address</label>
+					<input type="email" name="email"
+						{{#isEqual errorCode 2}}
+							style="margin-bottom: 5px"
+						{{/isEqual}} 
+						{{#if email}}
+							value="{{email}}"
+						{{/if}}
+					required class="form-control" placeholder="Enter your email address here...">
+					<div class="my-invalid-feedback" id="my-invalid-email">
+						Please provide a valid email.
+					</div>
+					{{#isEqual errorCode 2}}
+						<div class="my-invalid-feedback" style="margin-bottom: 2; display: block">
+							Invalid email
+						</div>
+					{{/isEqual}}
+				</div>
+                
+				<div class="form-group">
+					<label class="rl-label required">Password</label>
+                	<input id="password" name="password" 
+						{{#if password}}
+							value="{{password}}"
+						{{/if}}
+					required class="form-control" type="password" placeholder="Enter your password here...">
+					<div class="my-invalid-feedback" id="my-invalid-password">
+						Please provide a valid password.
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="rl-label required">Confirm Password</label>
+                	<input id="confirm-password"
+						{{#if confirmPassword}}
+							value="{{confirmPassword}}"
+						{{/if}}
+						 name="confirmPassword" style="margin-bottom: 0;" type="password" placeholder="Enter your password here...">
+					<div class="my-invalid-feedback" id="my-invalid-confirm">
+						The confirmation password must be the same as the password
+					</div>
+				</div>
+				<button class="button register" id="submit-register-btn" style="font-size: 16px;" type="submit">Create your account</button>
             </form>
         </div>
 
@@ -274,33 +345,111 @@
 </svg>
 <!-- SVG ENVELOPE -->
 <!-- jQuery -->
+
 <script src="/js/vendor/jquery-1.11.1.min.js"></script>
 <!-- Owl Carrousel -->
 <script src="/js/vendor/owl.carousel.min.js"></script>
-<!-- imgLiquid -->
-<script src="/js/vendor/imgLiquid-min.js"></script>
+
 <!-- Header -->
 <script src="/js/header.js"></script>
 <!-- Menu -->
 <script src="/js/menu.js"></script>
 <!-- Register-Login -->
-<script src="/js/register-login.js"></script>
+{{!-- <script src="/js/register-login.js"></script> --}}
 
 <script>
 	$(document).ready(function(){
+		console.log("OK");
 		const submitRegisterBtn = document.querySelector("#submit-register-btn");
 		const passwordBox = document.getElementById('password');
 		const confirmPassword = document.getElementById('confirm-password');
 		const registerLink = document.getElementById("register-link");
-		const confirmError = document.getElementById("confirm-error");
-		submitRegisterBtn.addEventListener("click", (e)=>{
-			if(passwordBox.value !== confirmPassword.value){
-				confirmError.style.display = "block";
+		const firstnameFeedback = document.getElementById("my-invalid-firstname");
+		const lastnameFeedback = document.getElementById("my-invalid-lastname");
+		const usernameFeedback = document.getElementById("my-invalid-username");
+		const emailFeedback = document.getElementById("my-invalid-email");
+		const passwordFeedback = document.getElementById("my-invalid-password");
+		const comfirmFeedback = document.getElementById("my-invalid-confirm");
+		const registerForm = document.getElementById("register-form");
+		registerForm.addEventListener("submit", function(e){
+			console.log("CLICK");
+			let isSubmitable = true;
+			const username = registerForm["username"];
+			const firstname = registerForm["firstname"];
+			const lastname = registerForm["lastname"];
+			const password = registerForm["password"];
+			const email = registerForm["email"];
+			const confirmPassword = registerForm["confirmPassword"];
+			document.querySelectorAll('.my-invalid-feedback').forEach(ele=>{
+				ele.style.display="none";
+			})
+			if(username.value.length < 1){
+				usernameFeedback.style.display="block";
+				username.style.marginBottom="5px";
+				isSubmitable = false;
 			}
 			else{
-				confirmError.style.display = "none";
-				registerLink.click();
+				usernameFeedback.style.display="none";
+				username.style.marginBottom="22px";
+			}
+
+			if(lastname.value.length < 1){
+				lastnameFeedback.style.display="block";
+				lastname.style.marginBottom="5px";
+				isSubmitable = false;
+			}
+			else{
+				lastnameFeedback.style.display="none";
+				lastname.style.marginBottom="22px";
+			}
+
+			if(firstname.value.length < 1){
+				firstnameFeedback.style.display="block";
+				firstname.style.marginBottom="5px";
+				isSubmitable = false;
+			}
+			else{
+				firstnameFeedback.style.display="none";
+				firstname.style.marginBottom="22px";
+			}
+
+			if(email.value.length < 1){
+				emailFeedback.style.display="block";
+				email.style.marginBottom="5px";
+				isSubmitable = false;
+			}
+			else{
+				emailFeedback.style.display="none";
+				email.style.marginBottom="22px";
+			}
+
+			if(password.value.length < 1){
+				passwordFeedback.style.display="block";
+				password.style.marginBottom="5px";
+				isSubmitable = false;
+			}
+			else{
+				passwordFeedback.style.display="none";
+				password.style.marginBottom="22px";
+			}
+			if(!isSubmitable){
+				e.preventDefault();
+				return;
+			}
+			if(confirmPassword.value !== password.value){
+				comfirmFeedback.style.display="block";
+				confirmPassword.style.marginBottom="5px";
+				isSubmitable = false;
+			}
+			else{
+				comfirmFeedback.style.display="none";
+				confirmPassword.style.marginBottom="22px";
+			}
+			if(!isSubmitable){
+				e.preventDefault();
+				return;
 			}
 		})
+		
 	})
 </script>

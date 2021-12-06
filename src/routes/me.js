@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 const MeController = require('../controllers/MeController');
+
+router.put('/updateInfo', MeController.updateInfo);
 router.get('/profile', MeController.profile);
 // router.get('/wishlist', MeController.wishlist);
 router.get('/cart', MeController.showCart);
