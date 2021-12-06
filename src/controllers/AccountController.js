@@ -9,10 +9,6 @@ const { SALT_BCRYPT } = require("../config/app");
 class AccountController{
     //[GET] /register-login
     registerLogin(req, res, next){
-        bcrypt.hash("admin", SALT_BCRYPT)
-        .then(result=>{
-            console.log(result);
-        })
         const arr = [
             BrandService.getAll(),
             CateService.getAll(),
@@ -22,6 +18,7 @@ class AccountController{
             res.render('register-login', {
                 navBrands,
                 navCates,
+                message: req.flash('error'),
             });
         })
     }
@@ -149,13 +146,14 @@ class AccountController{
 
     login(req, res, next){
         if(req.user){
-            res.redirect("/");
+            res.redirect("/me/change-password");
         }else{
             res.redirect("back");
         }
     }
 
     logout(req, res, next){
+        res.clearCookie('remember_me');
         req.logout();
         res.redirect('/');
     }

@@ -85,6 +85,16 @@ class UserService{
             }
         })
     }
+
+    updatePassword(userID, password){
+        return models.user.update({
+            f_password: password
+        },{
+            where:{
+                f_ID: userID
+            }
+        })
+    }
 }
 
 module.exports = new UserService;

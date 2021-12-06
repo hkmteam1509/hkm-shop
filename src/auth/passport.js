@@ -1,4 +1,5 @@
-const passport = require('passport'), LocalStrategy = require('passport-local').Strategy;
+const passport = require('passport'), LocalStrategy = require('passport-local').Strategy, RememberMeStrategy = require('passport-remember-me').Strategy;
+
 const UserService = require('../services/UserService');
 const bcrypt = require('bcrypt');
 const { SALT_BCRYPT } = require("../config/app");
@@ -47,5 +48,22 @@ passport.deserializeUser(function(id, done) {
 function validPassword(user, password){
     return bcrypt.compare(password, user.f_password);
 }
+
+passport.use(new RememberMeStrategy(
+    function(token, done) {
+      Token.consume(token, function (err, user) {
+        if (err) { return done(err); }
+        if (!user) { return done(null, false); }
+        return done(null, user);
+      });
+    },
+    function(user, done) {
+      var token = utils.generateToken(64);
+      Token.save(token, { userId: user.id }, function(err) {
+        if (err) { return done(err); }
+        return done(null, token);
+      });
+    }
+  ));
 
 module.exports = passport;
