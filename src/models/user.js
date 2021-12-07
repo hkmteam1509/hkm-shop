@@ -32,7 +32,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     f_phone: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(15),
       allowNull: true
     },
     f_DOB: {

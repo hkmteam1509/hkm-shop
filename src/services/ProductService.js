@@ -4,57 +4,71 @@ const { Op } = require("sequelize");
 class ProductService{
 
 	list(limit, page, name, brandIDs, catIDs, genderIDs, price){
-        if(name){
-            return models.product.findAll({
-                offset: (page - 1)*limit, 
-                limit: limit, 
-                raw:true,
-            });
-        }else{
-            const arrPro = [
-                models.brand.findAll({
-                    attributes: ['brandID']
-                }),
-                models.category.findAll({
-                    attributes: ['catID']
-                })
-            ]
-            return Promise.all(arrPro)
-                .then(([brandIDList, catIDList])=>{
+      
+        const arrPro = [
+            models.brand.findAll({
+                attributes: ['brandID']
+            }),
+            models.category.findAll({
+                attributes: ['catID']
+            })
+        ]
+        return Promise.all(arrPro)
+            .then(([brandIDList, catIDList])=>{
+            
+                if(brandIDs.length < 1){
+                    brandIDs=brandIDList.map(brand=>{
+                        return brand.dataValues.brandID
+                    })
+                }
+                if(catIDs.length < 1){
+                    catIDs=catIDList.map(cat=>{
+                        return cat.dataValues.catID
+                    })
+                }
+                if(genderIDs.length < 1){
+                    genderIDs = [0,1,2];
+                }
+                if(price.length < 1){
+                    price[0] = 1;
+                    price[1] = 200;
+                }
+                let minPrice = price[0];
+                let maxPrice = price[1];
                 
-                    if(brandIDs.length < 1){
-                        brandIDs=brandIDList.map(brand=>{
-                            return brand.dataValues.brandID
-                        })
-                    }
-                    if(catIDs.length < 1){
-                        catIDs=catIDList.map(cat=>{
-                            return cat.dataValues.catID
-                        })
-                    }
-                    if(genderIDs.length < 1){
-                        genderIDs = [0,1,2];
-                    }
-                    if(price.length < 1){
-                        price[0] = 1;
-                        price[1] = 200;
-                    }
-                    let minPrice = price[0];
-                    let maxPrice = price[1];
-                    
-                    let n = brandIDs.length;
-                    for(let i = 0 ; i< n ; i++){
-                        brandIDs[i] = parseInt(brandIDs[i])
-                    }
-                    n = catIDs.length;
-                    for(let i = 0 ; i< n ; i++){
-                        catIDs[i] = parseInt(catIDs[i])
-                    }
-                    n = genderIDs.length;
-                    for(let i = 0 ; i< n ; i++){
-                        genderIDs[i] = parseInt(genderIDs[i])
-                    }
-                   
+                let n = brandIDs.length;
+                for(let i = 0 ; i< n ; i++){
+                    brandIDs[i] = parseInt(brandIDs[i])
+                }
+                n = catIDs.length;
+                for(let i = 0 ; i< n ; i++){
+                    catIDs[i] = parseInt(catIDs[i])
+                }
+                n = genderIDs.length;
+                for(let i = 0 ; i< n ; i++){
+                    genderIDs[i] = parseInt(genderIDs[i])
+                }
+                if(name && name.length > 0){
+                    return models.product.findAll({
+                        offset: (page - 1)*limit, 
+                        limit: limit, 
+                        raw:true,
+                        where:{
+                            brandID: brandIDs,
+                            catID: catIDs,
+                            sex: genderIDs,
+                            proName:{
+                                [Op.substring]:name
+                            },
+                            price:{
+                                [Op.gte]:minPrice
+                            },
+                            price:{
+                                [Op.lte]:maxPrice
+                            }
+                        }
+                    });
+                }else{
                     return models.product.findAll({
                         offset: (page - 1)*limit, 
                         limit: limit, 
@@ -71,44 +85,66 @@ class ProductService{
                             }
                         }
                     });
-                })
-        }
+                }
+            })
+        
     }
 
     getProductTotal(name, brandIDs, catIDs, genderIDs, price){
-        if(name){
-            return models.product.count();
-        }
-        else{
-            const arrPro = [
-                models.brand.findAll({
-                    attributes: ['brandID']
-                }),
-                models.category.findAll({
-                    attributes: ['catID']
-                })
-            ]
-            return Promise.all(arrPro)
-                .then(([brandIDList, catIDList])=>{
-                    if(brandIDs.length < 1){
-                        brandIDs=brandIDList.map(brand=>{
-                            return brand.dataValues.brandID
-                        })
-                    }
-                    if(catIDs.length < 1){
-                        catIDs=catIDList.map(cat=>{
-                            return cat.dataValues.catID
-                        })
-                    }
-                    if(genderIDs < 1){
-                        genderIDs = [0,1,2];
-                    }
-                    if(price.length < 1){
-                        price[0] = 0;
-                        price[1] = 200;
-                    }
-                    let minPrice = price[0];
-                    let maxPrice = price[1];
+      
+        const arrPro = [
+            models.brand.findAll({
+                attributes: ['brandID']
+            }),
+            models.category.findAll({
+                attributes: ['catID']
+            })
+        ]
+        return Promise.all(arrPro)
+            .then(([brandIDList, catIDList])=>{
+                if(brandIDs.length < 1){
+                    brandIDs=brandIDList.map(brand=>{
+                        return brand.dataValues.brandID
+                    })
+                }
+                if(catIDs.length < 1){
+                    catIDs=catIDList.map(cat=>{
+                        return cat.dataValues.catID
+                    })
+                }
+                if(genderIDs.length < 1){
+                    genderIDs = [0,1,2];
+                }
+                if(price.length < 1){
+                    price[0] = 0;
+                    price[1] = 200;
+                }
+                let minPrice = price[0];
+                let maxPrice = price[1];
+                if(name){
+                    console.log(catIDs);
+                    console.log(brandIDs);
+                    console.log(genderIDs);
+                    console.log(name);
+                    return models.product.count({
+                        raw:true,
+                        where:{
+                            brandID: brandIDs,
+                            catID: catIDs,
+                            sex: genderIDs,
+                            proName:{
+                                [Op.substring]:name
+                            },
+                            price:{
+                                [Op.gte]:minPrice
+                            },
+                            price:{
+                                [Op.lte]:maxPrice
+                            }
+                        }
+                    });
+                }
+                else{
                     return models.product.count({
                         raw:true,
                         where:{
@@ -123,8 +159,9 @@ class ProductService{
                             }
                         }
                     });
-                })
-        }
+                }
+                
+            })
      
     }
 

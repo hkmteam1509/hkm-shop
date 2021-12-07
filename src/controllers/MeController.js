@@ -82,8 +82,6 @@ class MeController{
                         featuredProducts[i].cateslug=result[i*5+4].catSlug;
                         featuredProducts[i].genderslug=getGenderSlug(featuredProducts[i].sex)
                     }
-                    console.log(req.user);
-
                     res.render('me/profile', {
                         navBrands,
                         navCates,
@@ -229,21 +227,41 @@ class MeController{
     updatePassword(req, res, next){
         if(req.user){
             const {newPassword} = req.body;
-            bcrypt.hash(newPassword, SALT_BCRYPT)
-            .then(password=>{
-                UserService.updatePassword(req.user.f_ID, password)
-                .then(result=>{
-                    res.redirect('/');
-                })
-                .catch(err=>{
-                    console.log(err);
-                    next();
-                })
+            const {oldPassword} = req.body;
+            bcrypt.compare(oldPassword, req.user.f_password)
+            .then(result=>{
+                if(result){
+                    bcrypt.hash(newPassword, SALT_BCRYPT)
+                    .then(password=>{
+                        UserService.updatePassword(req.user.f_ID, password)
+                        .then(result=>{
+                            res.redirect('/');
+                        })
+                        .catch(err=>{
+                            console.log(err);
+                            next();
+                        })
+                    })
+                    .catch(err=>{
+                        console.log(err);
+                        next();
+                    })
+                }else{
+                    const arr = [
+                        BrandService.getAll(),
+                        CateService.getAll(),
+                    ]
+                    Promise.all(arr)
+                    .then(([navBrands, navCates])=>{
+                        res.render('me/change-password', {
+                            navBrands,
+                            navCates,
+                            message: "Incorrect password"
+                        });
+                    })
+                }
             })
-            .catch(err=>{
-                console.log(err);
-                next();
-            })
+           
         }else{
             res.redirect('/account/register-login');
         }

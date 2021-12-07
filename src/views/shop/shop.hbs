@@ -28,6 +28,9 @@
             </svg>
             <!-- /SIDEBAR CONTROL -->
             <form method="get" action="/shop">
+                {{#if searchQuery}}
+                    <input type="text" value="{{searchQuery}}" name="search" readonly style="display: none;">
+                {{/if}}
                 <h3 class="title" style="margin-top: 0;">Categories</h3>
                 <div class="westeros-form">
                     {{#each navCates}}
@@ -40,7 +43,7 @@
                     {{/each}}
                    
                 </div>
-
+               
                 <h3 class="title">Brands</h3>
                 <div class="westeros-form">
                      {{#each navBrands}}
@@ -439,6 +442,9 @@
                 method="GET"
                 action="/shop"
             >
+                {{#if searchQuery}}
+                    <input type="text" value="{{searchQuery}}" name="search" readonly style="display: none;">
+                {{/if}}
                 {{#each brandQuery}}
                     <input value="{{this.brandID}}" checked type="checkbox" name="brands[]" style="display: none;" readonly>
                 {{/each}}

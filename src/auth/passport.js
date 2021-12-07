@@ -24,7 +24,6 @@ passport.use(new LocalStrategy(
                     done(null, false, { message: 'Incorrect password.' });
                 }
             })
-           
         })
         .catch(err=>{
             return done(err); 

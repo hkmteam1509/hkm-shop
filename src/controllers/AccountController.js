@@ -91,57 +91,63 @@ class AccountController{
     //[POST] /register
     register(req, res, next){
         // res.send(req.body);
-        const {firstname, lastname, username, email, password, confirmPassword} = req.body;
-        UserService.findAccount(username)
-        .then(result=>{
-            if(result){
-                res.render("register-login",{
-                    errorCode: 1,
-                    lastname,
-                    firstname,
-                    username,
-                    email,
-                    password,
-                    confirmPassword,
-                })
-            }
-            else{
-                if(IsEmail.validate(email)){
-                    console.log(password);
-                   bcrypt.hash(password, SALT_BCRYPT)
-                    .then(hashResult=>{
-                        console.log(hashResult);
-                        UserService.createUser({firstname, lastname, username, email, password: hashResult})
-                        .then(result=>{
-                            res.redirect('/me/profile');
-                        })
-                        .catch(err=>{
-                            console.log(err);
-                            next();
-                        })
-                    })
-                    .catch(err=>{
-                        console.log(err);
-                        next();
-                    })
-                    
-                }else{
+        if(req.body){
+            const {firstname, lastname, username, email, password, confirmPassword} = req.body;
+            UserService.findAccount(username)
+            .then(result=>{
+                if(result){
                     res.render("register-login",{
+                        errorCode: 1,
                         lastname,
                         firstname,
                         username,
                         email,
                         password,
                         confirmPassword,
-                        errorCode: 2
                     })
                 }
-            }
-        })
-        .catch(err=>{
-            console.log(err);
+                else{
+                    if(IsEmail.validate(email)){
+                    bcrypt.hash(password, SALT_BCRYPT)
+                        .then(hashResult=>{
+                            UserService.createUser({firstname, lastname, username, email, password: hashResult})
+                            .then(result=>{
+                                //res.redirect('/me/profile');
+                                req.login(result, function(err) {
+                                    if (err) { return next(err); }
+                                    return res.redirect('/me/profile');
+                                });
+                            })
+                            .catch(err=>{
+                                console.log(err);
+                                next();
+                            })
+                        })
+                        .catch(err=>{
+                            console.log(err);
+                            next();
+                        })
+                        
+                    }else{
+                        res.render("register-login",{
+                            lastname,
+                            firstname,
+                            username,
+                            email,
+                            password,
+                            confirmPassword,
+                            errorCode: 2
+                        })
+                    }
+                }
+            })
+            .catch(err=>{
+                console.log(err);
+                next();
+            })
+        }else{
             next();
-        })
+        }
     }
 
     login(req, res, next){

@@ -7,7 +7,14 @@ const BrandService = require('../services/BrandService');
 const CateService = require('../services/CateService');
 
 function route(app){
-    app.use('/me', meRouter);
+    app.use('/me',function(req, res, next){
+        if(req.user){
+            next();
+        }
+        else{
+            res.redirect('/account/register-login')
+        }
+    }, meRouter);
     app.use('/shop', shopRouter);
     app.use('/account', accountRouter);
     // app.use('/products', productsRouter);

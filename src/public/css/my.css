@@ -90,3 +90,14 @@
     font-weight: 400;
     font-family: 'Roboto', sans-serif;
 }
+
+.my-search-btn{
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+}
+
+#place-holder-invalid{
+    opacity: 0;
+}
