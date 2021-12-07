@@ -156,7 +156,7 @@
         
         <div class="shop-products">
             <h3 class="title">Profile Page</h3>
-            <form method="post" action="/me/updateInfo?_method=PUT">
+            <form method="post" id="update-profile-form" action="/me/updateInfo?_method=PUT">
                 <!-- PROFILE INFO -->
                 <div class="profile-info">
                     <!-- PROFILE HEADER -->
@@ -202,6 +202,9 @@
                                             placeholder="Your phone number"
                                         {{/if}}
                                     >
+                                    <div class="my-invalid-feedback" id="invalid-phone">
+                                        Invalid phone number
+                                    </div>
                                 </div>
                                 <div>
                                     <label class="rl-label required">Birth Date</label>
@@ -301,13 +304,16 @@
                                 </div>
                                 <div>
                                     <label class="rl-label required">Phone Number</label>
-                                    <input name="shippingPhone" type="text" required
+                                    <input name="shippingPhone" style="margin-bottom: 0;" type="text" required
                                         {{#if shipping.f_phone}}
                                             value="{{shipping.f_phone}}"
                                         {{else}}
                                             placeholder="Your phone number"
                                         {{/if}}
                                     >
+                                    <div class="my-invalid-feedback" id="invalid-shipping-phone">
+                                        Invalid phone number
+                                    </div>
                                 </div>
                                 <div>
                                     <label class="rl-label required ">Province</label>
@@ -321,6 +327,9 @@
                                         </svg>
                                         <!-- /SVG ARROW -->
                                     </label>
+                                    <div class="my-invalid-feedback" id="place-holder-invalid">
+                                        Invalid phone number
+                                    </div>
                                 </div>
                                 <div>
 
@@ -359,7 +368,7 @@
                                         {{/if}}
                                     >
                                 </div>
-                                <div class="full-input"></div>
+                                <div class="full-input"></div>    
                             </div>
                         </div>
                     </div>
@@ -614,12 +623,14 @@
 <script>
 
     var Days = [31,28,31,30,31,30,31,31,30,31,30,31];// index => month [0-11]
+    function isVietnamesePhoneNumber(number) {
+        return /(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/.test(number);
+    }
     $(document).ready(function(){
         //Address
          let district = "{{shipping.distric}}";
          let ward = "{{shipping.ward}}";
-         let province = "{{shipping.province}}";
-        
+        let province = "{{shipping.province}}";
         var localpicker = new LocalPicker({
             province: "ls_province",
             district: "ls_district",
@@ -630,7 +641,6 @@
         //Date month year
         let dob = "{{user.f_DOB}}";
         const tokens = dob.split("-");
-        console.log(dob);
         let day = 1;
         let month = 1;
         let year = 1970;
@@ -644,9 +654,7 @@
         var option = '';
         var selectedDay=day;
         for (var i=1;i <= Days[0];i++){ //add option days
-           
             option += '<option value="'+ i + '">' + i + '</option>';
-
         }
         $('#day').append(option);
         $('#day').val(selectedDay);
@@ -669,6 +677,30 @@
         }
         $('#year').append(option);
         $('#year').val(selectedYear);
+
+        const form = document.getElementById("update-profile-form");
+        const phone = document.getElementsByName("phone")[0];
+        const shippingPhone = document.getElementsByName("shippingPhone")[0];
+        form.addEventListener('submit',(e)=>{
+            console.log("submit");
+            
+            if(!isVietnamesePhoneNumber(phone.value)){
+                e.preventDefault();
+                document.getElementById("invalid-phone").style.display="block";
+            }else{
+                document.getElementById("invalid-phone").style.display="none";
+            }
+            if(!isVietnamesePhoneNumber(shippingPhone.value)){
+                e.preventDefault();
+                document.getElementById("invalid-shipping-phone").style.display="block";
+                document.getElementById("place-holder-invalid").style.display="block";
+                
+            }else{
+                document.getElementById("invalid-shipping-phone").style.display="none";
+                document.getElementById("place-holder-invalid").style.display="none";
+            }
+        })
+
     });
     function isLeapYear(year) {
         year = parseInt(year);

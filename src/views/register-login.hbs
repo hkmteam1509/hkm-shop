@@ -101,13 +101,15 @@
         </div>
 
         <div class="featured-form">
-            <h3>Login To Your Account</h3>
+            <h3>Login To Your Account </h3>
+			<h5 class="login-message">{{message}}</h5>
             <form class="westeros-form" method="post" action="/account/login">
                 <label class="rl-label required">Your Username</label>
                 <input type="text" name="username" placeholder="Enter your username here...">
+				
                 <label class="rl-label required">Your Password</label>
                 <input type="password" name="password" placeholder="Enter your password here...">
-                <input type="checkbox" id="remember" name="remember">
+                <input type="checkbox" id="remember" name="remember_me">
                 <label for="remember"><span class="checkbox"><span></span></span>Remember my username and password</label>
                 <a href="/account/forgot-password" class="fp-msg">Forgot your password? Click here!</a>
 				<button class="button login" type="submit">Sign in Now!</button>
@@ -359,7 +361,7 @@
 
 <script>
 	$(document).ready(function(){
-		console.log("OK");
+		console.log("{{message}}");
 		const submitRegisterBtn = document.querySelector("#submit-register-btn");
 		const passwordBox = document.getElementById('password');
 		const confirmPassword = document.getElementById('confirm-password');

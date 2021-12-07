@@ -120,23 +120,11 @@
 					</a> --}}
 				</div>
 				<!-- /LOGO -->
-				<form class="westeros-form">
-					<label for="categories" class="select-block">
-						<select name="categories" id="categories">
-							<option value="0">All Categories</option>
-							<option value="1">T-Shirts</option>
-							<option value="2">Backpacks</option>
-							<option value="3">Sneakers</option>
-							<option value="4">Caps</option>	
-						</select>
-						<!-- SVG ARROW -->
-						<svg class="svg-arrow select-arrow">
-							<use xlink:href="#svg-arrow"></use>
-						</svg>
-						<!-- /SVG ARROW -->
-					</label>
-					<input type="text" name="search" id="search" placeholder="Search Our Catalog...">
-					<input type="image" src="/images/icons/search-icon.png" alt="search-icon">
+				<form class="westeros-form" method="get" action="/shop">
+					
+					<input type="text" style="border-left: 1px solid #d5d5d5;" name="search" id="search" placeholder="Search Our Catalog...">
+					{{!-- <input type="image" src="/images/icons/search-icon.png" alt="search-icon"> --}}
+					<button class="my-search-btn"><img src="/images/icons/search-icon.png" alt="search-icon"></img></button>
 				</form>
 
 				<!-- WESTEROS DROPDOWN CONTAINER-->
