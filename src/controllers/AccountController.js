@@ -1,5 +1,10 @@
+const express = require("express");
+const IsEmail = require("isemail");
 const BrandService = require("../services/BrandService");
 const CateService = require("../services/CateService");
+const UserService = require("../services/UserService");
+const bcrypt = require('bcrypt');
+const { SALT_BCRYPT } = require("../config/app");
 
 class AccountController{
     //[GET] /register-login
@@ -12,7 +17,8 @@ class AccountController{
         .then(([navBrands, navCates])=>{
             res.render('register-login', {
                 navBrands,
-                navCates
+                navCates,
+                message: req.flash('error'),
             });
         })
     }
@@ -80,6 +86,82 @@ class AccountController{
                 navCates
             });
         })
+    }
+
+    //[POST] /register
+    register(req, res, next){
+        // res.send(req.body);
+        if(req.body){
+            const {firstname, lastname, username, email, password, confirmPassword} = req.body;
+            UserService.findAccount(username)
+            .then(result=>{
+                if(result){
+                    res.render("register-login",{
+                        errorCode: 1,
+                        lastname,
+                        firstname,
+                        username,
+                        email,
+                        password,
+                        confirmPassword,
+                    })
+                }
+                else{
+                    if(IsEmail.validate(email)){
+                    bcrypt.hash(password, SALT_BCRYPT)
+                        .then(hashResult=>{
+                            UserService.createUser({firstname, lastname, username, email, password: hashResult})
+                            .then(result=>{
+                                //res.redirect('/me/profile');
+                                req.login(result, function(err) {
+                                    if (err) { return next(err); }
+                                    return res.redirect('/me/profile');
+                                });
+                            })
+                            .catch(err=>{
+                                console.log(err);
+                                next();
+                            })
+                        })
+                        .catch(err=>{
+                            console.log(err);
+                            next();
+                        })
+                        
+                    }else{
+                        res.render("register-login",{
+                            lastname,
+                            firstname,
+                            username,
+                            email,
+                            password,
+                            confirmPassword,
+                            errorCode: 2
+                        })
+                    }
+                }
+            })
+            .catch(err=>{
+                console.log(err);
+                next();
+            })
+        }else{
+            next();
+        }
+    }
+
+    login(req, res, next){
+        if(req.user){
+            res.redirect("/me/change-password");
+        }else{
+            res.redirect("back");
+        }
+    }
+
+    logout(req, res, next){
+        res.clearCookie('remember_me');
+        req.logout();
+        res.redirect('/');
     }
 
 }

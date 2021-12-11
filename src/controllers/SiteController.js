@@ -118,25 +118,6 @@ class SiteController{
             console.log(err);
             next();
         })
-        // const arr = [
-        //     BrandService.getAll(),
-        //     CateService.getAll(),
-
-        // ]
-        // Promise.all(arr)
-        // .then(([navBrands, navCates])=>{
-        //     res.render('home', {
-        //         navBrands,
-        //         navCates
-        //     });
-        // })
-        // BrandService.getAll()
-        // .then(brands=>{
-        //     res.render('home', {
-        //         brands
-        //     });
-
-        // })
     }
 
     contact(req, res, next){

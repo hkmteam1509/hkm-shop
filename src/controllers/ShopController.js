@@ -19,6 +19,8 @@ const getShop = (req, res, next, brand, brandID, cat, catID, gender, genderID, l
 	let genderIDs = (req.query.genders) ? req.query.genders : [];
 	let brandIDs = (req.query.brands) ? req.query.brands : [];
 	let catIDs = (req.query.categories) ? req.query.categories : [];
+	let name = (req.query.search) ? req.query.search : "";
+	console.log(name);
 	const priceStr = req.query.price;
 	if(brandID){
 		brandIDs = [brandID];
@@ -26,6 +28,7 @@ const getShop = (req, res, next, brand, brandID, cat, catID, gender, genderID, l
 	if(catID){
 		catIDs = [catID];
 	}
+	
 	if(genderID){
 		genderIDs = [genderID];
 	}
@@ -46,8 +49,8 @@ const getShop = (req, res, next, brand, brandID, cat, catID, gender, genderID, l
 	currentPage = (currentPage <= totalPage) ? currentPage : totalPage;
 	currentPage = (currentPage < 1) ? 1: currentPage;
 	const productPromises=[
-		ProductService.list(itemPerPage,currentPage, null, brandIDs, catIDs, genderIDs, price),
-		ProductService.getProductTotal(null, brandIDs, catIDs, genderIDs, price),
+		ProductService.list(itemPerPage,currentPage, name, brandIDs, catIDs, genderIDs, price),
+		ProductService.getProductTotal(name, brandIDs, catIDs, genderIDs, price),
 		ProductService.listByFeaturedLimit(4),
 	]
 
@@ -182,6 +185,7 @@ const getShop = (req, res, next, brand, brandID, cat, catID, gender, genderID, l
 					brandQuery,
 					catQuery,
 					priceQuery,
+					searchQuery: name,
 					totalPage,
 					paginationArray,
 					prevPage: (currentPage > 1) ? currentPage - 1 : 1,
@@ -216,7 +220,6 @@ let currentReviewPage = 1;
 let totalReviewPage = 1;
 const reviewPerpage = 3;
 class ShopController{
-
     
 	shop(req, res, next){
 		getShop(req, res, next,  null, null, null, null, null, null, null, "shop/shop")
@@ -400,8 +403,6 @@ class ShopController{
 		})
     }
 
-
-
     shopByCategory(req, res, next){
         const brand = req.params.brand;
         const gender = req.params.gender;
@@ -471,7 +472,6 @@ class ShopController{
 		})
     }
 
-
     //[GET] /:brand/:gender
     shopByGender(req, res, next){
         const brand = req.params.brand;
@@ -526,7 +526,6 @@ class ShopController{
 		})
     }
 
-    //Hàm này render ra tất cả sản phẩm của một :brand
     //[GET] /:brand
     shopByBrand(req, res, next){
         const brand = req.params.brand;
@@ -547,10 +546,11 @@ class ShopController{
 			next()
 		})
     }
+
 }
 
 function shopbycate(req,res,next,brand,gender,category) {
-	//Dùng query lấy page
+
 	let cateID=0;
 
 	const catePormises=[
@@ -606,6 +606,7 @@ function shopbysex(req,res,next,gender,brand) {
 	getShop(req, res, next, brand, null, null, null, gender, sex, link, hbs);
 	
 }
+
 function getGenderSlug(sex) {
 	let gender="unisex";
 	if (sex==1)

@@ -79,7 +79,7 @@
             for (let i = 0; i < data.length; i++){
                 let o = document.createElement("option");
                 o.text = nonAccentVietnamese(data[i].n) + (provincePrefix ? " " + nonAccentVietnamese(data[i].t)  : "");
-                o.value = (data[i][s]);
+                o.value = o.text;
                 if(levelAsAttribute) 
                     o.setAttribute(levelAttributeName,nonAccentVietnamese(data[i].t));
                 p.add(o);
@@ -96,7 +96,7 @@
                 for (let i = 0; i< data[l].c.length;i++){
                     let o = document.createElement("option"); 
                     o.text=nonAccentVietnamese(data[l].c[i].n) +  (districtPrefix ? " " + nonAccentVietnamese(data[l].c[i].t) : "") ; 
-                    o.value = data[l].c[i][s];
+                    o.value = o.text;
                     if(levelAsAttribute) o.setAttribute(levelAttributeName,nonAccentVietnamese(data[l].c[i].t));
                     d.add(o);
                 }
@@ -115,7 +115,7 @@
                         let o = document.createElement("option"); 
                         
                         o.text= nonAccentVietnamese(data[n].c[l].c[i].n)+ (districtPrefix ? " "+ nonAccentVietnamese(data[n].c[l].c[i].t): "") ; 
-                        o.value = data[n].c[l].c[i][s];
+                        o.value = o.text;
                         if(levelAsAttribute) o.setAttribute(levelAttributeName,nonAccentVietnamese(data[n].c[l].c[i].t));
                         w.add(o);
                     }
@@ -136,7 +136,7 @@
                         for (let i = 0; i< data[l].c.length;i++){
                             let o = document.createElement("option"); 
                             o.text=nonAccentVietnamese(data[l].c[i].n) +  (districtPrefix ? " " + nonAccentVietnamese(data[l].c[i].t) : "") ; 
-                            o.value = data[l].c[i][s];
+                            o.value = o.text;
                             if(levelAsAttribute) o.setAttribute(levelAttributeName,nonAccentVietnamese(data[l].c[i].t));
                             d.add(o);
                         }
@@ -157,7 +157,7 @@
                                        let o = document.createElement("option"); 
                                        
                                        o.text= nonAccentVietnamese(data[n].c[l].c[h].n)+ (districtPrefix ? " "+ nonAccentVietnamese(data[n].c[l].c[h].t): "") ; 
-                                       o.value = data[n].c[l].c[h][s];
+                                       o.value = o.text;
                                        if(levelAsAttribute) o.setAttribute(levelAttributeName,nonAccentVietnamese(data[n].c[l].c[h].t));
                                        w.add(o);
                                    }

@@ -25,19 +25,19 @@ module.exports = function(sequelize, DataTypes) {
     },
     f_address: {
       type: DataTypes.STRING(255),
-      allowNull: false
+      allowNull: true
     },
     f_email: {
       type: DataTypes.STRING(255),
       allowNull: false
     },
     f_phone: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(15),
       allowNull: true
     },
     f_DOB: {
       type: DataTypes.DATEONLY,
-      allowNull: false
+      allowNull: true
     },
     f_permission: {
       type: DataTypes.INTEGER,
@@ -45,7 +45,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     f_sex: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true
     }
   }, {
     sequelize,

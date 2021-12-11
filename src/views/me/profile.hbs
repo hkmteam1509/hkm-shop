@@ -27,218 +27,122 @@
             </svg>
             <!-- /SIDEBAR CONTROL -->
             
-
             <h3 class="title">Featured Items</h3>
             <!-- PRODUCT PREVIEW -->
             <ul class="product-preview">
-                <li>
-                    <a href="/shop/crazy-bunny/women/t-shirt/1">
-                        <div class="picture">
-                            <figure class="liquid">
-                                <img src="/images/items/02.png" alt="product1">
-                            </figure>
-                        </div>
-                    </a>
-                    <a href="/shop/all/all/t-shirt"><p class="highlighted category">T-Shirts</p></a>
-                    <a href="/shop/crazy-bunny/women/t-shirt/1"><h6>Crazy Bunny</h6></a>
-                    <!-- RATING -->
-                    <ul class="rating">
-                        <li class="filled">
-                            <!-- SVG STAR -->
-                            <svg class="svg-star">
-                                <use xlink:href="#svg-star"></use>
-                            </svg>
-                            <!-- /SVG STAR -->
-                        </li>
-                        <li class="filled">
-                            <!-- SVG STAR -->
-                            <svg class="svg-star">
-                                <use xlink:href="#svg-star"></use>
-                            </svg>
-                            <!-- /SVG STAR -->
-                        </li>
-                        <li class="filled">
-                            <!-- SVG STAR -->
-                            <svg class="svg-star">
-                                <use xlink:href="#svg-star"></use>
-                            </svg>
-                            <!-- /SVG STAR -->
-                        </li>
-                        <li class="filled">
-                            <!-- SVG STAR -->
-                            <svg class="svg-star">
-                                <use xlink:href="#svg-star"></use>
-                            </svg>
-                            <!-- /SVG STAR -->
-                        </li>
-                        <li>
-                            <!-- SVG STAR -->
-                            <svg class="svg-star">
-                                <use xlink:href="#svg-star"></use>
-                            </svg>
-                            <!-- /SVG STAR -->
-                        </li>
-                    </ul>
-                    <!-- /RATING -->			
-                    <p class="highlighted current">$86.00</p>
-                </li>
+                {{#each featuredProducts}}
+                    <li>
+                        <a href="/shop/{{this.brandslug}}/{{this.genderslug}}/{{this.cateslug}}/{{this.proID}}">
+                            <div class="picture">
+                                <figure class="liquid">
+                                    <img src={{this.image}} alt="product1">
+                                </figure>
+                            </div>
+                        </a>
+                        <a href="/shop/all/all/{{this.cateslug}}"><p class="highlighted category">{{this.cate}}</p></a>
+                        <a href="/shop/{{this.brandslug}}/{{this.genderslug}}/{{this.cateslug}}/{{this.proID}}"><h6>{{this.proName}}</h6></a>
+                        <!-- RATING -->
+                        <ul class="rating">
+                            <!-- STAR -->
+                            {{#isBigger this.star 0}}
+                                <li class="filled">
+                                    <!-- SVG STAR -->
+                                    <svg class="svg-star">
+                                        <use xlink:href="#svg-star"></use>
+                                    </svg>
+                                    <!-- /SVG STAR -->
+                                </li>
+                            {{/isBigger}}
+                            {{#isBigger this.star 1}}
+                                <li class="filled">
+                                    <!-- SVG STAR -->
+                                    <svg class="svg-star">
+                                        <use xlink:href="#svg-star"></use>
+                                    </svg>
+                                    <!-- /SVG STAR -->
+                                </li>
+                            {{/isBigger}}
+                            {{#isBigger this.star 2}}
+                                <li class="filled">
+                                    <!-- SVG STAR -->
+                                    <svg class="svg-star">
+                                        <use xlink:href="#svg-star"></use>
+                                    </svg>
+                                    <!-- /SVG STAR -->
+                                </li>
+                            {{/isBigger}}
+                            {{#isBigger this.star 3}}
+                                <li class="filled">
+                                    <!-- SVG STAR -->
+                                    <svg class="svg-star">
+                                        <use xlink:href="#svg-star"></use>
+                                    </svg>
+                                    <!-- /SVG STAR -->
+                                </li>
+                            {{/isBigger}}
+                            {{#isBigger this.star 4}}
+                                <li class="filled">
+                                    <!-- SVG STAR -->
+                                    <svg class="svg-star">
+                                        <use xlink:href="#svg-star"></use>
+                                    </svg>
+                                    <!-- /SVG STAR -->
+                                </li>
+                            {{/isBigger}}
+                            <!-- STAR -->
 
-                <li>
-                    <a href="/shop/crazy-bunny/women/t-shirt/1">
-                        <div class="picture">
-                            <figure class="liquid">
-                                <img src="/images/items/25.png" alt="product2">
-                            </figure>
-                        </div>
-                    </a>
-                    <a href="/shop/all/all/t-shirt"><p class="highlighted category">T-Shirts</p></a>
-                    <a href="/shop/crazy-bunny/women/t-shirt/1"><h6>Happy Doughnut</h6></a>
-                    <!-- RATING -->
-                    <ul class="rating">
-                        <li class="filled">
-                            <!-- SVG STAR -->
-                            <svg class="svg-star">
-                                <use xlink:href="#svg-star"></use>
-                            </svg>
-                            <!-- /SVG STAR -->
-                        </li>
-                        <li class="filled">
-                            <!-- SVG STAR -->
-                            <svg class="svg-star">
-                                <use xlink:href="#svg-star"></use>
-                            </svg>
-                            <!-- /SVG STAR -->
-                        </li>
-                        <li class="filled">
-                            <!-- SVG STAR -->
-                            <svg class="svg-star">
-                                <use xlink:href="#svg-star"></use>
-                            </svg>
-                            <!-- /SVG STAR -->
-                        </li>
-                        <li class="filled">
-                            <!-- SVG STAR -->
-                            <svg class="svg-star">
-                                <use xlink:href="#svg-star"></use>
-                            </svg>
-                            <!-- /SVG STAR -->
-                        </li>
-                        <li>
-                            <!-- SVG STAR -->
-                            <svg class="svg-star">
-                                <use xlink:href="#svg-star"></use>
-                            </svg>
-                            <!-- /SVG STAR -->
-                        </li>
-                    </ul>
-                    <!-- /RATING -->			
-                    <p class="highlighted current">$49.00</p>
-                    <p class="highlighted previous">$61.25</p>
-                </li>
-
-                <li>
-                    <a href="/shop/crazy-bunny/women/t-shirt/1">
-                        <div class="picture">
-                            <figure class="liquid">
-                                <img src="/images/items/32.png" alt="product3">
-                            </figure>
-                        </div>
-                    </a>
-                    <a href="/shop/all/all/sneaker"><p class="highlighted category">Custom Sneakers</p></a>
-                    <a href="/shop/crazy-bunny/women/t-shirt/1"><h6>The Devil Walks</h6></a>
-                    <!-- RATING -->
-                    <ul class="rating">
-                        <li class="filled">
-                            <!-- SVG STAR -->
-                            <svg class="svg-star">
-                                <use xlink:href="#svg-star"></use>
-                            </svg>
-                            <!-- /SVG STAR -->
-                        </li>
-                        <li class="filled">
-                            <!-- SVG STAR -->
-                            <svg class="svg-star">
-                                <use xlink:href="#svg-star"></use>
-                            </svg>
-                            <!-- /SVG STAR -->
-                        </li>
-                        <li class="filled">
-                            <!-- SVG STAR -->
-                            <svg class="svg-star">
-                                <use xlink:href="#svg-star"></use>
-                            </svg>
-                            <!-- /SVG STAR -->
-                        </li>
-                        <li class="filled">
-                            <!-- SVG STAR -->
-                            <svg class="svg-star">
-                                <use xlink:href="#svg-star"></use>
-                            </svg>
-                            <!-- /SVG STAR -->
-                        </li>
-                        <li>
-                            <!-- SVG STAR -->
-                            <svg class="svg-star">
-                                <use xlink:href="#svg-star"></use>
-                            </svg>
-                            <!-- /SVG STAR -->
-                        </li>
-                    </ul>
-                    <!-- /RATING -->			
-                    <p class="highlighted current">$43.00</p>
-                </li>
-
-                <li>
-                    <a href="/shop/crazy-bunny/women/t-shirt/1">
-                        <div class="picture">
-                            <figure class="liquid">
-                                <img src="/images/items/16.png" alt="product1">
-                            </figure>
-                        </div>
-                    </a>
-                    <a href="/shop/all/all/t-shirt"><p class="highlighted category">T-Shirts</p></a>
-                    <a href="/shop/crazy-bunny/women/t-shirt/1"><h6>The Devil Pin 02</h6></a>
-                    <!-- RATING -->
-                    <ul class="rating">
-                        <li class="filled">
-                            <!-- SVG STAR -->
-                            <svg class="svg-star">
-                                <use xlink:href="#svg-star"></use>
-                            </svg>
-                            <!-- /SVG STAR -->
-                        </li>
-                        <li class="filled">
-                            <!-- SVG STAR -->
-                            <svg class="svg-star">
-                                <use xlink:href="#svg-star"></use>
-                            </svg>
-                            <!-- /SVG STAR -->
-                        </li>
-                        <li class="filled">
-                            <!-- SVG STAR -->
-                            <svg class="svg-star">
-                                <use xlink:href="#svg-star"></use>
-                            </svg>
-                            <!-- /SVG STAR -->
-                        </li>
-                        <li class="filled">
-                            <!-- SVG STAR -->
-                            <svg class="svg-star">
-                                <use xlink:href="#svg-star"></use>
-                            </svg>
-                            <!-- /SVG STAR -->
-                        </li>
-                        <li>
-                            <!-- SVG STAR -->
-                            <svg class="svg-star">
-                                <use xlink:href="#svg-star"></use>
-                            </svg>
-                            <!-- /SVG STAR -->
-                        </li>
-                    </ul>
-                    <!-- /RATING -->			
-                    <p class="highlighted current">$54.00</p>
-                </li>
+                            <!-- STAR EMPTY -->
+                            {{#isBigger this.starLeft 0}}
+                                <li>
+                                    <!-- SVG STAR -->
+                                    <svg class="svg-star">
+                                        <use xlink:href="#svg-star"></use>
+                                    </svg>
+                                    <!-- /SVG STAR -->
+                                </li>
+                            {{/isBigger}}
+                            {{#isBigger this.starLeft 1}}
+                                <li>
+                                    <!-- SVG STAR -->
+                                    <svg class="svg-star">
+                                        <use xlink:href="#svg-star"></use>
+                                    </svg>
+                                    <!-- /SVG STAR -->
+                                </li>
+                            {{/isBigger}}
+                            {{#isBigger this.starLeft 2}}
+                                <li>
+                                    <!-- SVG STAR -->
+                                    <svg class="svg-star">
+                                        <use xlink:href="#svg-star"></use>
+                                    </svg>
+                                    <!-- /SVG STAR -->
+                                </li>
+                            {{/isBigger}}
+                            {{#isBigger this.starLeft 3}}
+                                <li >
+                                    <!-- SVG STAR -->
+                                    <svg class="svg-star">
+                                        <use xlink:href="#svg-star"></use>
+                                    </svg>
+                                    <!-- /SVG STAR -->
+                                </li>
+                            {{/isBigger}}
+                            {{#isBigger this.starLeft 4}}
+                                <li>
+                                    <!-- SVG STAR -->
+                                    <svg class="svg-star">
+                                        <use xlink:href="#svg-star"></use>
+                                    </svg>
+                                    <!-- /SVG STAR -->
+                                </li>
+                            {{/isBigger}}
+                            <!-- STAR EMPTY -->   
+                        </ul>
+                        <!-- /RATING -->		
+                        <p class="highlighted current">${{this.price}}</p>
+                    </li>
+                {{/each}}
             </ul>
             <!-- /PRODUCT PREVIEW -->
 
@@ -249,217 +153,236 @@
         <!-- /SHOP SIDEBAR -->
 
         <!-- SHOP PRODUCTS -->
+        
         <div class="shop-products">
             <h3 class="title">Profile Page</h3>
-            <!-- PROFILE INFO -->
-            <div class="profile-info">
-                <!-- PROFILE HEADER -->
-                <h5 class="profile-header">
-                    <span>01</span>Personal Information
-                    <!-- SVG PLUS -->
-                    <svg class="plus">
-                        <rect class="vertical" x="4" width="4" height="12"/>
-                        <rect y="4" width="12" height="4"/>
-                    </svg>
-                    <!-- /SVG PLUS -->
-                </h5>
-                <!-- /PROFILE HEADER -->
+            <form method="post" id="update-profile-form" action="/me/updateInfo?_method=PUT">
+                <!-- PROFILE INFO -->
+                <div class="profile-info">
+                    <!-- PROFILE HEADER -->
+                    <h5 class="profile-header">
+                        <span>01</span>Personal Information
+                        <!-- SVG PLUS -->
+                        <svg class="plus">
+                            <rect class="vertical" x="4" width="4" height="12"/>
+                            <rect y="4" width="12" height="4"/>
+                        </svg>
+                        <!-- /SVG PLUS -->
+                    </h5>
+                    <!-- /PROFILE HEADER -->
 
-                <!-- PROFILE DATA -->
-                <div class="profile-data">
-                    <div class="featured-form">
-                        <form id="profile-info-form" class="westeros-form">
-                            <div>
-                                <label class="rl-label">First Name</label>
-                                <input type="text" value="Kudo">
+                    <!-- PROFILE DATA -->
+                    <div class="profile-data">
+                        <div class="featured-form">
+                            <div id="profile-info-form" class="westeros-form">
+                                <div>
+                                    <label class="rl-label required">Firstname</label>
+                                    <input name="firstname" type="text" required value="{{user.f_firstname}}">
+                                </div>
+                                <div>
+                                    <label class="rl-label required">Last Name</label>
+                                    <input name="lastname" type="text" required value="{{user.f_lastname}}">
+                                </div>
+                                <div>
+                                    <label class="rl-label required">Address</label>
+                                    <input name="address" type="text" required
+                                        {{#if user.f_address}}
+                                                value="{{user.f_address}}"
+                                        {{else}}
+                                            placeholder="Your address"
+                                        {{/if}}
+                                >
+                                </div>
+                                <div>
+                                    <label class="rl-label required">Phone Number</label>
+                                    <input name="phone" type="text" required
+                                        {{#if user.f_phone}}
+                                            value="{{user.f_phone}}"
+                                        {{else}}
+                                            placeholder="Your phone number"
+                                        {{/if}}
+                                    >
+                                    <div class="my-invalid-feedback" id="invalid-phone">
+                                        Invalid phone number
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="rl-label required">Birth Date</label>
+                                
+                                    <label for="day">
+                                        <select required name="day" id="day" name="dd" >
+                                        
+                                        </select>
+                                        <!-- SVG ARROW -->
+                                        <svg class="svg-arrow select-arrow">
+                                            <use xlink:href="#svg-arrow"></use>
+                                        </svg>
+                                        <!-- /SVG ARROW -->
+                                    </label>
+                                    <label for="month">
+                                        <select required name="month" id="month" name="mm" onchange="change_month(this)">
+                                        
+                                        </select>
+                                        <!-- SVG ARROW -->
+                                        <svg class="svg-arrow select-arrow">
+                                            <use xlink:href="#svg-arrow"></use>
+                                        </svg>
+                                        <!-- /SVG ARROW -->
+                                    </label>
+                                    <label for="year">
+                                        <select required name="year" id="year" name="yyyy" onchange="change_year(this)">
+                                            
+                                        </select>
+                                        <!-- SVG ARROW -->
+                                        <svg class="svg-arrow select-arrow">
+                                            <use xlink:href="#svg-arrow"></use>
+                                        </svg>
+                                        <!-- /SVG ARROW -->
+                                    </label>
+                                </div>
+                                <div class="gender">
+                                    <label class="rl-label required">Gender</label>
+                                    <input type="radio" id="male" name="gender" value="0" 
+                                        {{#isEqual user.f_sex 0}}
+                                            checked
+                                        {{/isEqual}}
+                                    >
+                                    <label for="male"><span class="radio"><span></span></span>Male</label>
+                                    <input type="radio" id="female" name="gender"  value="1"
+                                        {{#isEqual user.f_sex 1}}
+                                            checked
+                                        {{/isEqual}}
+                                    >
+                                    <label for="female"><span class="radio"><span></span></span>Female</label>
+                                    <input type="radio" id="other" name="gender" value="2"
+                                        {{#isEqual user.f_sex 2}}
+                                            checked
+                                        {{/isEqual}}
+                                    >
+                                    <label for="other"><span class="radio"><span></span></span>Other</label>
+                                </div>
                             </div>
-                            <div>
-                                <label class="rl-label">Last Name</label>
-                                <input type="text" value="Kohari">
-                            </div>
-                            <div>
-                                <label class="rl-label">Address</label>
-                                <input type="text" value="221B, Baker street">
-                            </div>
-                            <div>
-                                <label class="rl-label">Phone Number</label>
-                                <input type="text" value="0123456789">
-                            </div>
-                            <div>
-                                <label class="rl-label">Birth Date</label>
-                               
-                                <label for="day">
-                                    <select name="day" id="day" name="dd" >
-                                        {{!-- <option value="0">DD</option>
-                                        <option value="1">01</option>
-                                        <option value="2">02</option>
-                                        <option value="3">03</option>
-                                        <option value="4">04</option>	 --}}
-                                    </select>
-                                    <!-- SVG ARROW -->
-                                    <svg class="svg-arrow select-arrow">
-                                        <use xlink:href="#svg-arrow"></use>
-                                    </svg>
-                                    <!-- /SVG ARROW -->
-                                </label>
-                                 <label for="month">
-                                    <select name="month" id="month" name="mm" onchange="change_month(this)">
-                                        {{!-- <option value="0">MM</option>
-                                        <option value="1">01</option>
-                                        <option value="2">02</option>
-                                        <option value="3">03</option>
-                                        <option value="4">04</option>	 --}}
-                                    </select>
-                                    <!-- SVG ARROW -->
-                                    <svg class="svg-arrow select-arrow">
-                                        <use xlink:href="#svg-arrow"></use>
-                                    </svg>
-                                    <!-- /SVG ARROW -->
-                                </label>
-                                <label for="year">
-                                    <select name="year" id="year" name="yyyy" onchange="change_year(this)">
-                                        {{!-- <option value="0">YYYY</option>
-                                        <option value="1">1990</option>
-                                        <option value="2">1991</option>
-                                        <option value="3">1992</option>
-                                        <option value="4">1993</option>	 --}}
-                                    </select>
-                                    <!-- SVG ARROW -->
-                                    <svg class="svg-arrow select-arrow">
-                                        <use xlink:href="#svg-arrow"></use>
-                                    </svg>
-                                    <!-- /SVG ARROW -->
-                                </label>
-                            </div>
-                            <div class="gender">
-                                <label class="rl-label">Gender</label>
-                                <input type="radio" id="male" name="gender" value="male" checked>
-                                <label for="male"><span class="radio"><span></span></span>Male</label>
-                                <input type="radio" id="female" name="gender" value="female">
-                                <label for="female"><span class="radio"><span></span></span>Female</label>
-                            </div>
-                        </form>
+                        </div>
                     </div>
-                </div>
-                <!-- /PROFILE DATA -->
+                    <!-- /PROFILE DATA -->
 
-                <!-- PROFILE HEADER -->
-                <h5 class="profile-header">
-                    <span>02</span>Shipping Information
-                    <!-- SVG PLUS -->
-                    <svg class="plus">
-                        <rect class="vertical" x="4" width="4" height="12"/>
-                        <rect y="4" width="12" height="4"/>
-                    </svg>
-                    <!-- /SVG PLUS -->
-                </h5>
-                <!-- /PROFILE HEADER -->
+                    <!-- PROFILE HEADER -->
+                    <h5 class="profile-header">
+                        <span>02</span>Shipping Information
+                        <!-- SVG PLUS -->
+                        <svg class="plus">
+                            <rect class="vertical" x="4" width="4" height="12"/>
+                            <rect y="4" width="12" height="4"/>
+                        </svg>
+                        <!-- /SVG PLUS -->
+                    </h5>
+                    <!-- /PROFILE HEADER -->
+                
+                    <!-- PROFILE DATA -->
+                    <div class="profile-data">
+                        <div class="featured-form">
+                            <div class="westeros-form" id="checkout-form">
+                                <div>
+                                    <label class="rl-label required">First Name</label>
+                                    <input name="shippingFirstname" type="text" required
+                                        {{#if shipping.f_firstname}}
+                                            value="{{shipping.f_firstname}}"
+                                        {{else}}
+                                            value="{{user.f_firstname}}"
+                                        {{/if}}
+                                    >
+                                </div>
+                                <div>
+                                    <label class="rl-label required">Last Name</label>
+                                    <input name="shippingLastname" type="text" required
+                                        {{#if shipping.f_lastname}}
+                                            value="{{shipping.f_lastname}}"
+                                        {{else}}
+                                            value="{{user.f_lastname}}"
+                                        {{/if}}
+                                    >
+                                </div>
+                                <div>
+                                    <label class="rl-label required">Phone Number</label>
+                                    <input name="shippingPhone" style="margin-bottom: 0;" type="text" required
+                                        {{#if shipping.f_phone}}
+                                            value="{{shipping.f_phone}}"
+                                        {{else}}
+                                            placeholder="Your phone number"
+                                        {{/if}}
+                                    >
+                                    <div class="my-invalid-feedback" id="invalid-shipping-phone">
+                                        Invalid phone number
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="rl-label required ">Province</label>
+                                    <label for="country2">
+                                       
+                                        <select required name="ls_province" style="width: 100%;"></select>
+                                    
+                                        <!-- SVG ARROW -->
+                                        <svg class="svg-arrow select-arrow">
+                                            <use xlink:href="#svg-arrow"></use>
+                                        </svg>
+                                        <!-- /SVG ARROW -->
+                                    </label>
+                                    <div class="my-invalid-feedback" id="place-holder-invalid">
+                                        Invalid phone number
+                                    </div>
+                                </div>
+                                <div>
 
-                <!-- PROFILE DATA -->
-                <div class="profile-data">
-                       <div class="featured-form">
-                        <form class="westeros-form" id="checkout-form">
-                            <div>
-                                <label class="rl-label ">First Name</label>
-                                <input type="text" value="Kudo">
-                            </div>
-                            <div>
-                                <label class="rl-label ">Last Name</label>
-                                <input type="text" value="Kohari">
-                            </div>
-                            {{!-- <div>
-                                <label class="rl-label required">Email Address</label>
-                                <input type="text" placeholder="Enter your email address here...">
-                            </div> --}}
-                            <div>
-                                <label class="rl-label ">Phone Number</label>
-                                <input type="text" value="123456789">
-                            </div>
-                            
-                            <div>
-                                <label class="rl-label ">Province</label>
-                                <label for="country2">
-                                    {{!-- <select name="country" id="country2">
-                                        <option value="0">Select your country...</option>
-                                        <option value="1">United States</option>
-                                        <option value="2" selected>England</option>
-                                        <option value="3">France</option>
-                                        <option value="4">Spain</option>	
-                                    </select> --}}
-                                    <select name="ls_province" style="width: 100%;"></select>
-
+                                    <label class="rl-label required ">District</label>
+                                    <label for="country2">
+                                        <select name="ls_district" required style="width: 100%;"></select>
+                                    
+                                        <!-- SVG ARROW -->
+                                        <svg class="svg-arrow select-arrow">
+                                            <use xlink:href="#svg-arrow"></use>
+                                        </svg>
+                                        <!-- /SVG ARROW -->
+                                    </label>
+                                </div>
+                                <div>
                                    
-                                    <!-- SVG ARROW -->
-                                    <svg class="svg-arrow select-arrow">
-                                        <use xlink:href="#svg-arrow"></use>
-                                    </svg>
-                                    <!-- /SVG ARROW -->
-                                </label>
+                                    <label class="rl-label required ">Ward</label>
+                                    <label for="country2">
+                                      
+                                        <select name="ls_ward" required style="width: 100%;"></select>
+                                    
+                                        <!-- SVG ARROW -->
+                                        <svg class="svg-arrow select-arrow">
+                                            <use xlink:href="#svg-arrow"></use>
+                                        </svg>
+                                        <!-- /SVG ARROW -->
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="rl-label required">Address</label>
+                                    <input name="shippingAddress" type="text" required
+                                        {{#if shipping.address}}
+                                                value="{{shipping.address}}"
+                                        {{else}}
+                                            placeholder="Your address"
+                                        {{/if}}
+                                    >
+                                </div>
+                                <div class="full-input"></div>    
                             </div>
-                            <div>
-                                {{!-- <label class="rl-label required">Town / City</label>
-                                <input type="text" value="London"> --}}
-                                <label class="rl-label ">District</label>
-                                <label for="country2">
-                                    {{!-- <select name="country" id="country2">
-                                        <option value="0">Select your country...</option>
-                                        <option value="1">United States</option>
-                                        <option value="2" selected>England</option>
-                                        <option value="3">France</option>
-                                        <option value="4">Spain</option>	
-                                    </select> --}}
-                                    <select name="ls_district" style="width: 100%;"></select>
-                                   
-                                    <!-- SVG ARROW -->
-                                    <svg class="svg-arrow select-arrow">
-                                        <use xlink:href="#svg-arrow"></use>
-                                    </svg>
-                                    <!-- /SVG ARROW -->
-                                </label>
-                            </div>
-                            <div>
-                                {{!-- <label class="rl-label required">State / Province</label>
-                                <input type="text" value="Baker"> --}}
-                                <label class="rl-label ">Ward</label>
-                                <label for="country2">
-                                    {{!-- <select name="country" id="country2">
-                                        <option value="0">Select your country...</option>
-                                        <option value="1">United States</option>
-                                        <option value="2" selected>England</option>
-                                        <option value="3">France</option>   
-                                        <option value="4">Spain</option>	
-                                    </select> --}}
-                                    <select name="ls_ward" style="width: 100%;"></select>
-                                   
-                                    <!-- SVG ARROW -->
-                                    <svg class="svg-arrow select-arrow">
-                                        <use xlink:href="#svg-arrow"></use>
-                                    </svg>
-                                    <!-- /SVG ARROW -->
-                                </label>
-                            </div>
-                           <div>
-                                <label class="rl-label ">Address</label>
-                                <input type="text" value="221B, Baker Street">
-                            </div>
-                            <div class="full-input"></div>
-                            
-                            {{!-- <div>
-                                <button class="button login">Continue</button>
-                            </div> --}}
-                        </form>
+                        </div>
                     </div>
+                    <!-- /PROFILE DATA -->
                 </div>
-                <!-- /PROFILE DATA -->
-            </div>
-            <!-- /PROFILE INFO -->
-
-            <button form="profile-info-form" class="button profile-button">Save all the changes</button>
+                <!-- /PROFILE INFO -->
+                <button type="submit" class="button profile-button">Save all the changes</button>
+            </form>
         </div>
         <!-- /SHOP PRODUCTS -->
         <div class="clearfix"></div>
     </section>
 </div>
+
 <!-- /SHOP -->
 <!-- SVG ARROW -->
 <svg style="display: none;">	
@@ -700,25 +623,44 @@
 <script>
 
     var Days = [31,28,31,30,31,30,31,31,30,31,30,31];// index => month [0-11]
+    function isVietnamesePhoneNumber(number) {
+        return /(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/.test(number);
+    }
     $(document).ready(function(){
-      var localpicker = new LocalPicker({
+        //Address
+         let district = "{{shipping.distric}}";
+         let ward = "{{shipping.ward}}";
+        let province = "{{shipping.province}}";
+        var localpicker = new LocalPicker({
             province: "ls_province",
             district: "ls_district",
             ward: "ls_ward",
-            defaultValue: {province: 'Ho Chi Minh City', district: 'Thu Duc District', ward: 'Linh Trung Ward'}
+            defaultValue: {province: province, district: district, ward: ward}
     	});
-        var option = '';
-        var selectedDay="19";
-        for (var i=1;i <= Days[0];i++){ //add option days
-           
-            option += '<option value="'+ i + '">' + i + '</option>';
 
+        //Date month year
+        let dob = "{{user.f_DOB}}";
+        const tokens = dob.split("-");
+        let day = 1;
+        let month = 1;
+        let year = 1970;
+        if(dob){
+             const tokens = dob.split("-");
+             day = parseInt(tokens[2]);
+             month = parseInt(tokens[1]);
+             year = parseInt(tokens[0]);
+        }
+       
+        var option = '';
+        var selectedDay=day;
+        for (var i=1;i <= Days[0];i++){ //add option days
+            option += '<option value="'+ i + '">' + i + '</option>';
         }
         $('#day').append(option);
         $('#day').val(selectedDay);
 
         var option = '';
-        var selectedMon ="9";
+        var selectedMon =month;
         for (var i=1;i <= 12;i++){
             option += '<option value="'+ i + '">' + i + '</option>';
            
@@ -726,19 +668,39 @@
         $('#month').append(option);
         $('#month').val(selectedMon);
 
-    
         var d = new Date();
         var option = '';
-        selectedYear ="2001";
+        selectedYear =year;
         for (var i=1930;i <= d.getFullYear();i++){// years start i
             option += '<option value="'+ i + '">' + i + '</option>';
 
         }
         $('#year').append(option);
         $('#year').val(selectedYear);
-         //document.getElementById("year").getElementsByTagName('option')[2001-1930+1].selected=true;
-           //  document.getElementById("month").getElementsByTagName('option')[9].selected=true;
-           // document.getElementById("day").getElementsByTagName('option')[19].selected=true;
+
+        const form = document.getElementById("update-profile-form");
+        const phone = document.getElementsByName("phone")[0];
+        const shippingPhone = document.getElementsByName("shippingPhone")[0];
+        form.addEventListener('submit',(e)=>{
+            console.log("submit");
+            
+            if(!isVietnamesePhoneNumber(phone.value)){
+                e.preventDefault();
+                document.getElementById("invalid-phone").style.display="block";
+            }else{
+                document.getElementById("invalid-phone").style.display="none";
+            }
+            if(!isVietnamesePhoneNumber(shippingPhone.value)){
+                e.preventDefault();
+                document.getElementById("invalid-shipping-phone").style.display="block";
+                document.getElementById("place-holder-invalid").style.display="block";
+                
+            }else{
+                document.getElementById("invalid-shipping-phone").style.display="none";
+                document.getElementById("place-holder-invalid").style.display="none";
+            }
+        })
+
     });
     function isLeapYear(year) {
         year = parseInt(year);
