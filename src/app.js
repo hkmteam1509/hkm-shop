@@ -19,6 +19,11 @@ app.engine('.hbs',
 	handlebars({
 		extname: '.hbs',
 		helpers:{
+			section: function(name, options){
+				if(!this._sections) this._sections = {};
+				this._sections[name] = options.fn(this);
+				return null;
+			},
 			isInArr: function(item, arr, options) {
 				if(arr.includes(item)) {
 					console.log("helper:",true)
