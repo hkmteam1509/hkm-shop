@@ -3,7 +3,7 @@ const Util = require('../util/Utility');
 const { Op } = require("sequelize");
 class ProductService{
 
-	list(limit, page, name, brandIDs, catIDs, genderIDs, price){
+	list(limit, page, name, brandIDs, catIDs, genderIDs, price, sort){
       
         const arrPro = [
             models.brand.findAll({
@@ -49,49 +49,145 @@ class ProductService{
                     genderIDs[i] = parseInt(genderIDs[i])
                 }
                 if(name && name.length > 0){
-                    return models.product.findAll({
-                        offset: (page - 1)*limit, 
-                        limit: limit, 
-                        raw:true,
-                        where:{
-                            brandID: brandIDs,
-                            catID: catIDs,
-                            sex: genderIDs,
-                            proName:{
-                                [Op.substring]:name
-                            },
-                            price:{
-                                [Op.gte]:minPrice
-                            },
-                            price:{
-                                [Op.lte]:maxPrice
-                            }
-                        }
-                    });
+                    switch (sort) {
+                        case 1:
+                            return models.product.findAll({
+                                offset: (page - 1)*limit, 
+                                limit: limit, 
+                                raw:true,
+                                where:{
+                                    brandID: brandIDs,
+                                    catID: catIDs,
+                                    sex: genderIDs,
+                                    proName:{
+                                        [Op.substring]:name
+                                    },
+                                    price:{
+                                        [Op.gte]:minPrice
+                                    },
+                                    price:{
+                                        [Op.lte]:maxPrice
+                                    }
+                                },
+                                order:[
+                                    ['price','DESC']
+                                ]
+                            });
+                        case 2:
+                            return models.product.findAll({
+                                offset: (page - 1)*limit, 
+                                limit: limit, 
+                                raw:true,
+                                where:{
+                                    brandID: brandIDs,
+                                    catID: catIDs,
+                                    sex: genderIDs,
+                                    proName:{
+                                        [Op.substring]:name
+                                    },
+                                    price:{
+                                        [Op.gte]:minPrice
+                                    },
+                                    price:{
+                                        [Op.lte]:maxPrice
+                                    }
+                                },
+                                order:[
+                                    ['price','ASC']
+                                ]
+                                
+                            });
+                        default:
+                            return models.product.findAll({
+                                offset: (page - 1)*limit, 
+                                limit: limit, 
+                                raw:true,
+                                where:{
+                                    brandID: brandIDs,
+                                    catID: catIDs,
+                                    sex: genderIDs,
+                                    proName:{
+                                        [Op.substring]:name
+                                    },
+                                    price:{
+                                        [Op.gte]:minPrice
+                                    },
+                                    price:{
+                                        [Op.lte]:maxPrice
+                                    }
+                                }
+                            });
+                    }
                 }else{
-                    return models.product.findAll({
-                        offset: (page - 1)*limit, 
-                        limit: limit, 
-                        raw:true,
-                        where:{
-                            brandID: brandIDs,
-                            catID: catIDs,
-                            sex: genderIDs,
-                            price:{
-                                [Op.gte]:minPrice
-                            },
-                            price:{
-                                [Op.lte]:maxPrice
-                            }
-                        }
-                    });
+                    switch (sort) {
+                        case "1":
+                            console.log("here 1")
+                            return models.product.findAll({
+                                offset: (page - 1)*limit, 
+                                limit: limit, 
+                                raw:true,
+                                where:{
+                                    brandID: brandIDs,
+                                    catID: catIDs,
+                                    sex: genderIDs,
+                                    price:{
+                                        [Op.gte]:minPrice
+                                    },
+                                    price:{
+                                        [Op.lte]:maxPrice
+                                    }
+                                },
+                                order:[
+                                    ['price','DESC']
+                                ]
+                            });
+                        case "2":
+                            console.log("here 2")
+                            return models.product.findAll({
+                                offset: (page - 1)*limit, 
+                                limit: limit, 
+                                raw:true,
+                                where:{
+                                    brandID: brandIDs,
+                                    catID: catIDs,
+                                    sex: genderIDs,
+                                    price:{
+                                        [Op.gte]:minPrice
+                                    },
+                                    price:{
+                                        [Op.lte]:maxPrice
+                                    }
+                                },
+                                order:[
+                                    ['price','ASC']
+                                ]
+                                
+                            });
+                        default:
+                            console.log("here 0")
+                            return models.product.findAll({
+                                offset: (page - 1)*limit, 
+                                limit: limit, 
+                                raw:true,
+                                where:{
+                                    brandID: brandIDs,
+                                    catID: catIDs,
+                                    sex: genderIDs,
+                                    price:{
+                                        [Op.gte]:minPrice
+                                    },
+                                    price:{
+                                        [Op.lte]:maxPrice
+                                    }
+                                }
+                            });
+                    }
                 }
             })
         
     }
 
     getProductTotal(name, brandIDs, catIDs, genderIDs, price){
-      
         const arrPro = [
             models.brand.findAll({
                 attributes: ['brandID']
@@ -122,10 +218,6 @@ class ProductService{
                 let minPrice = price[0];
                 let maxPrice = price[1];
                 if(name){
-                    console.log(catIDs);
-                    console.log(brandIDs);
-                    console.log(genderIDs);
-                    console.log(name);
                     return models.product.count({
                         raw:true,
                         where:{

@@ -222,22 +222,40 @@
             <div class="filters">
                 <h3 class="subtitle">Items {{startNumber}} to {{endNumber}} out of {{total}} total</h3>
                 <div class="options">
-                    <form class="westeros-form">
-                        <label class="select-block" for="show">Show:
-                            <select name="show" id="show">
-                                <option value="1">9 Per Page</option>
-                                <option value="2">20 Per Page</option>
-                            </select>
-                            <!-- SVG ARROW -->
-                            <svg class="svg-arrow select-arrow">
-                                <use xlink:href="#svg-arrow"></use>
-                            </svg>
-                            <!-- /SVG ARROW -->
-                        </label>
+                    <form method="get" action="/shop" class="westeros-form">
+                    {{#if searchQuery}}
+                        <input type="text" value="{{searchQuery}}" name="search" readonly style="display: none;">
+                    {{/if}}
+                    {{#each brandQuery}}
+                        <input value="{{this.brandID}}" checked type="checkbox" name="brands[]" style="display: none;" readonly>
+                    {{/each}}
+                    {{#each catQuery}}
+                        <input value="{{this.catID}}" checked type="checkbox" name="categories[]" style="display: none;" readonly>
+                    {{/each}}
+                    {{#if priceQuery}}
+                        <input value="{{priceQuery}}" type="text" name="price" style="display: none;" readonly>
+                    {{/if}}
+                    {{#each genderQuery}}
+                        <input value="{{this.genderID}}" checked type="checkbox" name="genders[]" style="display: none;" readonly>
+                    {{/each}}
                         <label class="select-block" for="sort">Sort by:
-                            <select name="sort" id="sort">
-                                <option value="1">Price (High to Low)</option>
-                                <option value="2">Price (Low to High)</option>
+                            <select onchange="this.form.submit()" name="sort" id="sort">
+                            
+                                <option value="0"
+                                    {{#isEqual sortQuery '0'}}
+                                        selected
+                                    {{/isEqual}}
+                                >None</option>
+                                <option value="1"
+                                    {{#isEqual sortQuery '1'}}
+                                        selected
+                                    {{/isEqual}}
+                                >Price (High to Low)</option>
+                                <option value="2"
+                                    {{#isEqual sortQuery '2'}}
+                                        selected
+                                    {{/isEqual}}
+                                >Price (Low to High)</option>
                             </select>
                             <!-- SVG ARROW -->
                             <svg class="svg-arrow select-arrow">
@@ -248,14 +266,14 @@
                     </form>
                     <!-- VIEW DISPLAY -->
                     <ul class="display">
-                        <li class="grid">
+                        <li class="grid selected">
                             <!-- SVG GRID -->
                             <svg class="svg-grid">
                                 <use xlink:href="#svg-grid"></use>
                             </svg>
                             <!-- /SVG GRID -->
                         </li>
-                        <li class="list selected">
+                        <li class="list">
                             <!-- SVG LIST -->
                             <svg class="svg-list">
                                 <use xlink:href="#svg-list"></use>
@@ -456,6 +474,9 @@
                 method="GET"
                 action="/shop"
             >
+             {{#if sortQuery}}
+                    <input type="text" value="{{sortQuery}}" name="sort" readonly style="display: none;">
+                {{/if}}
                 {{#each brandQuery}}
                     <input value="{{this.brandID}}" checked type="checkbox" name="brands[]" style="display: none;" readonly>
                 {{/each}}
