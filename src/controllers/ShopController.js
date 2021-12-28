@@ -20,7 +20,7 @@ const getShop = (req, res, next, brand, brandID, cat, catID, gender, genderID, l
 	let brandIDs = (req.query.brands) ? req.query.brands : [];
 	let catIDs = (req.query.categories) ? req.query.categories : [];
 	let name = (req.query.search) ? req.query.search : "";
-	console.log(name);
+	let sort = (req.query.sort) ? req.query.sort : 0;
 	const priceStr = req.query.price;
 	if(brandID){
 		brandIDs = [brandID];
@@ -44,12 +44,13 @@ const getShop = (req, res, next, brand, brandID, cat, catID, gender, genderID, l
 	}else{
 		price = [];
 	}
+	
 	currentPage =(pageNumber && !Number.isNaN(pageNumber)) ? parseInt(pageNumber) : 1;
 	currentPage = (currentPage > 0) ? currentPage : 1;
 	currentPage = (currentPage <= totalPage) ? currentPage : totalPage;
 	currentPage = (currentPage < 1) ? 1: currentPage;
 	const productPromises=[
-		ProductService.list(itemPerPage,currentPage, name, brandIDs, catIDs, genderIDs, price),
+		ProductService.list(itemPerPage,currentPage, name, brandIDs, catIDs, genderIDs, price, sort),
 		ProductService.getProductTotal(name, brandIDs, catIDs, genderIDs, price),
 		ProductService.listByFeaturedLimit(4),
 	]
@@ -166,7 +167,6 @@ const getShop = (req, res, next, brand, brandID, cat, catID, gender, genderID, l
 			if(endNumber === 0){
 				startNumber = 0;
 			}
-			
 			Promise.all(arr)
 			.then(([navBrands, navCates])=>{
 				res.render(hbs,{
@@ -185,6 +185,7 @@ const getShop = (req, res, next, brand, brandID, cat, catID, gender, genderID, l
 					brandQuery,
 					catQuery,
 					priceQuery,
+					sortQuery: sort,
 					searchQuery: name,
 					totalPage,
 					paginationArray,
@@ -340,9 +341,7 @@ class ShopController{
 									featureProducts[i-relateLength].starLeft=5 - Math.floor(result[i*7+6]/result[i*7+5]);
 									featureProducts[i-relateLength].genderslug=getGenderSlug(featureProducts[i-relateLength].sex)
 								}
-								console.log("related");
-								console.log(relateProducts);
-								console.log("done");
+							
 								for(let i = 0 ; i < reviews.length;i++){
 									reviews[i].date = reviews[i].createdAt.toLocaleString("vi-VN");
 								}
