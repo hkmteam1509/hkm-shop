@@ -14,88 +14,29 @@
 			<!-- /SIDEBAR CONTROL -->
 
 			<!-- SHOP SIDEBAR -->
-			<aside class="shop-sidebar checkout-cart">
+			<form method="get" action="/me/checkout" id="go-checkout-form">
+				<aside class="shop-sidebar checkout-cart">
 				<!-- SIDEBAR CONTROL -->
 				<svg class="svg-plus sidebar-control">
 					<use xlink:href="#svg-plus"></use>
 				</svg>
 				<!-- /SIDEBAR CONTROL -->
-
-				<h3 class="title">Calculate Shipping</h3>
-				<form class="westeros-form">
-					<!-- SELECT BLOCK -->
-					<label class="select-block" for="country">
-						<select name="country" id="country">
-							<option value="0">Select your country...</option>
-							<option value="1">United States</option>
-							<option value="2">Canada</option>
-						</select>
-						<!-- SVG ARROW -->
-						<svg class="svg-arrow select-arrow">
-							<use xlink:href="#svg-arrow"></use>
-						</svg>
-						<!-- /SVG ARROW -->
-					</label>
-					<!-- /SELECT BLOCK -->
-
-					<!-- SELECT BLOCK -->
-					<label class="select-block" for="state">
-						<select name="state" id="state">
-							<option value="0">Select your state...</option>
-							<option value="1">New York</option>
-						</select>
-						<!-- SVG ARROW -->
-						<svg class="svg-arrow select-arrow">
-							<use xlink:href="#svg-arrow"></use>
-						</svg>
-						<!-- /SVG ARROW -->
-					</label>
-					<!-- /SELECT BLOCK -->
-
-					<!-- SELECT BLOCK -->
-					<label class="select-block last" for="city">
-						<select name="city" id="city">
-							<option value="0">Select your city...</option>
-							<option value="1">New York</option>
-							<option value="2">San Francisco</option>
-						</select>
-						<!-- SVG ARROW -->
-						<svg class="svg-arrow select-arrow">
-							<use xlink:href="#svg-arrow"></use>
-						</svg>
-						<!-- /SVG ARROW -->
-					</label>
-					<!-- /SELECT BLOCK -->
-
-					<button class="button small">Update Shipping</button>
-				</form>
-
-				
 				
 				<h3 class="title">Cart Total</h3>
 				<!-- CART TOTAL -->
 				<div class="cart-total">
-					<!-- SUBTOTAL -->
-					<div class="subtotal">
-						<h5>Cart Subtotal</h5>
-						<h5>$361.00</h5>
-					</div>
-					<!-- /SUBTOTAL -->
-
-				
-
-
 					<!-- TOTAL -->
 					<div class="total">
-						<h5>Total Order</h5>
-						<h5>$361.50</h5>
+						<h5>Total cost</h5>
+						<h5 id="total-cost">$0.00</h5>
 					</div>
 					<!-- /TOTAL -->
 				</div>
 				<!-- /CART TOTAL -->
 
-				<a href="/me/checkout" class="button">Proceed to Checkout</a>
+				<button type="submit" class="button">Proceed to Checkout</button>
 			</aside>
+			</form>
 			<!-- /SHOP SIDEBAR -->
 
 			<!-- SHOP PRODUCTS -->
@@ -144,357 +85,79 @@
 					</div>
 					<!-- /ROW -->
 
-					<!-- ROW -->
-					<div class="row">
-						<!-- CELL -->
-						<div class="cell">
-							<input type="checkbox" class="my-checkbox" name="products[]"  value="1">
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell cart-item">
-							<div class="product-picture">
-								<figure class="liquid">
-									<img src="/images/items/15.png" alt="product-picture">
-								</figure>
+					{{#each products}}
+						<!-- ROW -->
+						<div class="row">
+							<!-- CELL -->
+							<div class="cell">
+								<input form="go-checkout-form" type="checkbox" class="my-checkbox" name="products[]"  value="{{this.cartID}}">
 							</div>
-							<p class="highlighted">T-Shirts</p>
-							<h3>The Devil Pin</h3>
-							<p>Lorem ipsum dolor</p>
-							<h6>Size: <span>Large</span></h6>
-							<!-- COLORPICKER -->
-							<ul class="colorpicker">
-								<li><span data-color="#252525"></span></li>
-							</ul>
-							<!-- /COLORPICKER -->
-						</div>
-						<!-- /CELL -->
+							<!-- /CELL -->
 
-						<!-- CELL -->
-						<div class="cell">
-							<p class="highlighted">$54.00</p>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell">
-							<!-- COUNTER -->
-							<div class="counter">
-								<div class="control left"></div>
-								<div class="value">
-									<h5>2</h5>
+							<!-- CELL -->
+							<div class="cell cart-item">
+								<div class="product-picture">
+									<figure class="liquid">
+										<img src="{{this.image}}" alt="product-picture">
+									</figure>
 								</div>
-								<div class="control right"></div>
+								<p class="highlighted">{{this.cate}}</p>
+								<h3>{{this.Name}}</h3>
+								<!-- COLORPICKER -->
+								<ul class="colorpicker">
+									<li><span data-color="{{this.detail.color}}"></span></li>
+								</ul>
+								<!-- /COLORPICKER -->
 							</div>
-							<!-- /COUNTER -->
-						</div>
-						<!-- /CELL -->
+							<!-- /CELL -->
 
-						<!-- CELL -->
-						<div class="cell">
-							<p class="highlighted">$108.00</p>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell buttons small">
-							<!-- ACTIONS -->
-							<div class="actions">
-								
-								<a href="#" class="button medium no-stock">
-									<!-- SVG PLUS -->
-									<svg class="svg-plus">
-										<use xlink:href="#svg-plus"></use>
-									</svg>
-									<!-- /SVG PLUS -->
-								</a>
+							<!-- CELL -->
+							<div class="cell">
+								<p class="highlighted">${{this.price}}.00</p>
 							</div>
-							<!-- /ACTIONS -->
-						</div>
-						<!-- /CELL -->
-					</div>
-					<!-- /ROW -->
+							<!-- /CELL -->
 
-					<!-- ROW -->
-					<div class="row">
-						<!-- CELL -->
-						<div class="cell">
-							<input type="checkbox" class="my-checkbox" name="products[]" value="2">
-						</div>
-						<!-- /CELL -->
-						
-						<!-- CELL -->
-						<div class="cell cart-item">
-							<div class="product-picture">
-								<figure class="liquid">
-									<img src="/images/items/34.png" alt="product-picture">
-								</figure>
-							</div>
-							<p class="highlighted">Phone Cases</p>
-							<h3>Dial Z For Zombie</h3>
-							<p>Lorem ipsum dolor</p>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell">
-							<p class="highlighted">$26.00</p>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell">
-							<!-- COUNTER -->
-							<div class="counter">
-								<div class="control left"></div>
-								<div class="value">
-									<h5>3</h5>
+							<!-- CELL -->
+							<div class="cell">
+								<!-- COUNTER -->
+								<div class="counter">
+									<div class="control left"></div>
+									<div class="value">
+										<input data-price="{{this.price}}" data-id="{{this.cartID}}" name="quantityProducts[]" type="hidden" value="{{this.quantity}}">
+										<h5>{{this.quantity}}</h5>
+									</div>
+									<div class="control right"></div>
 								</div>
-								<div class="control right"></div>
+								<!-- /COUNTER -->
 							</div>
-							<!-- /COUNTER -->
-						</div>
-						<!-- /CELL -->
+							<!-- /CELL -->
 
-						<!-- CELL -->
-						<div class="cell">
-							<p class="highlighted">$78.00</p>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell buttons small">
-							<!-- ACTIONS -->
-							<div class="actions">
-								
-
-								<a href="#" class="button medium no-stock">
-									<!-- SVG PLUS -->
-									<svg class="svg-plus">
-										<use xlink:href="#svg-plus"></use>
-									</svg>
-									<!-- /SVG PLUS -->
-								</a>
+							<!-- CELL -->
+							<div class="cell">
+								<p class="highlighted" id="product-total-price-{{this.cartID}}">${{productOfTwo this.quantity this.price}}.00</p>
 							</div>
-							<!-- /ACTIONS -->
-						</div>
-						<!-- /CELL -->
-					</div>
-					<!-- /ROW -->
+							<!-- /CELL -->
 
-					<!-- ROW -->
-					<div class="row">
-						<!-- CELL -->
-						<div class="cell">
-							<input type="checkbox" class="my-checkbox" name="products[]"  value="3">
-						</div>
-						<!-- /CELL -->
-						
-						<!-- CELL -->
-						<div class="cell cart-item">
-							<div class="product-picture">
-								<figure class="liquid">
-									<img src="/images/items/32.png" alt="product-picture">
-								</figure>
-							</div>
-							<p class="highlighted">Custom Sneakers</p>
-							<h3>The Devil Walks</h3>
-							<p>Lorem ipsum dolor</p>
-							<h6>Size: <span>6</span></h6>
-							<!-- COLORPICKER -->
-							<ul class="colorpicker">
-								<li><span data-color="#d52929"></span></li>
-							</ul>
-							<!-- /COLORPICKER -->
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell">
-							<p class="highlighted">$43.00</p>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell">
-							<!-- COUNTER -->
-							<div class="counter">
-								<div class="control left"></div>
-								<div class="value">
-									<h5>1</h5>
+							<!-- CELL -->
+							<div class="cell buttons small">
+								<!-- ACTIONS -->
+								<div class="actions">
+									
+									<a href="#" class="button medium no-stock">
+										<!-- SVG PLUS -->
+										<svg class="svg-plus">
+											<use xlink:href="#svg-plus"></use>
+										</svg>
+										<!-- /SVG PLUS -->
+									</a>
 								</div>
-								<div class="control right"></div>
+								<!-- /ACTIONS -->
 							</div>
-							<!-- /COUNTER -->
+							<!-- /CELL -->
 						</div>
-						<!-- /CELL -->
+						<!-- /ROW -->
+					{{/each}}
 
-						<!-- CELL -->
-						<div class="cell">
-							<p class="highlighted">$43.00</p>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell buttons small">
-							<!-- ACTIONS -->
-							<div class="actions">
-								
-
-								<a href="#" class="button medium no-stock">
-									<!-- SVG PLUS -->
-									<svg class="svg-plus">
-										<use xlink:href="#svg-plus"></use>
-									</svg>
-									<!-- /SVG PLUS -->
-								</a>
-							</div>
-							<!-- /ACTIONS -->
-						</div>
-						<!-- /CELL -->
-					</div>
-					<!-- /ROW -->
-
-					<!-- ROW -->
-					<div class="row">
-						<!-- CELL -->
-						<div class="cell">
-							<input type="checkbox" class="my-checkbox" name="products[]" value="4">
-						</div>
-						<!-- /CELL -->
-						
-						<!-- CELL -->
-						<div class="cell cart-item">
-							<div class="product-picture">
-								<figure class="liquid">
-									<img src="/images/items/35.png" alt="product-picture">
-								</figure>
-							</div>
-							<p class="highlighted">Pin Badges</p>
-							<h3>Mo Monster</h3>
-							<p>Lorem ipsum dolor</p>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell">
-							<p class="highlighted">$2.00</p>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell">
-							<!-- COUNTER -->
-							<div class="counter">
-								<div class="control left"></div>
-								<div class="value">
-									<h5>3</h5>
-								</div>
-								<div class="control right"></div>
-							</div>
-							<!-- /COUNTER -->
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell">
-							<p class="highlighted">$6.00</p>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell buttons small">
-							<!-- ACTIONS -->
-							<div class="actions">
-								
-
-								<a href="#" class="button medium no-stock">
-									<!-- SVG PLUS -->
-									<svg class="svg-plus">
-										<use xlink:href="#svg-plus"></use>
-									</svg>
-									<!-- /SVG PLUS -->
-								</a>
-							</div>
-							<!-- /ACTIONS -->
-						</div>
-						<!-- /CELL -->
-					</div>
-					<!-- /ROW -->
-
-					<!-- ROW -->
-					<div class="row">
-						<!-- CELL -->
-						<div class="cell">
-							<input type="checkbox" class="my-checkbox" name="products[]"  value="5">
-						</div>
-						<!-- /CELL -->
-						
-						<!-- CELL -->
-						<div class="cell cart-item">
-							<div class="product-picture">
-								<figure class="liquid">
-									<img src="/images/items/26.png" alt="product-picture">
-								</figure>
-							</div>
-							<p class="highlighted">T-Shirts</p>
-							<h3>The Happy Pastry</h3>
-							<p>Lorem ipsum dolor</p>
-							<h6>Size: <span>6</span></h6>
-							<!-- COLORPICKER -->
-							<ul class="colorpicker">
-								<li><span data-color="#d2d2d2"></span></li>
-							</ul>
-							<!-- /COLORPICKER -->
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell">
-							<p class="highlighted">$63.00</p>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell">
-							<!-- COUNTER -->
-							<div class="counter">
-								<div class="control left"></div>
-								<div class="value">
-									<h5>2</h5>
-								</div>
-								<div class="control right"></div>
-							</div>
-							<!-- /COUNTER -->
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell">
-							<p class="highlighted">$126.00</p>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell buttons small">
-							<!-- ACTIONS -->
-							<div class="actions">
-							
-
-								<a href="#" class="button medium no-stock">
-									<!-- SVG PLUS -->
-									<svg class="svg-plus">
-										<use xlink:href="#svg-plus"></use>
-									</svg>
-									<!-- /SVG PLUS -->
-								</a>
-							</div>
-							<!-- /ACTIONS -->
-						</div>
-						<!-- /CELL -->
-					</div>
-					<!-- /ROW -->
 				</div>
 				<!-- /SHOPPING CART -->
 			</div>
@@ -766,18 +429,69 @@
 	$(document).ready(function(){
 		const checkboxAll = $("#my-checkbox-all");
         const productItemCheckbox = $("input[name='products[]']");
+		const productItemQuantity = $("input[name='quantityProducts[]']");
 		// all change
         checkboxAll.change(function(){
             let isCheckedAll = $(this).prop('checked');
             productItemCheckbox.prop('checked', isCheckedAll) ;
-
+			if(!isCheckedAll){
+				$("#total-cost").text("$0.00");
+			}else{
+				let total = 0;
+				productItemQuantity.toArray().forEach(item=>{
+					let price = item.dataset.price;
+					price = parseInt(price);
+					let quantity = item.value;
+					quantity = parseInt(quantity);
+					total += price*quantity;
+				});	
+				$("#total-cost").text("$"+total+".00");
+			}
         });
 
         //item change
         productItemCheckbox.change(function(){
             let isCheckedAll = productItemCheckbox.length === $("input[name='courseIds[]']:checked").length;
             checkboxAll.prop('checked',isCheckedAll );
+			let total = 0;
+			let checkboxList = productItemCheckbox.toArray();
+			productItemQuantity.toArray().forEach((item, index)=>{
+				console.log(checkboxList[index]);
+				if(checkboxList[index].checked){
+					let price = item.dataset.price;
+					price = parseInt(price);
+					let quantity = item.value;
+					quantity = parseInt(quantity);
+					total += price*quantity;		
+				}
+			});	
+			$("#total-cost").text("$"+total+".00");
         });
+		
+		productItemQuantity.change(function(){
+			let input = $(this);
+			let cartID = $(this).data("id");
+			let quantity = $(this).val();
+			const price = $(this).data("price");
+			$.ajax({
+				url:'/me/cart/update-quantity',
+				method: 'post',
+				data:{
+					cartID,
+					quantity
+				},
+				success: function(data){
+					if(data.isOverflow){
+						alert("There are only "+ data.quantity + " quantity remaining for this item")
+					}else{
+						
+					}
+					input.val(data.quantity);
+					input.siblings("h5").text(data.quantity);
+					$("#product-total-price-" + data.cartID).text("$"+data.quantity*price+".00")
+				}
+			})
+		});
 	});
 </script>
 {{/section}}

@@ -119,16 +119,35 @@ $(document).ready(function(){
 
 	function counter_substract() {
 		var container = $(this).siblings('.value').children('h5'),
-			currentValue = parseInt(container.text());
+			currentValue = parseInt(container.text()),
+			inputContainer = $(this).siblings('.value').children('input');
 
-		if(currentValue > 1) container.text(--currentValue);
+		if(currentValue > 1){
+			--currentValue;
+			if(container){
+				container.text(currentValue);
+			}
+			if(inputContainer){
+				inputContainer.val(currentValue);
+				inputContainer.trigger("change");
+			}
+		}
 	}
 
 	function counter_add() {
 		var container = $(this).siblings('.value').children('h5'),
-			currentValue = parseInt(container.text());
-
-		if(currentValue < 100) container.text(++currentValue);
+			currentValue = parseInt(container.text()),
+			inputContainer = $(this).siblings('.value').children('input');
+		if(currentValue < 100){
+			++currentValue;
+			if(container){
+				container.text(currentValue);
+			}
+			if(inputContainer){
+				inputContainer.val(currentValue);
+				inputContainer.trigger("change");
+			}
+		}
 	}
 
 	/*-------------------------

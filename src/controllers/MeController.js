@@ -12,13 +12,56 @@ class MeController{
             const arr = [
                 BrandService.getAll(),
                 CateService.getAll(),
+                UserService.getUserCart(req.user.f_ID)
             ]
             Promise.all(arr)
-            .then(([navBrands, navCates])=>{
-                res.render('me/cart', {
-                    navBrands,
-                    navCates
-                });
+            .then(([navBrands, navCates, cart])=>{
+                let productPromises = cart.map((item)=>{
+                    return ProductService.findProduct(item.proID)
+                })
+                Promise.all(productPromises)
+                .then(products=>{
+                    let productLength = products.length;
+                    let detailPromises=[];
+                    for (let i=0;i<productLength;i++){
+                        detailPromises.push(ProductService.getImageLink(products[i].proID));
+                        detailPromises.push(ProductService.getDetail(cart[i].detailID));
+                        detailPromises.push(ProductService.getCateName(products[i].catID))
+                        detailPromises.push(ProductService.getBrandSlug(products[i].brandID));
+                        detailPromises.push(ProductService.getCateSlug(products[i].catID));
+                        detailPromises.push(ProductService.countRatingProduct(products[i].proID));
+                        detailPromises.push(ProductService.sumRatingProduct(products[i].proID));
+                    }
+                    Promise.all(detailPromises)
+                    .then((result)=>{
+                        for (let i=0;i<productLength;i++){
+                            products[i].cartID = cart[i].cartID;
+                            products[i].quantity = cart[i].quantity;
+                            products[i].image=result[i*7][0].proImage;
+                            products[i].detail=result[i*7+1];
+                            products[i].cate=result[i*7+2].catName;
+                            products[i].brandslug=result[i*7+3].brandSlug;
+                            products[i].cateslug=result[i*7+4].catSlug;
+                            products[i].star=Math.floor(result[i*7+6]/result[i*7+5]);
+                            products[i].starLeft=5 - Math.floor(result[i*7+6]/result[i*7+5]);
+                            products[i].genderslug=getGenderSlug(products[i].sex)
+                        }
+                        res.render('me/cart', {
+                            navBrands,
+                            navCates,
+                            products
+                        });
+                    }).catch(err=>{
+                        console.log(err);
+                        next();
+                    })
+                }).catch(err=>{
+                    console.log(err);
+                    next();
+                })
+            }).catch(err=>{
+                console.log(err);
+                next();
             })
         }
         else{
@@ -265,6 +308,99 @@ class MeController{
         }else{
             res.redirect('/account/register-login');
         }
+    }
+
+    updateCartQuantity(req,res,next){
+        let {cartID, quantity} = req.body;
+        UserService.getCart(cartID)
+        .then(cart=>{
+            ProductService.getDetail(cart.detailID)
+            .then(detail=>{
+                quantity = parseInt(quantity);
+                if(quantity > detail.quantity){
+                    res.status(200).json({
+                        cartID,
+                        quantity: detail.quantity,
+                        isOverflow: true
+                    })
+                }else{
+                    UserService.updateProductCartQuantity(cartID, quantity)
+                    .then(result=>{
+                        res.status(200).json({cartID, quantity});
+                    }).catch(err=>{
+                        console.log(err);
+                        next(err);
+                    })
+                }
+            }).catch(err=>{
+                console.log(err);
+                next(err);
+            })
+        }).catch(err=>{
+            console.log(err);
+            next(err);
+        })
+        
+    }
+
+    addToCart(req,res,next){
+        console.log(req.body);
+        const userId = req.user.f_ID;
+        const {productID, detailID, quantity} = req.body;
+        UserService.addCart(userId, productID, quantity, detailID)
+        .then(result=>{
+            res.status(200).json(result);
+        }).catch(err=>{
+            console.log(err);
+            res.status(500).json({msg: "Bad request"});
+        })
+        
+    }
+
+    getCartHeader(req,res,next){
+        UserService.getUserCartLastest(req.user.f_ID)
+        .then(cart=>{
+            let productPromises = cart.map((item)=>{
+                return ProductService.findProduct(item.proID)
+            });
+            Promise.all(productPromises)
+            .then(products=>{
+                let productLength = products.length;
+                let detailPromises=[];
+                for (let i=0;i<productLength;i++){
+                    detailPromises.push(ProductService.getImageLink(products[i].proID));
+                    detailPromises.push(ProductService.getDetail(cart[i].detailID));
+                    detailPromises.push(ProductService.getCateName(products[i].catID))
+                    detailPromises.push(ProductService.getBrandSlug(products[i].brandID));
+                    detailPromises.push(ProductService.getCateSlug(products[i].catID));
+                    detailPromises.push(ProductService.countRatingProduct(products[i].proID));
+                    detailPromises.push(ProductService.sumRatingProduct(products[i].proID));
+                }
+                Promise.all(detailPromises)
+                .then((result)=>{
+                    for (let i=0;i<productLength;i++){
+                        products[i].cartID = cart[i].cartID;
+                        products[i].quantity = cart[i].quantity;
+                        products[i].image=result[i*7][0].proImage;
+                        products[i].detail=result[i*7+1];
+                        products[i].cate=result[i*7+2].catName;
+                        products[i].brandslug=result[i*7+3].brandSlug;
+                        products[i].cateslug=result[i*7+4].catSlug;
+                        products[i].star=Math.floor(result[i*7+6]/result[i*7+5]);
+                        products[i].starLeft=5 - Math.floor(result[i*7+6]/result[i*7+5]);
+                        products[i].genderslug=getGenderSlug(products[i].sex)
+                    }
+                    res.status(200).json(products);
+                }).catch(err=>{
+                    console.log(err);
+                    // next();
+                    res.status(500).json({msg:'error'});
+                })
+            }).catch(err=>{
+                console.log(err);
+                res.status(500).json({msg:'error'});
+            })
+        })
     }
 }
 function getGenderSlug(sex) {

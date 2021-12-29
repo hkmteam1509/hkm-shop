@@ -42,6 +42,9 @@ app.engine('.hbs',
 				  return options.fn(this);
 				}
 				return options.inverse(this);
+			},
+			productOfTwo: function(v1, v2){
+				return v1*v2;
 			}
 		}
 	
