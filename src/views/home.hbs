@@ -87,175 +87,13 @@
 							<img src={{this.image}} alt="product1">
 						</figure>
 						<div>
-														<!-- QUICK VIEW POPUP -->
-							<div id="qv-p1" class="product-quick-view mfp-with-anim mfp-hide">
-								<!-- PRODUCT PICTURES -->
-								<div class="product-pictures">
-									<div class="product-photo">
-										<figure class="liquid">
-											<img src={{this.image}} alt="product-image">
-										</figure>
-									</div>
-									<ul class="picture-views">
-										<!-- VIEW -->
-										<li class="selected">
-											<figure class="liquid">
-												<img src={{this.image}} alt="picture-view">
-											</figure>
-										</li>
-										<!-- /VIEW -->
-										
-										<!-- VIEW -->
-										<li>
-											<figure class="liquid">
-												<img src={{this.image}} alt="picture-view">
-											</figure>
-										</li>
-										<!-- /VIEW -->
-									</ul>
-								</div>
-								<!-- /PRODUCT PICTURES -->
-
-								<!-- PRODUCT DESCRIPTION -->
-								<div class="product-description">
-									<a href="/shop/all/all{{this.cateslug}}"><p class="highlighted category">{{this.cate}}</p></a>
-									<a href="/shop/{{this.brandslug}}/{{this.genderslug}}/{{this.cateslug}}/{{this.proID}}"><h6>{{this.proName}}</h6></a>
-									<!-- RATING -->
-									<ul class="rating big">
-										<li class="filled">
-											<!-- SVG STAR -->
-											<svg class="svg-star">
-												<use xlink:href="#svg-star"></use>
-											</svg>
-											<!-- /SVG STAR -->
-										</li>
-										<li class="filled">
-											<!-- SVG STAR -->
-											<svg class="svg-star">
-												<use xlink:href="#svg-star"></use>
-											</svg>
-											<!-- /SVG STAR -->
-										</li>
-										<li class="filled">
-											<!-- SVG STAR -->
-											<svg class="svg-star">
-												<use xlink:href="#svg-star"></use>
-											</svg>
-											<!-- /SVG STAR -->
-										</li>
-										<li class="filled">
-											<!-- SVG STAR -->
-											<svg class="svg-star">
-												<use xlink:href="#svg-star"></use>
-											</svg>
-											<!-- /SVG STAR -->
-										</li>
-										<li>
-											<!-- SVG STAR -->
-											<svg class="svg-star">
-												<use xlink:href="#svg-star"></use>
-											</svg>
-											<!-- /SVG STAR -->
-										</li>
-									</ul>
-									<!-- /RATING -->
-									<p>{{this.fullDescription}}</p>
-									<p class="highlighted current">${{this.price}}</p>
-									{{#if this.quantity}}  
-                                        <h5 class="stock">Availability:
-                                            <!-- SVG CHECK -->
-                                            <svg class="svg-check">
-                                                <use xlink:href="#svg-check"></use>
-                                            </svg>
-                                            <!-- /SVG CHECK -->
-                                            <span class="available">In Stock</span>
-                                        </h5>
-                                    {{else}}
-                                        <h5 class="stock">Availability:
-                                            <!-- SVG CHECK -->
-                                            <svg class="svg-plus">
-                                                <use xlink:href="#svg-plus"></use>
-                                            </svg>
-                                            <!-- /SVG CHECK -->
-                                            <span class="not-available">No Stock</span>
-                                        </h5>
-                                    {{/if}}
-									<h5>Select Size:</h5>
-									<form class="westeros-form">
-										<input id="small1" type="radio" name="size" value="small">
-										<label for="small1"><span class="radio"><span></span></span>Small</label>
-
-										<input id="medium1" type="radio" name="size" value="medium">
-										<label for="medium1"><span class="radio"><span></span></span>Medium</label>
-
-										<input id="large1" type="radio" name="size" value="large" checked>
-										<label for="large1"><span class="radio"><span></span></span>Large</label>
-
-										<input id="extralarge1" type="radio" name="size" value="extralarge">
-										<label for="extralarge1"><span class="radio"><span></span></span>Extra Large</label>
-									</form>
-									<div class="color-selection">
-										<h5>Select Base Color:</h5>
-										<!-- COLORPICKER -->
-										<ul class="colorpicker">
-											<li><span data-color="#008fbe"></span></li>
-											<li class="selected"><span data-color="#17ccac"></span></li>
-											<li><span data-color="#4c4cab"></span></li>
-											<li><span data-color="#252525"></span></li>
-										</ul>
-										<!-- /COLORPICKER -->
-									</div>
-									<div>
-										<h5>Quantity:</h5>
-										<!-- COUNTER -->
-										<div class="counter">
-											<div class="control left"></div>
-											<div class="value">
-												<h5>2</h5>
-											</div>
-											<div class="control right"></div>
-										</div>
-										<!-- /COUNTER -->
-									</div>
-									<div class="options">
-										<a href="#" class="button medium fb"></a>
-										<a href="#" class="button medium twt"></a>
-										
-                                        {{#if this.quantity}}
-                                                <a href="/me/checkout" class="button cart-add my-buynow-btn">
-											    Buy now
-										        </a>
-                                                <a href="#" class="button cart-add">
-                                                <!-- SVG PLUS -->
-                                                <svg class="svg-plus">
-                                                    <use xlink:href="#svg-plus"></use>
-                                                </svg>
-                                                <!-- /SVG PLUS -->
-                                                Add to Cart
-                                                </a>
-                                        {{else}}
-                                                <a href="#" class="button no-stock">
-                                                <!-- SVG PLUS -->
-                                                <svg class="svg-plus">
-                                                    <use xlink:href="#svg-plus"></use>
-                                                </svg>
-                                                <!-- /SVG PLUS -->
-                                                Out Of Stock
-										</a>
-                                        {{/if}}
-									</div>
-								</div>
-								<!-- /PRODUCT DESCRIPTION -->
-							</div>
-							<!-- /QUICK VIEW POPUP -->
-							<a href="/shop/{{this.brandslug}}/{{this.genderslug}}/{{this.cateslug}}/{{this.proID}}" class="button full-view">
-								<!-- SVG FULLVIEW -->
-								<svg class="svg-fullview">
-									<use xlink:href="#svg-fullview"></use>	
-								</svg>
-								<!-- /SVG FULLVIEW -->
-							</a>
-							
+						<a href="/shop/{{this.brandslug}}/{{this.genderslug}}/{{this.cateslug}}/{{this.proID}}" class="button full-view">
+							<!-- SVG FULLVIEW -->
+							<svg class="svg-fullview">
+								<use xlink:href="#svg-fullview"></use>	
+							</svg>
+							<!-- /SVG FULLVIEW -->
+						</a>
 						</div>
 					</div>
 					<!-- /ACTIONS -->
@@ -264,45 +102,105 @@
 					<div class="description">
 						<div class="clearfix">
 							<a href="/shop/all/all/{{this.cateslug}}"><p class="highlighted category">{{this.cate}}</p></a>
-							<!-- RATING -->
+							 <!-- RATING -->
 							<ul class="rating">
-								<li class="filled">
-									<!-- SVG STAR -->
-									<svg class="svg-star">
-										<use xlink:href="#svg-star"></use>
-									</svg>
-									<!-- /SVG STAR -->
-								</li>
-								<li class="filled">
-									<!-- SVG STAR -->
-									<svg class="svg-star">
-										<use xlink:href="#svg-star"></use>
-									</svg>
-									<!-- /SVG STAR -->
-								</li>
-								<li class="filled">
-									<!-- SVG STAR -->
-									<svg class="svg-star">
-										<use xlink:href="#svg-star"></use>
-									</svg>
-									<!-- /SVG STAR -->
-								</li>
-								<li class="filled">
-									<!-- SVG STAR -->
-									<svg class="svg-star">
-										<use xlink:href="#svg-star"></use>
-									</svg>
-									<!-- /SVG STAR -->
-								</li>
-								<li>
-									<!-- SVG STAR -->
-									<svg class="svg-star">
-										<use xlink:href="#svg-star"></use>
-									</svg>
-									<!-- /SVG STAR -->
-								</li>
+								<!-- STAR -->
+								{{#isBigger this.star 0}}
+									<li class="filled">
+										<!-- SVG STAR -->
+										<svg class="svg-star">
+											<use xlink:href="#svg-star"></use>
+										</svg>
+										<!-- /SVG STAR -->
+									</li>
+								{{/isBigger}}
+								{{#isBigger this.star 1}}
+									<li class="filled">
+										<!-- SVG STAR -->
+										<svg class="svg-star">
+											<use xlink:href="#svg-star"></use>
+										</svg>
+										<!-- /SVG STAR -->
+									</li>
+								{{/isBigger}}
+								{{#isBigger this.star 2}}
+									<li class="filled">
+										<!-- SVG STAR -->
+										<svg class="svg-star">
+											<use xlink:href="#svg-star"></use>
+										</svg>
+										<!-- /SVG STAR -->
+									</li>
+								{{/isBigger}}
+								{{#isBigger this.star 3}}
+									<li class="filled">
+										<!-- SVG STAR -->
+										<svg class="svg-star">
+											<use xlink:href="#svg-star"></use>
+										</svg>
+										<!-- /SVG STAR -->
+									</li>
+								{{/isBigger}}
+								{{#isBigger this.star 4}}
+									<li class="filled">
+										<!-- SVG STAR -->
+										<svg class="svg-star">
+											<use xlink:href="#svg-star"></use>
+										</svg>
+										<!-- /SVG STAR -->
+									</li>
+								{{/isBigger}}
+								<!-- STAR -->
+
+								<!-- STAR EMPTY -->
+								{{#isBigger this.starLeft 0}}
+									<li>
+										<!-- SVG STAR -->
+										<svg class="svg-star">
+											<use xlink:href="#svg-star"></use>
+										</svg>
+										<!-- /SVG STAR -->
+									</li>
+								{{/isBigger}}
+								{{#isBigger this.starLeft 1}}
+									<li>
+										<!-- SVG STAR -->
+										<svg class="svg-star">
+											<use xlink:href="#svg-star"></use>
+										</svg>
+										<!-- /SVG STAR -->
+									</li>
+								{{/isBigger}}
+								{{#isBigger this.starLeft 2}}
+									<li>
+										<!-- SVG STAR -->
+										<svg class="svg-star">
+											<use xlink:href="#svg-star"></use>
+										</svg>
+										<!-- /SVG STAR -->
+									</li>
+								{{/isBigger}}
+								{{#isBigger this.starLeft 3}}
+									<li >
+										<!-- SVG STAR -->
+										<svg class="svg-star">
+											<use xlink:href="#svg-star"></use>
+										</svg>
+										<!-- /SVG STAR -->
+									</li>
+								{{/isBigger}}
+								{{#isBigger this.starLeft 4}}
+									<li>
+										<!-- SVG STAR -->
+										<svg class="svg-star">
+											<use xlink:href="#svg-star"></use>
+										</svg>
+										<!-- /SVG STAR -->
+									</li>
+								{{/isBigger}}
+								<!-- STAR EMPTY -->   
 							</ul>
-							<!-- /RATING -->
+							<!-- /RATING -->	
 						</div>
 						<div class="clearfix">
 							<a href="/shop/{{this.brandslug}}/{{this.genderslug}}/{{this.cateslug}}/{{this.proID}}"><h6>{{this.proName}}</h6></a>
@@ -312,7 +210,7 @@
 							<p class="highlighted current">${{this.price}}</p>
 						</div>
 
-						<!-- CART OPTIONS -->
+						{{!-- <!-- CART OPTIONS -->
 							{{#if this.quantity}}
 								<div class="cart-options">
 								
@@ -338,7 +236,7 @@
 									</a>
 								</div>
 							{{/if}}
-						<!-- /CART OPTIONS -->
+						<!-- /CART OPTIONS --> --}}
 					</div>
 					<!-- /DESCRIPTION -->
 				</li>
@@ -387,40 +285,33 @@
 			<ul id="owl-bs-products" class="product-list grid owl-carousel">
 				<!-- PRODUCT -->
 				{{#each products2}}
-				<li class="list-item">
-					<!-- ACTIONS -->
-					<div class="actions">
-						<figure class="liquid">
-							<img src={{this.image}} alt="product1">
-						</figure>
-						<div>
-							<!-- QUICK VIEW POPUP -->
-							<div id="qv-p7" class="product-quick-view mfp-with-anim mfp-hide">
-								<!-- PRODUCT PICTURES -->
-								<div class="product-pictures">
-									<div class="product-photo">
-										<figure class="liquid">
-											<img src={{this.image}} alt="product-image">
-										</figure>
-									</div>
-									<ul class="picture-views">
-										<!-- VIEW -->
-										<li class="selected">
-											<figure class="liquid">
-												<img src={{this.image}} alt="picture-view">
-											</figure>
-										</li>
-										<!-- /VIEW -->
-									</ul>
-								</div>
-								<!-- /PRODUCT PICTURES -->
+				
+					<li class="list-item">
+						<!-- ACTIONS -->
+						<div class="actions">
+							<figure class="liquid">
+								<img src={{this.image}} alt="product1">
+							</figure>
+							<div>
+								<a href="/shop/{{this.brandslug}}/{{this.genderslug}}/{{this.cateslug}}/{{this.proID}}" class="button full-view">
+									<!-- SVG FULLVIEW -->
+									<svg class="svg-fullview">
+										<use xlink:href="#svg-fullview"></use>	
+									</svg>
+									<!-- /SVG FULLVIEW -->
+								</a>
+							</div>
+						</div>
+						<!-- /ACTIONS -->
 
-								<!-- PRODUCT DESCRIPTION -->
-								<div class="product-description">
-									<a href="/shop/all/all/{{this.cateslug}}"><p class="highlighted category">{{this.cate}}</p></a>
-									<a href="/shop/{{this.brandslug}}/{{this.genderslug}}/{{this.cateslug}}/{{this.proID}}"><h6>{{this.proName}}</h6></a>
-									<!-- RATING -->
-									<ul class="rating big">
+						<!-- DESCRIPTION -->
+						<div class="description">
+							<div class="clearfix">
+								<a href="/shop/all/all/{{this.cateslug}}"><p class="highlighted category">{{this.cate}}</p></a>
+								 <!-- RATING -->
+								<ul class="rating">
+									<!-- STAR -->
+									{{#isBigger this.star 0}}
 										<li class="filled">
 											<!-- SVG STAR -->
 											<svg class="svg-star">
@@ -428,6 +319,8 @@
 											</svg>
 											<!-- /SVG STAR -->
 										</li>
+									{{/isBigger}}
+									{{#isBigger this.star 1}}
 										<li class="filled">
 											<!-- SVG STAR -->
 											<svg class="svg-star">
@@ -435,6 +328,8 @@
 											</svg>
 											<!-- /SVG STAR -->
 										</li>
+									{{/isBigger}}
+									{{#isBigger this.star 2}}
 										<li class="filled">
 											<!-- SVG STAR -->
 											<svg class="svg-star">
@@ -442,6 +337,8 @@
 											</svg>
 											<!-- /SVG STAR -->
 										</li>
+									{{/isBigger}}
+									{{#isBigger this.star 3}}
 										<li class="filled">
 											<!-- SVG STAR -->
 											<svg class="svg-star">
@@ -449,6 +346,20 @@
 											</svg>
 											<!-- /SVG STAR -->
 										</li>
+									{{/isBigger}}
+									{{#isBigger this.star 4}}
+										<li class="filled">
+											<!-- SVG STAR -->
+											<svg class="svg-star">
+												<use xlink:href="#svg-star"></use>
+											</svg>
+											<!-- /SVG STAR -->
+										</li>
+									{{/isBigger}}
+									<!-- STAR -->
+
+									<!-- STAR EMPTY -->
+									{{#isBigger this.starLeft 0}}
 										<li>
 											<!-- SVG STAR -->
 											<svg class="svg-star">
@@ -456,189 +367,84 @@
 											</svg>
 											<!-- /SVG STAR -->
 										</li>
-									</ul>
-									<!-- /RATING -->
-									<p>{{this.fullDescription}}</p>
-									<p class="highlighted current">${{this.price}}</p>
-										{{#if this.quantity}}  
-                                        <h5 class="stock">Availability:
-                                            <!-- SVG CHECK -->
-                                            <svg class="svg-check">
-                                                <use xlink:href="#svg-check"></use>
-                                            </svg>
-                                            <!-- /SVG CHECK -->
-                                            <span class="available">In Stock</span>
-                                        </h5>
-                                    	{{else}}
-                                        <h5 class="stock">Availability:
-                                            <!-- SVG CHECK -->
-                                            <svg class="svg-plus">
-                                                <use xlink:href="#svg-plus"></use>
-                                            </svg>
-                                            <!-- /SVG CHECK -->
-                                            <span class="not-available">No Stock</span>
-                                        </h5>
-                                    	{{/if}}
-									<h5>Select Size:</h5>
-									<form class="westeros-form">
-										<input id="small7" type="radio" name="size" value="small">
-										<label for="small7"><span class="radio"><span></span></span>Small</label>
-
-										<input id="medium7" type="radio" name="size" value="medium">
-										<label for="medium7"><span class="radio"><span></span></span>Medium</label>
-
-										<input id="large7" type="radio" name="size" value="large" checked>
-										<label for="large7"><span class="radio"><span></span></span>Large</label>
-
-										<input id="extralarge7" type="radio" name="size" value="extralarge">
-										<label for="extralarge7"><span class="radio"><span></span></span>Extra Large</label>
-									</form>
-									<div class="color-selection">
-										<h5>Select Base Color:</h5>
-										<!-- COLORPICKER -->
-										<ul class="colorpicker">
-											<li><span data-color="#008fbe"></span></li>
-											<li class="selected"><span data-color="#17ccac"></span></li>
-											<li><span data-color="#4c4cab"></span></li>
-											<li><span data-color="#252525"></span></li>
-										</ul>
-										<!-- /COLORPICKER -->
-									</div>
-									<div>
-										<h5>Quantity:</h5>
-										<!-- COUNTER -->
-										<div class="counter">
-											<div class="control left"></div>
-											<div class="value">
-												<h5>2</h5>
-											</div>
-											<div class="control right"></div>
-										</div>
-										<!-- /COUNTER -->
-									</div>
-									<div class="options">
-										<a href="#" class="button medium fb"></a>
-										<a href="#" class="button medium twt"></a>
-											{{#if this.quantity}}
-                                                <a href="/me/checkout" class="button cart-add my-buynow-btn">
-											    Buy now
-										        </a>
-                                                <a href="#" class="button cart-add">
-                                                <!-- SVG PLUS -->
-                                                <svg class="svg-plus">
-                                                    <use xlink:href="#svg-plus"></use>
-                                                </svg>
-                                                <!-- /SVG PLUS -->
-                                                Add to Cart
-                                                </a>
-                                        	{{else}}
-                                                <a href="#" class="button no-stock">
-                                                <!-- SVG PLUS -->
-                                                <svg class="svg-plus">
-                                                    <use xlink:href="#svg-plus"></use>
-                                                </svg>
-                                                <!-- /SVG PLUS -->
-                                                Out Of Stock
-										</a>
-                                        	{{/if}}
-										
-									</div>
-								</div>
-								<!-- /PRODUCT DESCRIPTION -->
+									{{/isBigger}}
+									{{#isBigger this.starLeft 1}}
+										<li>
+											<!-- SVG STAR -->
+											<svg class="svg-star">
+												<use xlink:href="#svg-star"></use>
+											</svg>
+											<!-- /SVG STAR -->
+										</li>
+									{{/isBigger}}
+									{{#isBigger this.starLeft 2}}
+										<li>
+											<!-- SVG STAR -->
+											<svg class="svg-star">
+												<use xlink:href="#svg-star"></use>
+											</svg>
+											<!-- /SVG STAR -->
+										</li>
+									{{/isBigger}}
+									{{#isBigger this.starLeft 3}}
+										<li >
+											<!-- SVG STAR -->
+											<svg class="svg-star">
+												<use xlink:href="#svg-star"></use>
+											</svg>
+											<!-- /SVG STAR -->
+										</li>
+									{{/isBigger}}
+									{{#isBigger this.starLeft 4}}
+										<li>
+											<!-- SVG STAR -->
+											<svg class="svg-star">
+												<use xlink:href="#svg-star"></use>
+											</svg>
+											<!-- /SVG STAR -->
+										</li>
+									{{/isBigger}}
+									<!-- STAR EMPTY -->   
+								</ul>
+								<!-- /RATING -->	
 							</div>
-							<!-- /QUICK VIEW POPUP -->
-							<a href="/shop/{{this.brandslug}}/{{this.genderslug}}/{{this.cateslug}}/{{this.proID}}" class="button full-view">
-								<!-- SVG FULLVIEW -->
-								<svg class="svg-fullview">
-									<use xlink:href="#svg-fullview"></use>	
-								</svg>
-								<!-- /SVG FULLVIEW -->
-							</a>
-						</div>
-					</div>
-					<!-- /ACTIONS -->
+							<div class="clearfix">
+								<a href="/shop/{{this.brandslug}}/{{this.genderslug}}/{{this.cateslug}}/{{this.proID}}"><h6>{{this.proName}}</h6></a>
+							</div>
+							<div class="clearfix">
+								<p class="short-description my-short-description">{{this.description}}</p>
+								<p class="highlighted current">${{this.price}}</p>
+							</div>
 
-					<!-- DESCRIPTION -->
-					<div class="description">
-						<div class="clearfix">
-							<a href="/shop/all/all/{{this.cateslug}}"><p class="highlighted category">{{this.cate}}</p></a>
-							<!-- RATING -->
-							<ul class="rating">
-								<li class="filled">
-									<!-- SVG STAR -->
-									<svg class="svg-star">
-										<use xlink:href="#svg-star"></use>
-									</svg>
-									<!-- /SVG STAR -->
-								</li>
-								<li class="filled">
-									<!-- SVG STAR -->
-									<svg class="svg-star">
-										<use xlink:href="#svg-star"></use>
-									</svg>
-									<!-- /SVG STAR -->
-								</li>
-								<li class="filled">
-									<!-- SVG STAR -->
-									<svg class="svg-star">
-										<use xlink:href="#svg-star"></use>
-									</svg>
-									<!-- /SVG STAR -->
-								</li>
-								<li class="filled">
-									<!-- SVG STAR -->
-									<svg class="svg-star">
-										<use xlink:href="#svg-star"></use>
-									</svg>
-									<!-- /SVG STAR -->
-								</li>
-								<li>
-									<!-- SVG STAR -->
-									<svg class="svg-star">
-										<use xlink:href="#svg-star"></use>
-									</svg>
-									<!-- /SVG STAR -->
-								</li>
-							</ul>
-							<!-- /RATING -->
+							{{!-- <!-- CART OPTIONS -->
+								{{#if this.quantity}}
+									<div class="cart-options">
+										<a href="#" class="button cart-add">
+											<!-- SVG PLUS -->
+											<svg class="svg-plus">
+												<use xlink:href="#svg-plus"></use>
+											</svg>
+											<!-- /SVG PLUS -->
+											Add to Cart
+										</a>
+									</div>
+								{{else}}
+									<div class="cart-options">
+									
+										<a href="#" class="button no-stock">
+											<!-- SVG PLUS -->
+											<svg class="svg-plus">
+												<use xlink:href="#svg-plus"></use>
+											</svg>
+											<!-- /SVG PLUS -->
+											Out Of Stock
+										</a>
+									</div>
+								{{/if}}
+							<!-- /CART OPTIONS --> --}}
 						</div>
-						<div class="clearfix">
-							<a href="/shop/{{this.brandslug}}/{{this.genderslug}}/{{this.cateslug}}/{{this.proID}}"><h6>{{this.proName}}</h6></a>
-						</div>
-						<div class="clearfix">
-							<p class="short-description my-short-description">{{this.description}}</p>
-							<p class="highlighted current">${{this.price}}</p>
-						</div>
-
-						<!-- CART OPTIONS -->
-							{{#if this.quantity}}
-								<div class="cart-options">
-									<a href="#" class="button cart-add">
-										<!-- SVG PLUS -->
-										<svg class="svg-plus">
-											<use xlink:href="#svg-plus"></use>
-										</svg>
-										<!-- /SVG PLUS -->
-										Add to Cart
-									</a>
-								</div>
-                        	{{else}}
-								<div class="cart-options">
-								
-									<a href="#" class="button no-stock">
-										<!-- SVG PLUS -->
-										<svg class="svg-plus">
-											<use xlink:href="#svg-plus"></use>
-										</svg>
-										<!-- /SVG PLUS -->
-										Out Of Stock
-									</a>
-								</div>
-                        	{{/if}}
-						<!-- /CART OPTIONS -->
-					</div>
-					<!-- /DESCRIPTION -->
-				</li>
+						<!-- /DESCRIPTION -->
+					</li>
 				<!-- /PRODUCT -->
 				{{/each}}
 			</ul>
@@ -823,110 +629,6 @@
 		</section>
 	</div>
 	<!-- /BILLBOARD -->
-
-	<!-- BRANDS -->
-	{{!-- <div id="brands-wrap">
-		<section id="brands">
-			<h3 class="title">Our Brands</h3>
-			<div class="slidable">
-				<!-- SLIDE CONTROLS -->
-				<ul class="slide-controls">
-					<!-- LEFT CONTROL -->
-					<li>
-						<a href="#" class="button prev">
-							<!-- SVG ARROW -->
-							<svg class="svg-arrow">
-								<use xlink:href="#svg-arrow"></use>
-							</svg>
-							<!-- /SVG ARROW -->
-						</a>
-					</li>
-					<!-- /LEFT CONTROL -->
-
-					<!-- RIGHT CONTROL -->
-					<li>
-						<a href="#" class="button next">
-							<!-- SVG ARROW -->
-							<svg class="svg-arrow">
-								<use xlink:href="#svg-arrow"></use>
-							</svg>
-							<!-- /SVG ARROW -->
-						</a>
-					</li>
-					<!-- /RIGHT CONTROL -->
-				</ul>
-				<!-- /SLIDE CONTROLS -->
-
-				<!-- BRANDS LIST -->
-				<ul id="owl-brands" class="brands-list owl-carousel">
-					<!-- BRAND -->
-					<li>
-						<a href="#">
-							<img src="/images/brands/gr.png" alt="brand-normal">
-							<img src="/images/brands/gr-over.png" alt="brand-over">
-						</a>
-					</li>
-					<!-- /BRAND -->
-
-					<!-- BRAND -->
-					<li>
-						<a href="#">
-							<img src="/images/brands/tf.png" alt="brand-normal">
-							<img src="/images/brands/tf-over.png" alt="brand-over">
-						</a>
-					</li>
-					<!-- /BRAND -->
-
-					<!-- BRAND -->
-					<li>
-						<a href="#">
-							<img src="/images/brands/aj.png" alt="brand-normal">
-							<img src="/images/brands/aj-over.png" alt="brand-over">
-						</a>
-					</li>
-					<!-- /BRAND -->
-
-					<!-- BRAND -->
-					<li>
-						<a href="#">
-							<img src="/images/brands/vh.png" alt="brand-normal">
-							<img src="/images/brands/vh-over.png" alt="brand-over">
-						</a>
-					</li>
-					<!-- /BRAND -->
-
-					<!-- BRAND -->
-					<li>
-						<a href="#">
-							<img src="/images/brands/pd.png" alt="brand-normal">
-							<img src="/images/brands/pd-over.png" alt="brand-over">
-						</a>
-					</li>
-					<!-- /BRAND -->
-
-					<!-- BRAND -->
-					<li>
-						<a href="#">
-							<img src="/images/brands/gr.png" alt="brand-normal">
-							<img src="/images/brands/gr-over.png" alt="brand-over">
-						</a>
-					</li>
-					<!-- /BRAND -->
-
-					<!-- BRAND -->
-					<li>
-						<a href="#">
-							<img src="/images/brands/tf.png" alt="brand-normal">
-							<img src="/images/brands/tf-over.png" alt="brand-over">
-						</a>
-					</li>
-					<!-- /BRAND -->
-				</ul>
-				<!-- /BRANDS LIST -->
-			</div>
-		</section>
-	</div> --}}
-	<!-- /BRANDS -->
 
 <!-- SVG ARROW -->
 <svg style="display: none;">	

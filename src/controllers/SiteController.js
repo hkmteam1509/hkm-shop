@@ -30,6 +30,8 @@ class SiteController{
                 detailPromises.push(ProductService.getCateName(products[i].catID))
                 detailPromises.push(ProductService.getBrandSlug(products[i].brandID));
                 detailPromises.push(ProductService.getCateSlug(products[i].catID));
+                detailPromises.push(ProductService.countRatingProduct(products[i].proID));
+                detailPromises.push(ProductService.sumRatingProduct(products[i].proID));
             }
 
             //Chuẩn bị render
@@ -37,18 +39,16 @@ class SiteController{
             .then(result=>{
             
                 for (let i=0;i<productLength;i++){
-                    products[i].image=result[i*5][0].proImage;
-                    products[i].detail=result[i*5+1];
-                    products[i].cate=result[i*5+2].catName;
-                    products[i].brandslug=result[i*5+3].brandSlug;
-                    products[i].cateslug=result[i*5+4].catSlug;
+                    products[i].image=result[i*7][0].proImage;
+                    products[i].detail=result[i*7+1];
+                    products[i].cate=result[i*7+2].catName;
+                    products[i].brandslug=result[i*7+3].brandSlug;
+                    products[i].cateslug=result[i*7+4].catSlug;
+                    products[i].star=Math.floor(result[i*7+6]/result[i*7+5]);
+                    products[i].starLeft=5 - Math.floor(result[i*7+6]/result[i*7+5])
                     products[i].genderslug=getGenderSlug(products[i].sex)
                 }
 
-
-                /// Lấy bét sell ITEM
-                // lấy cái thanh featured bên sidebar
-        
                 const productPromises2=[
                     ProductService.listAll(),
                 ]
@@ -68,6 +68,8 @@ class SiteController{
                         detailPromises2.push(ProductService.getCateName(products2[i].catID));
                         detailPromises2.push(ProductService.getBrandSlug(products2[i].brandID));
                         detailPromises2.push(ProductService.getCateSlug(products2[i].catID));
+                        detailPromises2.push(ProductService.countRatingProduct(products2[i].proID));
+                        detailPromises2.push(ProductService.sumRatingProduct(products2[i].proID));
                     }
                 
                     //Chuẩn bị render
@@ -75,18 +77,19 @@ class SiteController{
                     .then(result=>{
                 
                         for (let i=0;i<productLength2;i++){
-                            products2[i].image=result[i*5][0].proImage;
-                            products2[i].detail=result[i*5+1];
-                            products2[i].cate=result[i*5+2].catName;
-                            products2[i].brandslug=result[i*5+3].brandSlug;
-                            products2[i].cateslug=result[i*5+4].catSlug;
+                            products2[i].image=result[i*7][0].proImage;
+                            products2[i].detail=result[i*7+1];
+                            products2[i].cate=result[i*7+2].catName;
+                            products2[i].brandslug=result[i*7+3].brandSlug;
+                            products2[i].cateslug=result[i*7+4].catSlug;
+                            products2[i].star=Math.floor(result[i*7+6]/result[i*7+5]);
+				            products2[i].starLeft=5 - Math.floor(result[i*7+6]/result[i*7+5]);
                             products2[i].genderslug=getGenderSlug(products2[i].sex)
                         }
 
                         const arr = [
                             BrandService.getAll(),
                             CateService.getAll(),
-                
                         ]
                         Promise.all(arr)
                         .then(([navBrands, navCates])=>{
@@ -97,17 +100,16 @@ class SiteController{
                                 navCates
                             });
                         })
-                            
                     })
                     .catch(err=>{
                         console.log(err);
+                        next();
                     })
 				})
 				.catch(err=>{
 					console.log(err);
+                    next();
 				})
-
-
 		    })
 		    .catch(err=>{
 			console.log(err);

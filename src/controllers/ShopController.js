@@ -232,13 +232,9 @@ class ShopController{
 		const genderslug = req.params.gender;
 		const categoryslug = req.params.category;
 
-		
-		// console.log(id);
-		
 		let proID = (id && !Number.isNaN(id)) ? parseInt(id) : next();
 
         ProductService.itemProduct(proID).then(item=>{
-            // console.log(item);
 			item.brandslug = brandslug;
 			item.genderslug = genderslug;
 			item.categoryslug = categoryslug;

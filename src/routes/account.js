@@ -7,7 +7,6 @@ const AccountController = require('../controllers/AccountController');
 router.get("/logout", AccountController.logout);
 router.post("/login", passport.authenticate('local',
     { 
-        successRedirect: '/',
         failureRedirect: '/account/register-login',
         failureFlash: true 
     }), AccountController.login);

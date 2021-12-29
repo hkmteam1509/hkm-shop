@@ -95,6 +95,58 @@ class UserService{
             }
         })
     }
+
+    getUserCart(userID){
+        return models.cart.findAll({
+            raw: true,
+            where:{
+                userID: userID
+            }
+        })
+    }
+
+    getUserCartLastest(userID){
+        return models.cart.findAll({
+            raw: true,
+            where:{
+                userID: userID
+            },
+            order:[
+                ['createdAt', 'DESC']
+            ]
+        })
+    }
+
+    getCart(cartID){
+        return models.cart.findOne({
+            raw: true,
+            where:{
+                cartID: cartID
+            }
+        })
+    }
+
+
+    updateProductCartQuantity(cartID, quantity){
+        return models.cart.update({
+            quantity: quantity
+        },{
+            where:{
+                cartID: cartID
+            }
+        })
+    }
+
+    addCart(userID, proID, quantity, detailID){
+        return models.cart.create({
+            userID: userID,
+            proID: proID,
+            quantity: quantity,
+            detailID: detailID,
+            price: 0,
+        })   
+    }
+    
 }
 
 module.exports = new UserService;

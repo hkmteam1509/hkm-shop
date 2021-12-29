@@ -101,3 +101,11 @@
 #place-holder-invalid{
     opacity: 0;
 }
+
+ul.product-list .list-item{
+    height: 420px;
+}
+
+.cart li.item .description{
+    width: 170px;
+}

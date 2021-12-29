@@ -12,12 +12,22 @@ function route(app){
             next();
         }
         else{
+            if(!req.session.redirectTo){
+                req.session.redirectTo = req.originalUrl;
+            }
             res.redirect('/account/register-login')
         }
     }, meRouter);
-    app.use('/shop', shopRouter);
+    app.use('/shop',function(req,res,next){
+        if(req.user){
+            next();
+        }
+        else{
+            req.session.redirectTo = req.originalUrl;
+            next();
+        }
+    }, shopRouter);
     app.use('/account', accountRouter);
-    // app.use('/products', productsRouter);
     app.use('/', siteRouter);
     app.use(function (req, res, next) {
         res.status(404);

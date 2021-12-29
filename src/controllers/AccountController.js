@@ -152,7 +152,11 @@ class AccountController{
 
     login(req, res, next){
         if(req.user){
-            res.redirect("/me/change-password");
+            console.log("Redirect: ", req.session.redirectTo);
+            var redirectTo = req.session.redirectTo || '/';
+            delete req.session.redirectTo;
+            console.log("Redirect: ", req.session.redirectTo);
+            res.redirect(redirectTo);
         }else{
             res.redirect("back");
         }

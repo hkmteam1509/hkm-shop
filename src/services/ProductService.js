@@ -353,7 +353,7 @@ class ProductService{
                 sex: gender
             }
         });
-        }
+    }
         
     listByBrand(limit, page, brand){
         return models.product.findAll({
@@ -373,7 +373,7 @@ class ProductService{
                  brandID: id,
             }
         });
-        }
+    }
     
 
     getBrandID(name){
@@ -493,6 +493,24 @@ class ProductService{
                 proID: id
             }
         });
+    }
+
+    findProduct(id){
+        return models.product.findOne({
+            raw: true,
+            where:{
+                proID: id
+            }
+        })
+    }
+
+    getDetail(detailID){
+        return models.detail.findOne({
+            raw:true,
+            where:{
+                detailID: detailID
+            }
+        })
     }
 }
 
