@@ -63,6 +63,11 @@ module.exports = function(sequelize, DataTypes) {
     price: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: true
+    },
+    views: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: 0
     }
   }, {
     sequelize,

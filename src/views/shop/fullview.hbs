@@ -295,6 +295,7 @@
 								</li>
 							{{/isBigger}}
 						</ul>
+						<h5 class="stock">Views: {{views}} <span style="margin: 0 10px">|</span> Sold: {{sold}}</h5>
 						<!-- /RATING -->
 						<p>{{description}}</p>
 						<p class="highlighted current">${{price}}</p>
@@ -1108,7 +1109,7 @@
 <!-- Full View -->
 <script src="/js/full-view.js"></script>
 
-<script>
+{{!-- <script>
 	$(document).ready(function(){
 		let selectedColor = -1;
 		const detailHolder = $(".detail-holder");
@@ -1265,5 +1266,7 @@
 			}
 		});
 	})
-</script>
+</script> --}}
+
+<script src="/js/my-fullview.js"></script>
 {{/section}}

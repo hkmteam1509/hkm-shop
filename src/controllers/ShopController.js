@@ -234,138 +234,145 @@ class ShopController{
 
 		let proID = (id && !Number.isNaN(id)) ? parseInt(id) : next();
 
-        ProductService.itemProduct(proID).then(item=>{
-			item.brandslug = brandslug;
-			item.genderslug = genderslug;
-			item.categoryslug = categoryslug;
-			const pageNumber=req.query.page;
-			currentReviewPage =(pageNumber && !Number.isNaN(pageNumber)) ? parseInt(pageNumber) : 1;
-			currentReviewPage = (currentReviewPage > 0) ? currentReviewPage : 1;
-			currentReviewPage = (currentReviewPage <= totalReviewPage) ? currentReviewPage : totalReviewPage;
-			currentReviewPage = (currentReviewPage < 1) ? 1: currentReviewPage;
-			ProductService.getBrandName(item.brandID).then(brand=>{
-				item.brand = brand.brandName;
-				ProductService.getCateName(item.catID).then(cate=>{
-					item.cate = cate.catName;
-					Promise.all([ 
-						ProductService.getProductDetail(proID), 
-						ProductService.getImageLink(proID), 
-						ProductService.reviewsItemProduct(proID, reviewPerpage, currentReviewPage), 
-						ProductService.countRatingProduct(proID), 
-						ProductService.sumRatingProduct(proID), 
-						BrandService.getAll(), 
-						CateService.getAll(),
-						ProductService.countProductReview(proID)
-					])
-					.then(([details, images, reviews, cntrate, sumrate , navBrands, navCates, total])=>{
-						
-						const totalReview=total;
-						totalReviewPage=Math.ceil(totalReview/reviewPerpage);
-						let paginationArray = [];
-
-						let pageDisplace = Math.min(totalReviewPage - currentReviewPage + 2, maximumPagination);
-						if(currentReviewPage === 1){
-							pageDisplace -= 1;
-						}
-						for(let i = 0 ; i < pageDisplace; i++){
-							if(currentReviewPage === 1){
-								paginationArray.push({
-									page: currentReviewPage + i,
-									isCurrent:  (currentReviewPage + i)===currentReviewPage
-								});
-							}
-							else{
-								paginationArray.push({
-									page: currentReviewPage + i - 1,
-									isCurrent:  (currentReviewPage + i - 1)===currentReviewPage
-								});
-							}
-						}
-						if(pageDisplace < 2){
-							paginationArray=[];
-						}
-						Promise.all([
-							ProductService.listByFeaturedLimit(4),
-							ProductService.listByRelated(item.brandID, item.catID, item.sex)
+        ProductService.updateViews(proID)
+		.then(result=>{
+			ProductService.itemProduct(proID).then(item=>{
+				item.brandslug = brandslug;
+				item.genderslug = genderslug;
+				item.categoryslug = categoryslug;
+				const pageNumber=req.query.page;
+				currentReviewPage =(pageNumber && !Number.isNaN(pageNumber)) ? parseInt(pageNumber) : 1;
+				currentReviewPage = (currentReviewPage > 0) ? currentReviewPage : 1;
+				currentReviewPage = (currentReviewPage <= totalReviewPage) ? currentReviewPage : totalReviewPage;
+				currentReviewPage = (currentReviewPage < 1) ? 1: currentReviewPage;
+				ProductService.getBrandName(item.brandID).then(brand=>{
+					item.brand = brand.brandName;
+					ProductService.getCateName(item.catID).then(cate=>{
+						item.cate = cate.catName;
+						Promise.all([ 
+							ProductService.getProductDetail(proID), 
+							ProductService.getImageLink(proID), 
+							ProductService.reviewsItemProduct(proID, reviewPerpage, currentReviewPage), 
+							ProductService.countRatingProduct(proID), 
+							ProductService.sumRatingProduct(proID), 
+							BrandService.getAll(), 
+							CateService.getAll(),
+							ProductService.countProductReview(proID)
 						])
-						.then(([featureProducts, relateProducts])=>{
-							let featureDetailPromise=[];
-							const featureLength = featureProducts.length;
-							//Lấy Detail của Feature Product
-							for(let i = 0 ; i < featureLength; i++){
-								featureDetailPromise.push(ProductService.getImageLink(featureProducts[i].proID));
-								featureDetailPromise.push(ProductService.getProductDetail(featureProducts[i].proID));
-								featureDetailPromise.push(ProductService.getCateName(featureProducts[i].catID))
-								featureDetailPromise.push(ProductService.getBrandSlug(featureProducts[i].brandID));
-								featureDetailPromise.push(ProductService.getCateSlug(featureProducts[i].catID));
-								featureDetailPromise.push(ProductService.countRatingProduct(featureProducts[i].proID));
-								featureDetailPromise.push(ProductService.sumRatingProduct(featureProducts[i].proID));
-							}
-							let relateDetailPromises=[];
-							const relateLength = relateProducts.length;
-							//Lấy detail Product
-							for (let i=0;i<relateLength;i++){
-								relateDetailPromises.push(ProductService.getImageLink(relateProducts[i].proID));
-								relateDetailPromises.push(ProductService.getProductDetail(relateProducts[i].proID));
-								relateDetailPromises.push(ProductService.getCateName(relateProducts[i].catID))
-								relateDetailPromises.push(ProductService.getBrandSlug(relateProducts[i].brandID));
-								relateDetailPromises.push(ProductService.getCateSlug(relateProducts[i].catID));
-								relateDetailPromises.push(ProductService.countRatingProduct(relateProducts[i].proID));
-								relateDetailPromises.push(ProductService.sumRatingProduct(relateProducts[i].proID));
-							}
-							Promise.all(relateDetailPromises.concat(featureDetailPromise))
-							.then((result)=>{
+						.then(([details, images, reviews, cntrate, sumrate , navBrands, navCates, total])=>{
 							
+							const totalReview=total;
+							totalReviewPage=Math.ceil(totalReview/reviewPerpage);
+							let paginationArray = [];
+	
+							let pageDisplace = Math.min(totalReviewPage - currentReviewPage + 2, maximumPagination);
+							if(currentReviewPage === 1){
+								pageDisplace -= 1;
+							}
+							for(let i = 0 ; i < pageDisplace; i++){
+								if(currentReviewPage === 1){
+									paginationArray.push({
+										page: currentReviewPage + i,
+										isCurrent:  (currentReviewPage + i)===currentReviewPage
+									});
+								}
+								else{
+									paginationArray.push({
+										page: currentReviewPage + i - 1,
+										isCurrent:  (currentReviewPage + i - 1)===currentReviewPage
+									});
+								}
+							}
+							if(pageDisplace < 2){
+								paginationArray=[];
+							}
+							Promise.all([
+								ProductService.listByFeaturedLimit(4),
+								ProductService.listByRelated(item.brandID, item.catID, item.sex)
+							])
+							.then(([featureProducts, relateProducts])=>{
+								let featureDetailPromise=[];
+								const featureLength = featureProducts.length;
+								//Lấy Detail của Feature Product
+								for(let i = 0 ; i < featureLength; i++){
+									featureDetailPromise.push(ProductService.getImageLink(featureProducts[i].proID));
+									featureDetailPromise.push(ProductService.getProductDetail(featureProducts[i].proID));
+									featureDetailPromise.push(ProductService.getCateName(featureProducts[i].catID))
+									featureDetailPromise.push(ProductService.getBrandSlug(featureProducts[i].brandID));
+									featureDetailPromise.push(ProductService.getCateSlug(featureProducts[i].catID));
+									featureDetailPromise.push(ProductService.countRatingProduct(featureProducts[i].proID));
+									featureDetailPromise.push(ProductService.sumRatingProduct(featureProducts[i].proID));
+								}
+								let relateDetailPromises=[];
+								const relateLength = relateProducts.length;
+								//Lấy detail Product
 								for (let i=0;i<relateLength;i++){
-									relateProducts[i].image=result[i*7][0].proImage;
-									relateProducts[i].detail=result[i*7+1];
-									relateProducts[i].cate=result[i*7+2].catName;
-									relateProducts[i].brandslug=result[i*7+3].brandSlug;
-									relateProducts[i].cateslug=result[i*7+4].catSlug;
-									relateProducts[i].star=Math.floor(result[i*7+6]/result[i*7+5]);
-									relateProducts[i].starLeft=5 - Math.floor(result[i*7+6]/result[i*7+5]);
-									relateProducts[i].genderslug=getGenderSlug(relateProducts[i].sex)
+									relateDetailPromises.push(ProductService.getImageLink(relateProducts[i].proID));
+									relateDetailPromises.push(ProductService.getProductDetail(relateProducts[i].proID));
+									relateDetailPromises.push(ProductService.getCateName(relateProducts[i].catID))
+									relateDetailPromises.push(ProductService.getBrandSlug(relateProducts[i].brandID));
+									relateDetailPromises.push(ProductService.getCateSlug(relateProducts[i].catID));
+									relateDetailPromises.push(ProductService.countRatingProduct(relateProducts[i].proID));
+									relateDetailPromises.push(ProductService.sumRatingProduct(relateProducts[i].proID));
 								}
-
-								for (let i=relateLength;i<featureLength+relateLength;i++){
-									featureProducts[i-relateLength].image=result[i*7][0].proImage;
-									featureProducts[i-relateLength].detail=result[i*7+1];
-									featureProducts[i-relateLength].cate=result[i*7+2].catName;
-									featureProducts[i-relateLength].brandslug=result[i*7+3].brandSlug;
-									featureProducts[i-relateLength].cateslug=result[i*7+4].catSlug;
-									featureProducts[i-relateLength].star=Math.floor(result[i*7+6]/result[i*7+5]);
-									featureProducts[i-relateLength].starLeft=5 - Math.floor(result[i*7+6]/result[i*7+5]);
-									featureProducts[i-relateLength].genderslug=getGenderSlug(featureProducts[i-relateLength].sex)
-								}
-							
-								for(let i = 0 ; i < reviews.length;i++){
-									reviews[i].date = reviews[i].createdAt.toLocaleString("vi-VN");
-								}
-								item.rating = (sumrate - sumrate % cntrate) / cntrate;
-								item.cntreview = cntrate;
-								if (item.sex === 0) {
-									item.gender = "Men"
-								}
-								if (item.sex === 1) {
-									item.gender = "Women"
-								}
-								if (item.sex === 2) {
-									item.gender = "Unisex"
-								}
+								Promise.all(relateDetailPromises.concat(featureDetailPromise))
+								.then((result)=>{
 								
-								res.render('shop/fullview', {
-									item,
-									details,
-									featureProducts,
-									related: relateProducts,
-									images,
-									reviews,
-									navBrands,
-									navCates,
-									paginationArray,
-									prevPage: (currentReviewPage > 1) ? currentReviewPage - 1 : 1,
-									nextPage: (currentReviewPage < totalReviewPage) ? currentReviewPage + 1 : totalReviewPage,
-								});
+									for (let i=0;i<relateLength;i++){
+										relateProducts[i].image=result[i*7][0].proImage;
+										relateProducts[i].detail=result[i*7+1];
+										relateProducts[i].cate=result[i*7+2].catName;
+										relateProducts[i].brandslug=result[i*7+3].brandSlug;
+										relateProducts[i].cateslug=result[i*7+4].catSlug;
+										relateProducts[i].star=Math.floor(result[i*7+6]/result[i*7+5]);
+										relateProducts[i].starLeft=5 - Math.floor(result[i*7+6]/result[i*7+5]);
+										relateProducts[i].genderslug=getGenderSlug(relateProducts[i].sex)
+									}
+	
+									for (let i=relateLength;i<featureLength+relateLength;i++){
+										featureProducts[i-relateLength].image=result[i*7][0].proImage;
+										featureProducts[i-relateLength].detail=result[i*7+1];
+										featureProducts[i-relateLength].cate=result[i*7+2].catName;
+										featureProducts[i-relateLength].brandslug=result[i*7+3].brandSlug;
+										featureProducts[i-relateLength].cateslug=result[i*7+4].catSlug;
+										featureProducts[i-relateLength].star=Math.floor(result[i*7+6]/result[i*7+5]);
+										featureProducts[i-relateLength].starLeft=5 - Math.floor(result[i*7+6]/result[i*7+5]);
+										featureProducts[i-relateLength].genderslug=getGenderSlug(featureProducts[i-relateLength].sex)
+									}
+								
+									for(let i = 0 ; i < reviews.length;i++){
+										reviews[i].date = reviews[i].createdAt.toLocaleString("vi-VN");
+									}
+									item.rating = (sumrate - sumrate % cntrate) / cntrate;
+									item.cntreview = cntrate;
+									if (item.sex === 0) {
+										item.gender = "Men"
+									}
+									if (item.sex === 1) {
+										item.gender = "Women"
+									}
+									if (item.sex === 2) {
+										item.gender = "Unisex"
+									}
+									
+									res.render('shop/fullview', {
+										item,
+										details,
+										featureProducts,
+										related: relateProducts,
+										images,
+										reviews,
+										navBrands,
+										navCates,
+										paginationArray,
+										prevPage: (currentReviewPage > 1) ? currentReviewPage - 1 : 1,
+										nextPage: (currentReviewPage < totalReviewPage) ? currentReviewPage + 1 : totalReviewPage,
+									});
+								})
+								.catch(err=>{
+									console.log(err);
+									next();
+								})
 							})
 							.catch(err=>{
 								console.log(err);
