@@ -512,6 +512,16 @@ class ProductService{
             }
         })
     }
+
+    updateViews(proID){
+        return models.product.increment({
+            views: 1
+        }, {
+            where:{
+                proID: proID
+            }
+        })
+    }
 }
 
 module.exports = new ProductService;
