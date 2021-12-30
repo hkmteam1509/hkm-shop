@@ -146,6 +146,14 @@ class UserService{
             price: 0,
         })   
     }
+
+    deleteCart(cartID){
+        return models.cart.destroy({
+            where:{
+                cartID: cartID
+            }
+        })
+    }
     
 }
 

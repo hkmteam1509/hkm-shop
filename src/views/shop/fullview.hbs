@@ -205,8 +205,8 @@
 				{{#with item}}
 					<div class="product-description">
 						<input type="text" id="product-id" type="hidden" style="display: none;" value="{{proID}}">
-						<a <a href="/shop/{{brandslug}}/{{genderslug}}/{{categoryslug}}"><p class="highlighted category">{{cate}}</p></a>
-						<a <a href="/shop/{{brandslug}}/{{genderslug}}/{{categoryslug}}/{{proID}}"><h6>{{proName}}</h6></a>
+						<a href="/shop/{{brandslug}}/{{genderslug}}/{{categoryslug}}"><p class="highlighted category">{{cate}}</p></a>
+						<a href="/shop/{{brandslug}}/{{genderslug}}/{{categoryslug}}/{{proID}}"><h6>{{proName}}</h6></a>
 						<!-- RATING -->
 						<ul class="rating big">
 							{{#isBigger rating 0}}
@@ -346,7 +346,7 @@
 							<a href="#" class="button medium fb"></a>
 							<a href="#" class="button medium twt"></a>
 							
-							<a href="/me/checkout" class="button cart-add my-buynow-btn">
+							<a type="button" id="buy-now-btn" class="button cart-add my-buynow-btn" style="cursor:pointer">
 								Buy now
 							</a>
 							<a type="button" id="add-to-cart" class="button cart-add" style="cursor:pointer">
@@ -867,7 +867,8 @@
 {{#if user}}
 	<span style="display: none;" id="user">{{user.f_ID}}</span>
 {{else}}
-	<form method="post" action="/me/cart" style="display: none;" id="no-user-form"></form>
+	<form method="post" action="/me/cart" style="display: none;" id="no-user-form-cart"></form>
+	<form method="post" action="/me/checkout" style="display: none;" id="no-user-form-checkout"></form>
 {{/if}}
 
 
@@ -1147,78 +1148,78 @@
 			if(selectedColor >= 0){
 				if(user){
 					$.ajax({
-							url:'/me/cart',
-							method: 'post',
-							data:{
-								productID,
-								detailID: details[selectedColor].detailID,
-								quantity: parseInt(productQuantity.val()),
-							},
-							success: function(data){
-								console.log(data);
-								const userId = parseInt(user.innerText);
-								console.log(userId);
-								$.ajax({
-									url:'/me/cart/header',
-									method: 'get',
-									data:{
-										userId
-									},
-									success: function(data){
-										console.log(data);
-										const nItem = data.length;
-										$(".cart-content-short").text(nItem);
-										$(".cart-content-long").text(nItem + " item (s)");
-										if(nItem > 0){
-											$(".cart.westeros-dropdown").empty();
-											$(".cart.westeros-dropdown").append(`
-											<li class="item clearfix" style="padding: 10px 0; text-align:center; height: auto">
-												<h5>Lastest product</h5>
-											</li>
-											`)
-											for(let i = 0 ; i < ((nItem < 3) ? nItem : 3) ; i++){
-												let newItem = `<li class="item clearfix">
-																	<div class="picture">
-																		<figure class="liquid">
-																			<img src="` + data[i].image +`" alt="product1">
-																		</figure>
-																	</div>
-																	<div class="description">									
-																		<p class="highlighted category">`+ data[i].cate + `</p>
-																		<h6>`+data[i].proName+`</h6>
-																	</div>
-																	<div class="quantity">
-																		<h6>`+ data[i].quantity +`</h6>
-																	</div>
-																	<div class="price">
-																		<p class="highlighted">$`+ data[i].quantity*data[i].price +`.00</p>
-																	</div>
-																</li>`
-												$(".cart.westeros-dropdown").append(newItem);
-											}
-											$(".cart.westeros-dropdown").append(`<li class="order clearfix">
-																					<a href="/me/cart" class="button secondary">Go to Cart</a>
-																				</li>`); 
-											
+						url:'/me/cart',
+						method: 'post',
+						data:{
+							productID,
+							detailID: details[selectedColor].detailID,
+							quantity: parseInt(productQuantity.val()),
+						},
+						success: function(data){
+							console.log(data);
+							const userId = parseInt(user.innerText);
+							console.log(userId);
+							$.ajax({
+								url:'/me/cart/header',
+								method: 'get',
+								data:{
+									userId
+								},
+								success: function(data){
+									console.log(data);
+									const nItem = data.length;
+									$(".cart-content-short").text(nItem);
+									$(".cart-content-long").text(nItem + " item (s)");
+									if(nItem > 0){
+										$(".cart.westeros-dropdown").empty();
+										$(".cart.westeros-dropdown").append(`
+										<li class="item clearfix" style="padding: 10px 0; text-align:center; height: auto">
+											<h5>Lastest product</h5>
+										</li>
+										`)
+										for(let i = 0 ; i < ((nItem < 3) ? nItem : 3) ; i++){
+											let newItem = `<li class="item clearfix">
+																<div class="picture">
+																	<figure class="liquid">
+																		<img src="` + data[i].image +`" alt="product1">
+																	</figure>
+																</div>
+																<div class="description">									
+																	<p class="highlighted category">`+ data[i].cate + `</p>
+																	<h6>`+data[i].proName+`</h6>
+																</div>
+																<div class="quantity">
+																	<h6>`+ data[i].quantity +`</h6>
+																</div>
+																<div class="price">
+																	<p class="highlighted">$`+ data[i].quantity*data[i].price +`.00</p>
+																</div>
+															</li>`
+											$(".cart.westeros-dropdown").append(newItem);
 										}
-										
-									},
-									error:function(response){  
-										alert('Bad Request'); 
-									} 
-								})
-							
-												alert("Add product to cart successfully!");
-											},
-											error:function(response){  
-												alert('Bad Request'); 
-											} 
-									})
-				}else{
-					document.getElementById("no-user-form").submit();
+										$(".cart.westeros-dropdown").append(`<li class="order clearfix">
+																				<a href="/me/cart" class="button secondary">Go to Cart</a>
+																			</li>`); 
+										alert("Add product to cart successfully!");
+									}
+								},
+								error:function(response){  
+									alert('Bad Request'); 
+								} 
+							});
+							alert("Add product to cart successfully!");
+						},
+						error:function(response){  
+							alert('Bad Request'); 
+						} 
+					})
 				}
-			}else{
-				alert("please choose product color !")
+				else{
+					document.getElementById("no-user-form-checkout").submit();
+				}
+			}
+			else{
+				alert("please choose product color !");
 			}
 		})
 		productQuantity.change(function(){
@@ -1231,6 +1232,36 @@
 			if(quantity > totalQuantity){
 				productQuantity.val(totalQuantity);
 				$(this).siblings("h5").text(totalQuantity);
+			}
+		});
+
+		$("#buy-now-btn").click(function(){
+			if(selectedColor >= 0){
+				if(user){
+					let form = document.createElement("form");
+					form.method = "get";
+					form.action = "/me/checkout";
+					let inputProductID = document.createElement("input");
+					let inputDetailID = document.createElement("input");
+					let inputQuantity = document.createElement("input");
+					inputProductID.value = productID;
+					inputProductID.name = "proID";
+					inputDetailID.value = details[selectedColor].detailID;
+					inputDetailID.name = "detailID";
+					inputQuantity.value = parseInt(productQuantity.val());
+					inputQuantity.name = "quantity";
+					form.append(inputDetailID);
+					form.append(inputProductID);
+					form.append(inputQuantity);
+					document.body.appendChild(form);
+					form.submit();
+				}
+				else{
+					document.getElementById("no-user-form-cart").submit();
+				}
+			}
+			else{
+				alert("please choose product color !");
 			}
 		});
 	})

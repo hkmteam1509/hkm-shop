@@ -22,7 +22,7 @@
             </svg>
             <!-- /SIDEBAR CONTROL -->
 
-            <h3 class="title">Checkout Progress</h3>
+            {{!-- <h3 class="title">Checkout Progress</h3>
             <div class="checkout-progress">
                 
                 <h5>
@@ -35,7 +35,7 @@
                 </h5>
                
                 <h5>Payment Method</h5>
-            </div>
+            </div> --}}
 
             <h3 class="title">Order Total</h3>
             <!-- CART TOTAL -->
@@ -43,15 +43,14 @@
                 <!-- SUBTOTAL -->
                 <div class="subtotal">
                     <h5>Order Subtotal</h5>
-                    <h5>$361.00</h5>
+                    <h5>${{totalOrder}}</h5>
                 </div>
                 <!-- /SUBTOTAL -->
-
 
                 <!-- TOTAL -->
                 <div class="total">
                     <h5>Total Order</h5>
-                    <h5>$361.50</h5>
+                    <h5>${{totalOrder}}</h5>
                 </div>
                 <!-- /TOTAL -->
             </div>
@@ -64,68 +63,10 @@
             <h3 class="title">Order Checkout</h3>
             <!-- PROFILE INFO -->
             <div class="profile-info">
-                <!-- PROFILE HEADER -->
-                <h5 class="profile-header">
-                    <span>01</span>Checkout Method
-                    <!-- SVG PLUS -->
-                    <svg class="plus">
-                        <rect class="vertical" x="4" width="4" height="12"/>
-                        <rect y="4" width="12" height="4"/>
-                    </svg>
-                    <!-- /SVG PLUS -->
-                </h5>
-                <!-- /PROFILE HEADER -->
-
-                <!-- PROFILE DATA -->
-                <div class="profile-data">
-                    <!-- PROFILE COLUMN -->
-                    <div class="profile-column">
-                        <h5>New Customer</h5>
-                        <p>You need to login to continue</p>
-                        <p>If you don't have an account, please register here</p>
-                        <a href="/register-login">
-                            <button class="button login" style="padding:0 20px; cursor:pointer;" type="button">Register</button>
-                        </a>
-                        {{!-- <div class="featured-form">
-                            <form class="westeros-form">
-                                <label class="rl-label">Register or stay as a guest</label>
-                                <div class="full-input">
-                                    <input type="radio" id="op1" name="register_guest" value="op1" checked>
-                                    <label for="op1"><span class="radio"><span></span></span>Register Account</label>
-                                </div>
-                                <div class="full-input">
-                                    <input type="radio" id="op2" name="register_guest" value="op2">
-                                    <label for="op2"><span class="radio"><span></span></span>Stay as Guest</label>
-                                </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur er adipisicing elit, sed do eiusmod eru tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim darea veniam.</p>
-                                <button class="button login">Continue</button>
-                            </form>
-                        </div> --}}
-                    </div>
-                    <!-- /PROFILE COLUMN -->
-
-                    <!-- PROFILE COLUMN -->
-                    <div class="profile-column">
-                        <h5>Login</h5>
-                        <div class="featured-form">
-                            <form class="westeros-form">
-                                <label class="rl-label">Your Username</label>
-                                <input type="text" placeholder="Enter your username here...">
-                                <label class="rl-label">Your Password</label>
-                                <input type="text" placeholder="Enter your password here...">
-                                <a href="/account/forgot-password" class="fp-msg">Forgot your password? Click here!</a>
-                                <button class="button login">Login Now!</button>
-                            </form>
-                        </div>
-                    </div>
-                    <!-- /PROFILE COLUMN -->
-                </div>
-                <!-- /PROFILE DATA -->
-
  
                 <!-- PROFILE HEADER -->
                 <h5 class="profile-header">
-                    <span>02</span>Shipping Information
+                    <span>01</span>Shipping Information
                     <!-- SVG PLUS -->
                     <svg class="plus">
                         <rect class="vertical" x="4" width="4" height="12"/>
@@ -147,10 +88,7 @@
                                 <label class="rl-label required">Last Name</label>
                                 <input type="text" placeholder="Enter your last name here...">
                             </div>
-                            {{!-- <div>
-                                <label class="rl-label required">Email Address</label>
-                                <input type="text" placeholder="Enter your email address here...">
-                            </div> --}}
+                           
                             <div>
                                 <label class="rl-label required">Phone Number</label>
                                 <input type="text" placeholder="Enter your phone number here...">
@@ -159,13 +97,6 @@
                             <div>
                                 <label class="rl-label required">Province</label>
                                 <label for="country2">
-                                    {{!-- <select name="country" id="country2">
-                                        <option value="0">Select your country...</option>
-                                        <option value="1">United States</option>
-                                        <option value="2" selected>England</option>
-                                        <option value="3">France</option>
-                                        <option value="4">Spain</option>	
-                                    </select> --}}
                                     <select name="ls_province" style="width: 100%;"></select>
                                    
                                     <!-- SVG ARROW -->
@@ -176,17 +107,10 @@
                                 </label>
                             </div>
                             <div>
-                                {{!-- <label class="rl-label required">Town / City</label>
-                                <input type="text" value="London"> --}}
+                               
                                 <label class="rl-label required">District</label>
                                 <label for="country2">
-                                    {{!-- <select name="country" id="country2">
-                                        <option value="0">Select your country...</option>
-                                        <option value="1">United States</option>
-                                        <option value="2" selected>England</option>
-                                        <option value="3">France</option>
-                                        <option value="4">Spain</option>	
-                                    </select> --}}
+                                   
                                     <select name="ls_district" style="width: 100%;"></select>
                                    
                                     <!-- SVG ARROW -->
@@ -197,17 +121,10 @@
                                 </label>
                             </div>
                             <div>
-                                {{!-- <label class="rl-label required">State / Province</label>
-                                <input type="text" value="Baker"> --}}
+                                
                                 <label class="rl-label required">Ward</label>
                                 <label for="country2">
-                                    {{!-- <select name="country" id="country2">
-                                        <option value="0">Select your country...</option>
-                                        <option value="1">United States</option>
-                                        <option value="2" selected>England</option>
-                                        <option value="3">France</option>   
-                                        <option value="4">Spain</option>	
-                                    </select> --}}
+                                   
                                     <select name="ls_ward" style="width: 100%;"></select>
                                    
                                     <!-- SVG ARROW -->
@@ -230,9 +147,7 @@
                                 <input type="checkbox" id="autocomplete2" name="autocomplete2" checked>
                                 <label for="autocomplete2"><span class="checkbox"><span></span></span>Autocomplete with your profile info</label>
                             </div>
-                            {{!-- <div>
-                                <button class="button login">Continue</button>
-                            </div> --}}
+                            
                         </form>
                     </div>
                 </div>
@@ -242,7 +157,7 @@
 
                 <!-- PROFILE HEADER -->
                 <h5 class="profile-header">
-                    <span>03</span>Payment Method
+                    <span>02</span>Payment Method
                     <!-- SVG PLUS -->
                     <svg class="plus">
                         <rect class="vertical" x="4" width="4" height="12"/>
@@ -256,23 +171,12 @@
                 <div class="profile-data">
                     <div class="featured-form">
                         <form class="westeros-form">
-                            <div class="full-input">
-                                <input type="radio" id="bank" name="payment_method" value="bank">
-                                <label class="rl-label" for="bank"><span class="radio"><span></span></span>Direct Bank Transfer</label>
-                                <p>Lorem ipsum dolor sit amet, consectetur er adipisicing elit, sed do eiusmod eru tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim darea veniam.</p>
-                            </div>
 
                             <div class="full-input">
-                                <input type="radio" id="paypal" name="payment_method" value="paypal">
-                                <label class="rl-label" for="paypal"><span class="radio"><span></span></span>Payment on delivery</label>
+                                {{!-- <input type="radio" id="paypal" name="payment_method" value="paypal"> --}}
+                                <label class="rl-label" for="paypal">Payment on delivery</label>
                             </div>
 
-                            <div class="full-input">
-                                <input type="radio" id="cheque" name="payment_method" value="cheque" checked>
-                                <label class="rl-label" for="cheque"><span class="radio"><span></span></span>Paypal</label>
-                            </div>
-
-                            {{!-- <button class="button login">Continue</button> --}}
                         </form>
                     </div>
                 </div>
@@ -280,7 +184,7 @@
 
                 <!-- PROFILE HEADER -->
                 <h5 class="profile-header">
-                    <span>04</span>Order Review
+                    <span>03</span>Order Review
                     <!-- SVG PLUS -->
                     <svg class="plus">
                         <rect class="vertical" x="4" width="4" height="12"/>
@@ -302,11 +206,11 @@
                             </div>
                             <!-- /CELL -->
 
-                            <!-- CELL -->
+                            {{!-- <!-- CELL -->
                             <div class="cell">
                                 <h5>Code Number</h5>
                             </div>
-                            <!-- /CELL -->
+                            <!-- /CELL --> --}}
 
                             <!-- CELL -->
                             <div class="cell">
@@ -328,210 +232,44 @@
                         </div>
                         <!-- /ROW -->
 
-                        <!-- ROW -->
-                        <div class="row">
-                            <!-- CELL -->
-                            <div class="cell cart-item" style="text-align: left;padding: 20px 0 0 14px;">
-                                <p class="highlighted">T-Shirts</p>
-                                <h3>The Devil Pin</h3>
-                                <h6>Size: <span>Large</span></h6>
-                                <h6>Color: <span>Black</span></h6>
-                            </div>
-                            <!-- /CELL -->
+                        {{#each products}}
+                            <!-- ROW -->
+                            <div class="row">
+                                <!-- CELL -->
+                                <div class="cell cart-item" style="text-align: left;padding: 20px 0 0 14px; height: 120px">
+                                   
+                                    <p class="highlighted">{{this.catName}}</p>
+                                    <h3>{{this.proName}}</h3>
+                                    <h6>Size: <span>Free size</span></h6>
+                                    <ul class="colorpicker">
+                                        <li><span data-color="{{this.color}}"></span></li>
+                                    </ul>
+                                </div>
+                                <!-- CELL -->
+                                <div class="cell">
+                                    <p class="highlighted">${{this.price}}</p>
+                                </div>
+                                <!-- /CELL -->
 
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">dp603b</p>
-                            </div>
-                            <!-- /CELL -->
+                                <!-- CELL -->
+                                <div class="cell">
+                                    <p class="highlighted">{{this.quantity}}</p>
+                                </div>
+                                <!-- /CELL -->
 
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">$54.00</p>
+                                <!-- CELL -->
+                                <div class="cell">
+                                    <p class="highlighted">${{this.totalPrice}}</p>
+                                </div>
+                                <!-- /CELL -->
                             </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">2</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">$108.00</p>
-                            </div>
-                            <!-- /CELL -->
-                        </div>
-                        <!-- /ROW -->
-
-                        <!-- ROW -->
-                        <div class="row">
-                            <!-- CELL -->
-                            <div class="cell cart-item" style="text-align: left;padding: 20px 0 0 14px;">
-                                <p class="highlighted">Phone Cases</p>
-                                <h3>Dial Z For Zombie</h3>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">dz583g</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">$26.00</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">3</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">$78.00</p>
-                            </div>
-                            <!-- /CELL -->
-                        </div>
-                        <!-- /ROW -->
-
-                        <!-- ROW -->
-                        <div class="row">
-                            <!-- CELL -->
-                            <div class="cell cart-item" style="text-align: left;padding: 20px 0 0 14px;">
-                                <p class="highlighted">Custom Sneakers</p>
-                                <h3>The Devil Walks</h3>
-                                <h6>Size: <span>6</span></h6>
-                                <h6>Color: <span>Red</span></h6>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">dw682r</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">$43.00</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">1</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">$43.00</p>
-                            </div>
-                            <!-- /CELL -->
-                        </div>
-                        <!-- /ROW -->
-
-                        <!-- ROW -->
-                        <div class="row">
-                            <!-- CELL -->
-                            <div class="cell cart-item" style="text-align: left;padding: 20px 0 0 14px;">
-                                <p class="highlighted">Pin Badges</p>
-                                <h3>Mo Monster</h3>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">mm205b</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">$2.00</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">3</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">$6.00</p>
-                            </div>
-                            <!-- /CELL -->
-                        </div>
-                        <!-- /ROW -->
-
-                        <!-- ROW -->
-                        <div class="row">
-                            <!-- CELL -->
-                            <div class="cell cart-item" style="text-align: left;padding: 20px 0 0 14px;">
-                                <p class="highlighted">T-Shirts</p>
-                                <h3>The Happy Pastry</h3>
-                                <h6>Size: <span>Medium</span></h6>
-                                <h6>Color: <span>Silver</span></h6>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">hp453s</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">$63.00</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">2</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">$126.00</p>
-                            </div>
-                            <!-- /CELL -->
-                        </div>
-                        <!-- /ROW -->
+                            <!-- /ROW -->
+                        {{/each}}
                     </div>
                     <!-- /SHOPPING-CART -->
 
                     <!-- SHOPPING-CART -->
                     <div class="shopping-cart order summary">
-                        <!-- ROW -->
-                        <div class="row">
-                            <!-- CELL -->
-                            <div class="cell cart-summary">
-                                <h3>Order Subtotal:</h3>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">$361.00</p>
-                            </div>
-                            <!-- /CELL -->
-                        </div>
-                        <!-- /ROW -->
-
-
-
-                        <!-- ROW -->
                         <div class="row">
                             <!-- CELL -->
                             <div class="cell cart-summary">
@@ -541,7 +279,7 @@
 
                             <!-- CELL -->
                             <div class="cell">
-                                <p class="highlighted">$361.50</p>
+                                <p class="highlighted">${{totalOrder}}</p>
                             </div>
                             <!-- /CELL -->
                         </div>
@@ -727,16 +465,28 @@
 	</symbol>
 </svg>
 {{#section 'script'}}
-<!-- SVG ENVELOPE -->
+<!-- jQuery -->
 <script src="/js/vendor/jquery-1.11.1.min.js"></script>
+<!-- XM Accordion -->
+<script src="/js/vendor/jquery.xmaccordion.min.js"></script>
+<!-- XM Tab -->
+<script src="/js/vendor/jquery.xmtab.min.js"></script>
+<!-- Magnific Popup -->
+<script src="/js/vendor/jquery.magnific-popup.min.js"></script>
 <!-- imgLiquid -->
 <script src="/js/vendor/imgLiquid-min.js"></script>
+<!-- JRange -->
+<script src="/js/vendor/jquery.range.min.js"></script>
 <!-- Vietnamese address -->
 <script src="/js/vendor/vietnamese-address.js"></script>
 <!-- Header -->
 <script src="/js/header.js"></script>
 <!-- Menu -->
 <script src="/js/menu.js"></script>
+<!-- Shop -->
+<script src="/js/shop.js"></script>
+<!-- Full View -->
+<script src="/js/full-view.js"></script>
 <!-- Checkout -->
 <script src="/js/profile.js"></script>
 

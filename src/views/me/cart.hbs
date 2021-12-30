@@ -14,8 +14,7 @@
 			<!-- /SIDEBAR CONTROL -->
 
 			<!-- SHOP SIDEBAR -->
-			<form method="get" action="/me/checkout" id="go-checkout-form">
-				<aside class="shop-sidebar checkout-cart">
+			<aside class="shop-sidebar checkout-cart">
 				<!-- SIDEBAR CONTROL -->
 				<svg class="svg-plus sidebar-control">
 					<use xlink:href="#svg-plus"></use>
@@ -33,10 +32,9 @@
 					<!-- /TOTAL -->
 				</div>
 				<!-- /CART TOTAL -->
-
-				<button type="submit" class="button">Proceed to Checkout</button>
+				<form method="get" style="display: none;" action="/me/checkout" id="go-checkout-from"></form>
+				<button type="submit" form="go-checkout-from" id="go-checkout-btn" style="cursor: pointer;" class="button">Proceed to Checkout</button>
 			</aside>
-			</form>
 			<!-- /SHOP SIDEBAR -->
 
 			<!-- SHOP PRODUCTS -->
@@ -87,10 +85,10 @@
 
 					{{#each products}}
 						<!-- ROW -->
-						<div class="row">
+						<div class="row" id="product-cart-{{this.cartID}}">
 							<!-- CELL -->
 							<div class="cell">
-								<input form="go-checkout-form" type="checkbox" class="my-checkbox" name="products[]"  value="{{this.cartID}}">
+								<input form="go-checkout-from" type="checkbox" class="my-checkbox" name="products[]"  value="{{this.cartID}}">
 							</div>
 							<!-- /CELL -->
 
@@ -102,7 +100,7 @@
 									</figure>
 								</div>
 								<p class="highlighted">{{this.cate}}</p>
-								<h3>{{this.Name}}</h3>
+								<h3>{{this.proName}}</h3>
 								<!-- COLORPICKER -->
 								<ul class="colorpicker">
 									<li><span data-color="{{this.detail.color}}"></span></li>
@@ -143,7 +141,7 @@
 								<!-- ACTIONS -->
 								<div class="actions">
 									
-									<a href="#" class="button medium no-stock">
+									<a style="cursor: pointer;" type="button" data-id="{{this.cartID}}" class="button medium no-stock class remove-cart">
 										<!-- SVG PLUS -->
 										<svg class="svg-plus">
 											<use xlink:href="#svg-plus"></use>
@@ -427,9 +425,11 @@
 
 <script>
 	$(document).ready(function(){
+		$("#go-checkout-btn").hide(0);
 		const checkboxAll = $("#my-checkbox-all");
         const productItemCheckbox = $("input[name='products[]']");
 		const productItemQuantity = $("input[name='quantityProducts[]']");
+		const removeCart = $(".remove-cart");
 		// all change
         checkboxAll.change(function(){
             let isCheckedAll = $(this).prop('checked');
@@ -447,16 +447,20 @@
 				});	
 				$("#total-cost").text("$"+total+".00");
 			}
+			if(total == 0){
+				$("#go-checkout-btn").hide(0);
+			}else{
+				$("#go-checkout-btn").show(0);
+			}
         });
 
         //item change
         productItemCheckbox.change(function(){
-            let isCheckedAll = productItemCheckbox.length === $("input[name='courseIds[]']:checked").length;
+            let isCheckedAll = productItemCheckbox.length === $("input[name='products[]']:checked").length;
             checkboxAll.prop('checked',isCheckedAll );
 			let total = 0;
 			let checkboxList = productItemCheckbox.toArray();
 			productItemQuantity.toArray().forEach((item, index)=>{
-				console.log(checkboxList[index]);
 				if(checkboxList[index].checked){
 					let price = item.dataset.price;
 					price = parseInt(price);
@@ -466,6 +470,11 @@
 				}
 			});	
 			$("#total-cost").text("$"+total+".00");
+			if(total == 0){
+				$("#go-checkout-btn").hide(0);
+			}else{
+				$("#go-checkout-btn").show(0);
+			}
         });
 		
 		productItemQuantity.change(function(){
@@ -489,9 +498,37 @@
 					input.val(data.quantity);
 					input.siblings("h5").text(data.quantity);
 					$("#product-total-price-" + data.cartID).text("$"+data.quantity*price+".00")
+				},
+				error: function(err){
+					alert("Bad request");
 				}
 			})
 		});
+	
+		removeCart.click(function(){
+			let cartID = $(this).data("id");
+			$.ajax({
+				url:'/me/cart/delete',
+				method: 'delete',
+				data:{
+					cartID,
+				},
+				success: function(data){
+					$("#product-cart-" + cartID).remove();
+				},
+				error: function(err){
+					alert("Bad request");
+				}
+			})
+		});
+	
+		{{!-- $("#go-checkout-btn").click(function(){
+			let checkedInput = $("input[name='products[]']:checked").toArray();
+			let form = document.createElement("form");
+			checkedInput.forEach(item=>{
+				
+			})
+		}) --}}
 	});
 </script>
 {{/section}}
