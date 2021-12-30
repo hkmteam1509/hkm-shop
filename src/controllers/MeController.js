@@ -200,35 +200,6 @@ class MeController{
         
     }
 
-    // getCartCheckout(req,res,next){
-    //     if(req.user){
-    //         const {products} = req.query;
-    //         const arr = products.map(cartID=>{
-    //             return UserService.getCart(cartID);
-    //         })
-    //         Promise.all(arr)
-    //         .then(carts=>{
-    //             const proID = carts.map(cart=>{
-    //                 return cart.proID;
-    //             })
-    //             const detailID = carts.map(cart=>{
-    //                 return cart.detailID;
-    //             })
-    //             const quantity = carts.map(cart=>{
-    //                 return cart.quantity;
-    //             })
-
-    //             req.query.proID = proID;
-    //             req.query.detailID = detailID;
-    //             req.query.quantity = quantity;
-
-    //         })
-    //     }else{
-    //         res.redirect("/account/register-login/");
-    //     }
-    // }
-
-    //[GET] /me/profile
     profile(req, res, next){
         if(req.user){
             const arr = [
