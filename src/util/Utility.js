@@ -43,6 +43,10 @@ class Utility{
         return null;
         
     }
+
+    convertStringToArray(object){
+        return (typeof object === 'string') ? Array(object) : object
+    }
 }
 
 module.exports = new Utility;

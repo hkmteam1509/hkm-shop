@@ -14,8 +14,7 @@
 			<!-- /SIDEBAR CONTROL -->
 
 			<!-- SHOP SIDEBAR -->
-			<form method="get" action="/me/checkout" id="go-checkout-form">
-				<aside class="shop-sidebar checkout-cart">
+			<aside class="shop-sidebar checkout-cart">
 				<!-- SIDEBAR CONTROL -->
 				<svg class="svg-plus sidebar-control">
 					<use xlink:href="#svg-plus"></use>
@@ -33,10 +32,9 @@
 					<!-- /TOTAL -->
 				</div>
 				<!-- /CART TOTAL -->
-
-				<button type="submit" class="button">Proceed to Checkout</button>
+				<form method="get" style="display: none;" action="/me/checkout" id="go-checkout-from"></form>
+				<button type="submit" form="go-checkout-from" id="go-checkout-btn" style="cursor: pointer;" class="button">Proceed to Checkout</button>
 			</aside>
-			</form>
 			<!-- /SHOP SIDEBAR -->
 
 			<!-- SHOP PRODUCTS -->
@@ -90,7 +88,7 @@
 						<div class="row" id="product-cart-{{this.cartID}}">
 							<!-- CELL -->
 							<div class="cell">
-								<input form="go-checkout-form" type="checkbox" class="my-checkbox" name="products[]"  value="{{this.cartID}}">
+								<input form="go-checkout-from" type="checkbox" class="my-checkbox" name="products[]"  value="{{this.cartID}}">
 							</div>
 							<!-- /CELL -->
 
@@ -427,6 +425,7 @@
 
 <script>
 	$(document).ready(function(){
+		$("#go-checkout-btn").hide(0);
 		const checkboxAll = $("#my-checkbox-all");
         const productItemCheckbox = $("input[name='products[]']");
 		const productItemQuantity = $("input[name='quantityProducts[]']");
@@ -448,16 +447,20 @@
 				});	
 				$("#total-cost").text("$"+total+".00");
 			}
+			if(total == 0){
+				$("#go-checkout-btn").hide(0);
+			}else{
+				$("#go-checkout-btn").show(0);
+			}
         });
 
         //item change
         productItemCheckbox.change(function(){
-            let isCheckedAll = productItemCheckbox.length === $("input[name='courseIds[]']:checked").length;
+            let isCheckedAll = productItemCheckbox.length === $("input[name='products[]']:checked").length;
             checkboxAll.prop('checked',isCheckedAll );
 			let total = 0;
 			let checkboxList = productItemCheckbox.toArray();
 			productItemQuantity.toArray().forEach((item, index)=>{
-				console.log(checkboxList[index]);
 				if(checkboxList[index].checked){
 					let price = item.dataset.price;
 					price = parseInt(price);
@@ -467,6 +470,11 @@
 				}
 			});	
 			$("#total-cost").text("$"+total+".00");
+			if(total == 0){
+				$("#go-checkout-btn").hide(0);
+			}else{
+				$("#go-checkout-btn").show(0);
+			}
         });
 		
 		productItemQuantity.change(function(){
@@ -499,7 +507,6 @@
 	
 		removeCart.click(function(){
 			let cartID = $(this).data("id");
-			console.log(cartID);
 			$.ajax({
 				url:'/me/cart/delete',
 				method: 'delete',
@@ -514,6 +521,14 @@
 				}
 			})
 		});
+	
+		{{!-- $("#go-checkout-btn").click(function(){
+			let checkedInput = $("input[name='products[]']:checked").toArray();
+			let form = document.createElement("form");
+			checkedInput.forEach(item=>{
+				
+			})
+		}) --}}
 	});
 </script>
 {{/section}}

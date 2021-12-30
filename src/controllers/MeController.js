@@ -4,6 +4,8 @@ const ProductService = require("../services/ProductService");
 const UserService = require("../services/UserService");
 const bcrypt = require('bcrypt');
 const { SALT_BCRYPT } = require("../config/app");
+const Utility = require("../util/Utility");
+
 
 class MeController{
     //[GET] /me/cart
@@ -70,27 +72,161 @@ class MeController{
         
     }
 
-    //[GET] /me/checkout
+    //[get] /me/checkout
     checkout(req, res, next){
         if(req.user){
-            const arr = [
-                BrandService.getAll(),
-                CateService.getAll(),
-    
-            ]
-            Promise.all(arr)
-            .then(([navBrands, navCates])=>{
-                res.render('me/checkout', {
-                    navBrands,
-                    navCates
-                });
-            })
+            let {products} = req.query;
+            if(products){
+                const arr = products.map(cartID=>{
+                    return UserService.getCart(cartID);
+                })
+                Promise.all(arr)
+                .then(carts=>{
+                    const proID = carts.map(cart=>{
+                        return cart.proID;
+                    })
+                    const detailID = carts.map(cart=>{
+                        return cart.detailID;
+                    })
+                    const quantity = carts.map(cart=>{
+                        return cart.quantity;
+                    })
+                    const n = proID.length;
+                    const productPromise = [];
+                    const detailPromise = [];
+                    for(let i = 0 ; i < n ;i++){
+                        productPromise.push(ProductService.itemProduct(proID[i]));
+                        detailPromise.push(ProductService.getDetail(detailID[i]));
+                    }
+                    const arr = [
+                        BrandService.getAll(),
+                        CateService.getAll(),
+                        Promise.all(productPromise),
+                        Promise.all(detailPromise)
+                    ]
+                    Promise.all(arr)
+                    .then(([navBrands, navCates, products, details])=>{
+                        
+                        const catePromise = products.map(item=>{
+                            return ProductService.getCateName(item.catID);
+                        })
+                        Promise.all(catePromise)
+                        .then(cates=>{
+                            const n = products.length;
+                            let totalOrder = 0;
+                            for(let i = 0 ; i < n ;i++){
+                                products[i].catName = cates[i].catName;
+                                products[i].color = details[i].color;
+                                products[i].quantity = quantity[i];
+                                products[i].totalPrice =  products[i].price*quantity[i];
+                                totalOrder+=products[i].totalPrice;
+                            }
+                            console.log(products);
+                            res.render('me/checkout', {
+                                navBrands,
+                                navCates,
+                                products,
+                                totalOrder
+                            })
+                        })
+                       
+                    })
+                    .catch(err=>{
+                        console.log(err);
+                        next(err);
+                    })
+                })
+                .catch(err=>{
+                    console.log(err);
+                    next(err);
+                })
+            }else{
+                let {proID, detailID, quantity} = req.query;
+                proID = Utility.convertStringToArray(proID);
+                detailID = Utility.convertStringToArray(detailID);
+                quantity = Utility.convertStringToArray(quantity);
+                const n = proID.length;
+                const productPromise = [];
+                const detailPromise = [];
+                for(let i = 0 ; i < n ;i++){
+                    proID[i] = parseInt(proID[i]);
+                    detailID[i] = parseInt(detailID[i]);
+                    quantity[i] = parseInt(quantity[i]);
+                    productPromise.push(ProductService.itemProduct(proID[i]));
+                    detailPromise.push(ProductService.getDetail(detailID[i]));
+                }
+                const arr = [
+                    BrandService.getAll(),
+                    CateService.getAll(),
+                    Promise.all(productPromise),
+                    Promise.all(detailPromise)
+                ]
+                Promise.all(arr)
+                .then(([navBrands, navCates, products, details])=>{
+                    
+                    const catePromise = products.map(item=>{
+                        return ProductService.getCateName(item.catID);
+                    })
+                    Promise.all(catePromise)
+                    .then(cates=>{
+                        const n = products.length;
+                        let totalOrder = 0;
+                        for(let i = 0 ; i < n ;i++){
+                            products[i].catName = cates[i].catName;
+                            products[i].color = details[i].color;
+                            products[i].quantity = quantity[i];
+                            products[i].totalPrice =  products[i].price*quantity[i];
+                            totalOrder+=products[i].totalPrice;
+                        }
+                        console.log(products);
+                        res.render('me/checkout', {
+                            navBrands,
+                            navCates,
+                            products,
+                            totalOrder
+                        })
+                    })
+                   
+                })
+                .catch(err=>{
+                    console.log(err);
+                    next(err);
+                })
+            }
         }
         else{
             res.redirect("/account/register-login/");
         }
         
     }
+
+    // getCartCheckout(req,res,next){
+    //     if(req.user){
+    //         const {products} = req.query;
+    //         const arr = products.map(cartID=>{
+    //             return UserService.getCart(cartID);
+    //         })
+    //         Promise.all(arr)
+    //         .then(carts=>{
+    //             const proID = carts.map(cart=>{
+    //                 return cart.proID;
+    //             })
+    //             const detailID = carts.map(cart=>{
+    //                 return cart.detailID;
+    //             })
+    //             const quantity = carts.map(cart=>{
+    //                 return cart.quantity;
+    //             })
+
+    //             req.query.proID = proID;
+    //             req.query.detailID = detailID;
+    //             req.query.quantity = quantity;
+
+    //         })
+    //     }else{
+    //         res.redirect("/account/register-login/");
+    //     }
+    // }
 
     //[GET] /me/profile
     profile(req, res, next){
