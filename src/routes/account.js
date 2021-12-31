@@ -16,4 +16,5 @@ router.get('/forgot-password', AccountController.forgotPassword);
 router.get('/verification-code', AccountController.verificationCode);
 router.get('/new-password', AccountController.newPassword);
 router.get('/register-success', AccountController.registerSuccess);
+router.get('/blocked', AccountController.blockedGuest);
 module.exports = router;
