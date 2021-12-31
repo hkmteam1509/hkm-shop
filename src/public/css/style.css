@@ -4542,8 +4542,8 @@ svg.sidebar-control {
 
 #coming-soon {
   padding-top: 135px;
-  min-height: 710px;
-  background: url("../images/bunny-big-monster.png") no-repeat 0 50px, url("../images/moustache-small-monster.png") no-repeat 200px 235px;
+  min-height: 380px;
+  background: url("../images/moustache-sad-monster.png") no-repeat 0 50px;
   overflow: hidden; }
   #coming-soon .coming-soon-msg {
     float: right;

@@ -152,14 +152,37 @@ class AccountController{
 
     login(req, res, next){
         if(req.user){
-            console.log("Redirect: ", req.session.redirectTo);
-            var redirectTo = req.session.redirectTo || '/';
-            delete req.session.redirectTo;
-            console.log("Redirect: ", req.session.redirectTo);
-            res.redirect(redirectTo);
+            let permission = req.user.f_permission;
+            if (permission === -1)
+            {
+                req.logout();
+                res.redirect("blocked");
+            }
+            else
+            {
+                console.log("Redirect: ", req.session.redirectTo);
+                var redirectTo = req.session.redirectTo || '/';
+                delete req.session.redirectTo;
+                console.log("Redirect: ", req.session.redirectTo);
+                res.redirect(redirectTo);
+            }
         }else{
             res.redirect("back");
         }
+    }
+
+    blockedGuest(req, res, next){
+        const arr = [
+            BrandService.getAll(),
+            CateService.getAll(),
+        ]
+        Promise.all(arr)
+        .then(([navBrands, navCates])=>{
+            res.render('blocked', {
+                navBrands,
+                navCates
+            });
+        })
     }
 
     logout(req, res, next){
