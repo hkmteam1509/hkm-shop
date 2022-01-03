@@ -307,12 +307,12 @@ const getShopFilter = (req, res, next, brandID, catID, genderID)=>{
 		})
 		.catch(err=>{
 			console.log(err);
-			next();
+			res.status(500).json(err);
 		})
 	})
 	.catch(err=>{
 		console.log(err);
-		next();
+		res.status(500).json(err);
 	})
 }
 
