@@ -465,28 +465,44 @@
             <!-- /PRODUCT LIST -->
 
             <!-- PAGER -->
-            <ul class="my-pagination" id="my-pagination">
+            <ul class="pager" id="my-pagination">
                 {{#if paginationArray}}
-                    <li class="my-page-item">
-                        <input onchange="startSubmit(this)" style="display: none;" id="page-prev" value="{{prevPage}}" type="radio" name="page"/>
-                        <label for="page-prev"  class="my-page-button">Prev</label>
+                    <li>
+                        <label style="cursor: pointer;" class="button prev">
+                            <input onchange='startSubmit(this)' style="display: none;" id="page-prev" value="{{prevPage}}" type="radio" name="page"/>
+                            <!-- SVG ARROW -->
+                            <svg class="svg-arrow">
+                                <use xlink:href="#svg-arrow"></use>
+                            </svg>
+                            <!-- /SVG ARROW -->
+                        </label>
                     </li>
                     {{#each paginationArray }}  
                         {{#if this.isCurrent}}
-                            <li class="my-page-item">
-                                <input onchange="startSubmit(this)" checked style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
-                                <label  for="page-{{this.page}}"  class="my-page-link my-current-page">{{this.page}}</label>
+                            <li class="selected">
+                                <label style="cursor: pointer;">
+                                    <input onchange='startSubmit(this)' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
+                                    {{this.page}}
+                                </label>
                             </li>
                         {{else}}
-                            <li class="my-page-item">
-                                <input onchange="startSubmit(this)" style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
-                                <label  for="page-{{this.page}}"  class="my-page-link">{{this.page}}</label>
+                            <li>
+                                <label style="cursor: pointer;">
+                                    <input onchange='startSubmit(this)' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
+                                    {{this.page}}
+                                </label>
                             </li>
                         {{/if}}
                     {{/each}}
-                    <li class="my-page-item">
-                        <input onchange="startSubmit(this)" style="display: none;" id="page-next" value="{{nextPage}}" type="radio" name="page"/>
-                        <label  for="page-next"  class="my-page-button">Next</label>
+                    <li>
+                        <label style="cursor: pointer;" class="button next">
+                            <input onchange='startSubmit(this)' style="display: none;" id="page-next" value="{{nextPage}}" type="radio" name="page"/>
+                            <!-- SVG ARROW -->
+                            <svg class="svg-arrow">
+                                <use xlink:href="#svg-arrow"></use>
+                            </svg>
+                            <!-- /SVG ARROW -->
+                        </label>
                     </li>
                 {{/if}}
             </ul>
@@ -818,33 +834,46 @@
     function generatePager(paginationArray, prevPage, nextPage){
         let result = [];
         result.push(`
-            <li class="my-page-item">
-                <input onchange="startSubmit(this)" style="display: none;" id="page-prev" value="${prevPage}" type="radio" name="page"/>
-                <label for="page-prev"  class="my-page-button">Prev</label>
+            <li>
+                <label style="cursor: pointer;" class="button prev">
+                    <input onchange='startSubmit(this)' style="display: none;" id="page-prev" value="${prevPage}" type="radio" name="page"/>
+                    <!-- SVG ARROW -->
+                    <svg class="svg-arrow">
+                        <use xlink:href="#svg-arrow"></use>
+                    </svg>
+                    <!-- /SVG ARROW -->
+                </label>
             </li>
         `)
-
         paginationArray.forEach(page=>{
             if(page.isCurrent){
                 result.push(`
-                    <li class="my-page-item">
-                        <input onchange='startSubmit(this);' checked style="display: none;" id="page-${page.page}" value="${page.page}" type="radio" name="page"/>
-                        <label  for="page-${page.page}"  class="my-page-link my-current-page">${page.page}</label>
+                    <li class="selected">
+                        <label style="cursor: pointer;">
+                            <input onchange='startSubmit(this)' style="display: none;" id="page-${page.page}" value="${page.page}" type="radio" name="page"/>
+                            ${page.page}
+                        </label>
                     </li>
                 `)
             }else{
                 result.push(`
-                    <li class="my-page-item">
-                        <input onchange='startSubmit(this);' style="display: none;" id="page-${page.page}" value="${page.page}" type="radio" name="page"/>
-                        <label  for="page-${page.page}"  class="my-page-link">${page.page}</label>
+                    <li>
+                        <label style="cursor: pointer;">
+                            <input onchange='startSubmit(this)' style="display: none;" id="page-${page.page}" value="${page.page}" type="radio" name="page"/>
+                            ${page.page}
+                        </label>
                     </li>
                 `)
             }
         });
         result.push(`
-            <li class="my-page-item">
-                <input onchange='startSubmit();' style="display: none;" id="page-next" value="${nextPage}" type="radio" name="page"/>
-                <label  for="page-next"  class="my-page-button">Next</label>
+            <li>
+                <label style="cursor: pointer;" class="button next">
+                    <input onchange='startSubmit(this)' style="display: none;" id="page-next" value="${nextPage}" type="radio" name="page"/>
+                    <svg class="svg-arrow">
+                        <use xlink:href="#svg-arrow"></use>
+                    </svg>
+                </label>
             </li>
         `)
         return result;

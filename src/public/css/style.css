@@ -3401,7 +3401,7 @@ svg.sidebar-control {
     .pager li:last-child {
       margin-right: 0;
       border: none; }
-    .pager li a {
+    .pager li label {
       display: block;
       text-align: center;
       line-height: 28px;
@@ -3411,9 +3411,9 @@ svg.sidebar-control {
       -webkit-transition: all 0.3s ease;
       transition: all 0.3s ease;
       position: relative; }
-      .pager li a:hover {
+      .pager li label:hover {
         color: #00b0ff; }
-    .pager li.selected a {
+    .pager li.selected label {
       color: #00b0ff;
       font-weight: 700; }
     .pager li .button {
@@ -4542,8 +4542,8 @@ svg.sidebar-control {
 
 #coming-soon {
   padding-top: 135px;
-  min-height: 380px;
-  background: url("../images/moustache-sad-monster.png") no-repeat 0 50px;
+  min-height: 710px;
+  background: url("../images/bunny-big-monster.png") no-repeat 0 50px, url("../images/moustache-small-monster.png") no-repeat 200px 235px;
   overflow: hidden; }
   #coming-soon .coming-soon-msg {
     float: right;

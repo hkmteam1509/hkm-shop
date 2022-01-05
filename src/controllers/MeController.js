@@ -6,6 +6,10 @@ const bcrypt = require('bcrypt');
 const { SALT_BCRYPT } = require("../config/app");
 const Utility = require("../util/Utility");
 
+const orderPerPage = 5;
+const maximumPagination = 5;
+let currentPage = 1;
+let totalPage = 1;
 
 class MeController{
     //[GET] /me/cart
@@ -280,16 +284,63 @@ class MeController{
     //[GET] /me/order
     showOrder(req, res, next){
         if(req.user){
+            const pageNumber = req.query.page;
+            currentPage = (pageNumber && !Number.isNaN(pageNumber)) ? parseInt(pageNumber) : 1;
+            currentPage = (currentPage > 0) ? currentPage : 1;
+            currentPage = (currentPage <= totalPage) ? currentPage : totalPage
+            currentPage = (currentPage < 1) ? 1 : currentPage;
+
             const arr = [
                 BrandService.getAll(),
                 CateService.getAll(),
-    
+                UserService.getUserOrders(orderPerPage,currentPage,req.user.f_ID),
+                UserService.countUserOrder(req.user.f_ID)
             ]
             Promise.all(arr)
-            .then(([navBrands, navCates])=>{
+            .then(([navBrands, navCates, userOrders, totalOrders])=>{
+                let totalOrder = totalOrders;
+                let paginationArray = [];
+                totalPage = Math.ceil(totalOrder/orderPerPage);
+                let pageDisplace = Math.min(totalPage - currentPage + 2, maximumPagination);
+                if(currentPage === 1){
+                    pageDisplace -= 1;
+                }
+                for(let i = 0 ; i < pageDisplace; i++){
+                    if(currentPage === 1){
+                        paginationArray.push({
+                            page: currentPage + i,
+                            isCurrent:  (currentPage + i)===currentPage
+                        });
+                    }
+                    else{
+                        paginationArray.push({
+                            page: currentPage + i - 1,
+                            isCurrent:  (currentPage + i - 1)===currentPage
+                        });
+                    }
+                }
+                if(pageDisplace < 2){
+                    paginationArray=[];
+                }
+                
+                const ordersLength = userOrders.length;
+                for(let i = 0 ; i  < ordersLength; i++){
+                    const date = new Date(userOrders[i].createdAt);
+                    if (!isNaN(date.getTime())) {
+                        let d = date.getDate();
+                        let m = date.getMonth() + 1;
+                        let y = date.getFullYear();
+                        userOrders[i].orderDate = d + '/' + m + '/' + y;
+                    }
+                }
                 res.render('me/order', {
                     navBrands,
-                    navCates
+                    navCates,
+                    userOrders,
+                    currentPage,
+                    paginationArray,
+                    prevPage: (currentPage > 1) ? currentPage - 1 : 1,
+                    nextPage: (currentPage < totalPage) ? currentPage + 1 : totalPage
                 });
             })
         }
