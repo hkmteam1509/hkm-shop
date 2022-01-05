@@ -8,6 +8,7 @@
 
 
 <!-- SHOP -->
+<form id="shopForm">
 <div id="shop-wrap">
     <section id="shop" class="right expandible-sidebar">
         <!-- SIDEBAR CONTROL -->
@@ -27,66 +28,92 @@
                 <use xlink:href="#svg-plus"></use>
             </svg>
             <!-- /SIDEBAR CONTROL -->
-            <form method="get" action="/shop">
-                {{#if searchQuery}}
-                    <input type="text" value="{{searchQuery}}" name="search" readonly style="display: none;">
-                {{/if}}
-                <h3 class="title" style="margin-top: 0;">Categories</h3>
-                <div class="westeros-form">
-                    {{#each navCates}}
-                         <input type="checkbox"
-                            {{#isInArr this.catID ../catIDs}}
-                                checked
-                            {{/isInArr}}
-                          value="{{this.catID}}" id="cate{{this.catID}}" name="categories[]">
-                        <label for="cate{{this.catID}}"><span class="checkbox"><span></span></span>{{this.catName}}</label>
-                    {{/each}}
-                   
-                </div>
-               
-                <h3 class="title">Brands</h3>
-                <div class="westeros-form">
-                     {{#each navBrands}}
-                         <input type="checkbox"
-                          {{#isInArr this.brandID ../brandIDs}}
-                                checked
-                            {{/isInArr}} value="{{this.brandID}}" id="brand{{this.brandID}}" name="brands[]">
-                        <label for="brand{{this.brandID}}"><span class="checkbox"><span></span></span>{{this.brandName}}</label>
-                    {{/each}}
-                   
-                </div>
+            {{#if searchQuery}}
+                <input type="text" value="{{searchQuery}}" name="search" id="shop-search" readonly style="display: none;">
+            {{/if}}
+            <h3 class="title" style="margin-top: 0;">Categories</h3>
+            <div class="westeros-form my-shop-form">
+                {{#each navCates}}
+                    <input onchange="startSubmit(this)"
+                    {{#isInArr this.catID ../catQuery}}
+                        checked
+                    {{/isInArr}}
+                    type="checkbox" value="{{this.catID}}" id="cate{{this.catID}}" name="categories[]">
+                    <label for="cate{{this.catID}}"><span class="checkbox"><span></span></span>{{this.catName}}</label>
+                {{/each}}
+            </div>
+            
+            <h3 class="title">Brands</h3>
+            <div class="westeros-form my-shop-form">
+                {{#each navBrands}}
+                    <input onchange="startSubmit(this)" type="checkbox" 
+                    {{#isInArr this.brandID ../brandQuery}}
+                        checked
+                    {{/isInArr}}
+                    value="{{this.brandID}}" id="brand{{this.brandID}}" name="brands[]">
+                    <label for="brand{{this.brandID}}"><span class="checkbox"><span></span></span>{{this.brandName}}</label>
+                {{/each}}
+                
+            </div>
 
-                <h3 class="title">Gender</h3>
-                <div class="westeros-form">
-                    <input type="checkbox"
-                            {{#isInArr 0 genderIDs}}
-                                checked
-                            {{/isInArr}}
-                     id="gender1" value="0" name="genders[]">
-                    <label for="gender1"><span class="checkbox"><span></span></span>Men</label>
-                    <input type="checkbox" 
-                     {{#isInArr 1 genderIDs}}
-                                checked
-                            {{/isInArr}}
-                    id="gender2" value="1" name="genders[]">
-                    <label for="gender2"><span class="checkbox"><span></span></span>Women</label>
-                    <input type="checkbox" 
-                     {{#isInArr 2 genderIDs}}
-                                checked
-                            {{/isInArr}}
-                    id="gender3"value="2"  name="genders[]">
-                    <label for="gender3"><span class="checkbox"><span></span></span>Unisex</label>
-                </div>
+            <h3 class="title">Gender</h3>
+            <div class="westeros-form my-shop-form">
+                <input onchange="startSubmit(this)" type="checkbox" 
+                    {{#isInArr 0 genderQuery}}
+                        checked
+                    {{/isInArr}}
+                id="gender1" value="0" name="genders[]">
+                <label for="gender1"><span class="checkbox"><span></span></span>Men</label>
+                <input onchange="startSubmit(this)" type="checkbox"
+                    {{#isInArr 1 genderQuery}}
+                        checked
+                    {{/isInArr}}
+                 id="gender2" value="1" name="genders[]">
+                <label  for="gender2"><span class="checkbox"><span></span></span>Women</label>
+                <input onchange="startSubmit(this)" type="checkbox"
+                    {{#isInArr 2 genderQuery}}
+                        checked
+                    {{/isInArr}}
+                id="gender3"value="2"  name="genders[]">
+                <label for="gender3"><span class="checkbox"><span></span></span>Unisex</label>
+            </div>
 
-                <!-- SHOP BY PRICE -->
-                <h3 class="title">Price</h3>
-                <div class="westeros-form price-range">
-                    <input name="price" type="hidden" class="range-slider" value="200">
-                </div>
-                <div class="clearfix"></div>
-                <!-- /SHOP BY PRICE -->
-                <button class="button" type="submit" style="padding: 0 20px; margin:50px auto; cursor: pointer;">Filter</button>
-            </form>
+            <!-- SHOP BY PRICE -->
+            <h3 class="title">Price</h3>
+            <div class="westeros-form my-shop-form price-range">
+                <input onchange="startSubmit(this)" type="checkbox"
+                     {{#isInArr "1" priceQuery}}
+                        checked
+                    {{/isInArr}}
+                 id="price2" value="1" name="prices[]">
+                <label  for="price2"><span class="checkbox"><span></span></span>$0 - $25</label>
+                <input onchange="startSubmit(this)" type="checkbox"
+                     {{#isInArr "2" priceQuery}}
+                        checked
+                    {{/isInArr}}
+                 id="price3" value="2" name="prices[]">
+                <label for="price3"><span class="checkbox"><span></span></span>$25 - $50</label>
+                <input onchange="startSubmit(this)" type="checkbox"
+                     {{#isInArr "3" priceQuery}}
+                        checked
+                    {{/isInArr}}
+                 id="price4" value="3" name="prices[]">
+                <label for="price4"><span class="checkbox"><span></span></span>$50 - $75</label>
+                <input onchange="startSubmit(this)" type="checkbox"
+                     {{#isInArr "4" priceQuery}}
+                        checked
+                    {{/isInArr}}
+                 id="price5" value="4" name="prices[]">
+                <label for="price5"><span class="checkbox"><span></span></span>$75 - $100</label>
+                <input onchange="startSubmit(this)" type="checkbox"
+                    {{#isInArr "5" priceQuery}}
+                        checked
+                    {{/isInArr}}
+                 id="price6" value="5" name="prices[]">
+                <label for="price6"><span class="checkbox"><span></span></span>From $100 or more</label>
+            </div>
+            <div class="clearfix"></div>
+            <!-- /SHOP BY PRICE -->
 
             <h3 class="title">Featured Items</h3>
             <!-- PRODUCT PREVIEW -->
@@ -218,42 +245,14 @@
             <h3 class="title">Shop</h3>
             <!-- FILTERS -->
             <div class="filters">
-                <h3 class="subtitle">Items {{startNumber}} to {{endNumber}} out of {{total}} total</h3>
+                <h3 class="subtitle" id="shop-product-statitic">Items {{startNumber}} to {{endNumber}} out of {{total}} total</h3>
                 <div class="options">
-                    <form method="get" action="/shop" class="westeros-form">
-                    {{#if searchQuery}}
-                        <input type="text" value="{{searchQuery}}" name="search" readonly style="display: none;">
-                    {{/if}}
-                    {{#each brandQuery}}
-                        <input value="{{this.brandID}}" checked type="checkbox" name="brands[]" style="display: none;" readonly>
-                    {{/each}}
-                    {{#each catQuery}}
-                        <input value="{{this.catID}}" checked type="checkbox" name="categories[]" style="display: none;" readonly>
-                    {{/each}}
-                    {{#if priceQuery}}
-                        <input value="{{priceQuery}}" type="text" name="price" style="display: none;" readonly>
-                    {{/if}}
-                    {{#each genderQuery}}
-                        <input value="{{this.genderID}}" checked type="checkbox" name="genders[]" style="display: none;" readonly>
-                    {{/each}}
+                    <div class="westeros-form my-shop-form">
                         <label class="select-block" for="sort">Sort by:
-                            <select onchange="this.form.submit()" name="sort" id="sort">
-                            
-                                <option value="0"
-                                    {{#isEqual sortQuery '0'}}
-                                        selected
-                                    {{/isEqual}}
-                                >None</option>
-                                <option value="1"
-                                    {{#isEqual sortQuery '1'}}
-                                        selected
-                                    {{/isEqual}}
-                                >Price (High to Low)</option>
-                                <option value="2"
-                                    {{#isEqual sortQuery '2'}}
-                                        selected
-                                    {{/isEqual}}
-                                >Price (Low to High)</option>
+                            <select onchange="startSubmit(this)" name="sort" id="sort">
+                                <option value="0" >None</option>
+                                <option value="1">Price (High to Low)</option>
+                                <option value="2">Price (Low to High)</option>
                             </select>
                             <!-- SVG ARROW -->
                             <svg class="svg-arrow select-arrow">
@@ -261,7 +260,7 @@
                             </svg>
                             <!-- /SVG ARROW -->
                         </label>
-                    </form>
+                    </div>
                     <!-- VIEW DISPLAY -->
                     <ul class="display">
                         <li class="grid selected">
@@ -285,7 +284,7 @@
             <!-- /FILTERS -->
 
             <!-- PRODUCT LIST -->
-            <ul class="product-list grid">
+            <ul class="product-list grid" id="shop-product-list">
                 <!-- PRODUCT -->
             
                {{#each products}}
@@ -428,113 +427,61 @@
                         </div>
                         <!-- SOCIAL LINKS -->
 
-                        {{!-- <!-- CART OPTIONS -->
-                         {{#if this.quantity}}
-                            <div class="cart-options">
-                            
-                                <a href="#" class="button cart-add">
-                                <!-- SVG PLUS -->
-                                <svg class="svg-plus">
-                                    <use xlink:href="#svg-plus"></use>
-                                </svg>
-                                <!-- /SVG PLUS -->
-                                Add to Cart
-                            </a>
-                            </div>
-                        {{else}}
-                            <div class="cart-options">
-							
-							<a href="#" class="button no-stock">
-								<!-- SVG PLUS -->
-								<svg class="svg-plus">
-									<use xlink:href="#svg-plus"></use>
-								</svg>
-								<!-- /SVG PLUS -->
-								Out Of Stock
-							</a>
-						    </div>
-                        {{/if}}
-                        <!-- /CART OPTIONS --> --}}
                     </div>
                     <!-- /DESCRIPTION -->
                 </li>
                 {{/each}}
-
                 <!-- /PRODUCT -->
             </ul>
-            <!-- /PRODUCT LIST -->
-
             <!-- PAGER -->
-            <form 
-                method="GET"
-                action="/shop"
-            >
-                {{#if sortQuery}}
-                    <input type="text" value="{{sortQuery}}" name="sort" readonly style="display: none;">
+            <ul class="pager" id="my-pagination">
+                {{#if paginationArray}}
+                    <li>
+                        <label style="cursor: pointer;" class="button prev">
+                            <input onchange='startSubmit(this)' style="display: none;" id="page-prev" value="{{prevPage}}" type="radio" name="page"/>
+                            <!-- SVG ARROW -->
+                            <svg class="svg-arrow">
+                                <use xlink:href="#svg-arrow"></use>
+                            </svg>
+                            <!-- /SVG ARROW -->
+                        </label>
+                    </li>
+                    {{#each paginationArray }}  
+                        {{#if this.isCurrent}}
+                            <li class="selected">
+                                <label style="cursor: pointer;">
+                                    <input onchange='startSubmit(this)' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
+                                    {{this.page}}
+                                </label>
+                            </li>
+                        {{else}}
+                            <li>
+                                <label style="cursor: pointer;">
+                                    <input onchange='startSubmit(this)' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
+                                    {{this.page}}
+                                </label>
+                            </li>
+                        {{/if}}
+                    {{/each}}
+                    <li>
+                        <label style="cursor: pointer;" class="button next">
+                            <input onchange='startSubmit(this)' style="display: none;" id="page-next" value="{{nextPage}}" type="radio" name="page"/>
+                            <!-- SVG ARROW -->
+                            <svg class="svg-arrow">
+                                <use xlink:href="#svg-arrow"></use>
+                            </svg>
+                            <!-- /SVG ARROW -->
+                        </label>
+                    </li>
                 {{/if}}
-                {{#if searchQuery}}
-                    <input type="text" value="{{searchQuery}}" name="search" readonly style="display: none;">
-                {{/if}}
-                {{#each brandQuery}}
-                    <input value="{{this.brandID}}" checked type="checkbox" name="brands[]" style="display: none;" readonly>
-                {{/each}}
-                 {{#each catQuery}}
-                    <input value="{{this.catID}}" checked type="checkbox" name="categories[]" style="display: none;" readonly>
-                {{/each}}
-                 {{#if priceQuery}}
-                    <input value="{{priceQuery}}" type="text" name="price" style="display: none;" readonly>
-                {{/if}}
-                 {{#each genderQuery}}
-                    <input value="{{this.genderID}}" checked type="checkbox" name="genders[]" style="display: none;" readonly>
-                {{/each}}
-                <ul class="pager">
-                    {{#if paginationArray}}
-                        <li>
-                            <label style="cursor: pointer;" class="button prev">
-                                <input onchange='this.form.submit();' style="display: none;" id="page-prev" value="{{prevPage}}" type="radio" name="page"/>
-                                <!-- SVG ARROW -->
-                                <svg class="svg-arrow">
-                                    <use xlink:href="#svg-arrow"></use>
-                                </svg>
-                                <!-- /SVG ARROW -->
-                            </label>
-                        </li>
-                        {{#each paginationArray }}  
-                            {{#if this.isCurrent}}
-                                <li class="selected">
-                                    <label style="cursor: pointer;">
-                                        <input onchange='this.form.submit();' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
-                                        {{this.page}}
-                                    </label>
-                                </li>
-                            {{else}}
-                                <li>
-                                    <label style="cursor: pointer;">
-                                        <input onchange='this.form.submit();' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
-                                        {{this.page}}
-                                    </label>
-                                </li>
-                            {{/if}}
-                        {{/each}}
-                        <li>
-                            <label style="cursor: pointer;" class="button next">
-                                <input onchange='this.form.submit();' style="display: none;" id="page-next" value="{{nextPage}}" type="radio" name="page"/>
-                                <!-- SVG ARROW -->
-                                <svg class="svg-arrow">
-                                    <use xlink:href="#svg-arrow"></use>
-                                </svg>
-                                <!-- /SVG ARROW -->
-                            </label>
-                        </li>
-                    {{/if}}
-                </ul>
-            </form>
+            </ul>
             <!-- /PAGER -->
         </div>
         <!-- /SHOP PRODUCTS -->
         <div class="clearfix"></div>
     </section>
 </div>
+</form>
 <!-- /SHOP -->
 <!-- SVG ARROW -->
 <svg style="display: none;">	
@@ -793,4 +740,170 @@
 <script src="/js/menu.js"></script>
 <!-- Shop -->
 <script src="/js/shop.js"></script>
+<script>
+
+    function generateItemView(products){
+        return products.map(product=>{
+            let starFill = ``;
+            for(let i = 0 ; i < product.star;i++){
+                starFill += ` <li class="filled">
+                                    <svg class="svg-star">
+                                        <use xlink:href="#svg-star"></use>
+                                    </svg>
+                                </li>`
+            }
+            let star = ``;
+            for(let i = 0; i < product.starLeft; i++){
+                star += ` <li class="filled">
+                                    <svg class="svg-star">
+                                        <use xlink:href="#svg-star"></use>
+                                    </svg>
+                                </li>`
+            }
+            return `
+            <li class="list-item">
+                <div class="actions">
+                    <figure class="liquid imgLiquid_bgSize imgLiquid_ready" style="background-image: url('${product.image}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
+                        <img src=${product.image} alt="product1" style="display:none;">
+                    </figure>
+                    <div>
+                        <a href="/shop/${product.brandslug}/${product.genderslug}/${product.cateslug}/${product.proID}" class="button full-view">
+                            <svg class="svg-fullview">
+                                <use xlink:href="#svg-fullview"></use>	
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="description">
+                    <div class="clearfix">
+                        <a href="/shop/all/all/${product.cateslug}"><p class="highlighted category"> ${product.cate}</p></a>
+                        <ul class="rating">`
+                         + starFill + star +   
+                        `</ul>
+                    </div>
+                    <div class="clearfix">
+                        <a href="/shop/${product.brandslug}/${product.genderslug}/${product.cateslug}/${product.proID}"><h6>${product.proName}</h6></a>
+                    </div>
+                    <div class="clearfix">
+                        <p class="short-description my-short-description">${product.description}description}</p>
+                        <p class="long-description">${product.fullDescription}</p>
+                        <p class="highlighted current">\$${product.price}</p>
+                    </div>
+                    <div class="social">
+                        <a href="#" class="button medium fb"></a>
+                        <a href="#" class="button medium twt"></a>
+                    </div>
+                </div>
+            </li>
+            `
+        })
+    }
+    
+    function generatePager(paginationArray, prevPage, nextPage){
+        let result = [];
+        result.push(`
+            <li>
+                <label style="cursor: pointer;" class="button prev">
+                    <input onchange='startSubmit(this)' style="display: none;" id="page-prev" value="${prevPage}" type="radio" name="page"/>
+                    <!-- SVG ARROW -->
+                    <svg class="svg-arrow">
+                        <use xlink:href="#svg-arrow"></use>
+                    </svg>
+                    <!-- /SVG ARROW -->
+                </label>
+            </li>
+        `)
+        paginationArray.forEach(page=>{
+            if(page.isCurrent){
+                result.push(`
+                    <li class="selected">
+                        <label style="cursor: pointer;">
+                            <input onchange='startSubmit(this)' style="display: none;" id="page-${page.page}" value="${page.page}" type="radio" name="page"/>
+                            ${page.page}
+                        </label>
+                    </li>
+                `)
+            }else{
+                result.push(`
+                    <li>
+                        <label style="cursor: pointer;">
+                            <input onchange='startSubmit(this)' style="display: none;" id="page-${page.page}" value="${page.page}" type="radio" name="page"/>
+                            ${page.page}
+                        </label>
+                    </li>
+                `)
+            }
+        });
+        result.push(`
+            <li>
+                <label style="cursor: pointer;" class="button next">
+                    <input onchange='startSubmit(this)' style="display: none;" id="page-next" value="${nextPage}" type="radio" name="page"/>
+                    <svg class="svg-arrow">
+                        <use xlink:href="#svg-arrow"></use>
+                    </svg>
+                </label>
+            </li>
+        `)
+        return result;
+    }
+
+    function startSubmit(ele){
+        const myForm = document.forms.shopForm;
+        let formData = new FormData(myForm);
+        const value = Object.fromEntries(formData.entries());
+        value.categories = formData.getAll('categories[]');
+        value.brands = formData.getAll('brands[]');
+        value.genders = formData.getAll('genders[]');
+        value.prices = formData.getAll('prices[]');
+        const shopSearch = document.getElementById("shop-search");
+        value.search = (shopSearch) ? shopSearch.value : "";
+        if(ele.getAttribute("name") !== "page" && ele.getAttribute("name") !== "sort"){
+            value.page = 1;
+        }
+
+        let queryString = "";
+        queryString += ("search=" + value.search + "&");
+        value.categories.forEach(cate=>{
+            queryString += ("categories=" + cate + "&");
+        })
+        value.genders.forEach(gen=>{
+            queryString += ("genders=" + gen+ "&");
+        })
+        value.brands.forEach(brand=>{
+            queryString += ("brands=" + brand+ "&");
+        })
+        value.prices.forEach(price=>{
+            queryString += ("prices=" + price+ "&");
+        })
+        queryString += ("page="+value.page);
+        const newRelativePathQuery = window.location.pathname + '?' + queryString;
+        history.pushState(null, '', newRelativePathQuery);
+
+        $.ajax({
+            method:'get',
+            url: '/shop/filter',
+            data: value,
+            success:function(data){
+                const productView = generateItemView(data.products);
+                $("#shop-product-list").empty();
+                $("#my-pagination").empty();
+                if(data.paginationArray && data.paginationArray.length > 0){
+                    const pageView = generatePager(data.paginationArray, data.prevPage, data.nextPage);
+                    pageView.forEach(page=>{
+                        $("#my-pagination").append(page);
+                    });
+                }
+                $("#shop-product-statitic").text(`Items ${data.startNumber} to ${data.endNumber} out of ${data.total} total`)
+                productView.forEach(product=>{
+                    $("#shop-product-list").append(product);
+                });
+            },
+            error:function(err){
+                console.log(err)
+                alert("An error has occurred, please try again");
+            }
+        })
+    }
+</script>
 {{/section}}
+
