@@ -428,7 +428,7 @@ svg.sidebar-control {
 			border: none;
 		}
 
-		a {
+		label {
 			display: block;
 			text-align: center;
 			line-height: 28px;
@@ -444,7 +444,7 @@ svg.sidebar-control {
 		}
 
 		&.selected {
-			a {
+			label {
 				color: $brand;
 				font-weight: $bold;
 			}

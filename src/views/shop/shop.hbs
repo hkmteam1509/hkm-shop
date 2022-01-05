@@ -487,30 +487,46 @@
                  {{#each genderQuery}}
                     <input value="{{this.genderID}}" checked type="checkbox" name="genders[]" style="display: none;" readonly>
                 {{/each}}
-                <ul class="my-pagination">
-                   {{#if paginationArray}}
-                         <li class="my-page-item">
-                            <input onchange='this.form.submit();' style="display: none;" id="page-prev" value="{{prevPage}}" type="radio" name="page"/>
-                            <label for="page-prev"  class="my-page-button">Prev</label>
+                <ul class="pager">
+                    {{#if paginationArray}}
+                        <li>
+                            <label style="cursor: pointer;" class="button prev">
+                                <input onchange='this.form.submit();' style="display: none;" id="page-prev" value="{{prevPage}}" type="radio" name="page"/>
+                                <!-- SVG ARROW -->
+                                <svg class="svg-arrow">
+                                    <use xlink:href="#svg-arrow"></use>
+                                </svg>
+                                <!-- /SVG ARROW -->
+                            </label>
                         </li>
                         {{#each paginationArray }}  
                             {{#if this.isCurrent}}
-                                <li class="my-page-item">
-                                    <input onchange='this.form.submit();' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
-                                    <label for="page-{{this.page}}"  class="my-page-link my-current-page">{{this.page}}</label>
+                                <li class="selected">
+                                    <label style="cursor: pointer;">
+                                        <input onchange='this.form.submit();' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
+                                        {{this.page}}
+                                    </label>
                                 </li>
                             {{else}}
-                                <li class="my-page-item">
-                                    <input onchange='this.form.submit();' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
-                                    <label for="page-{{this.page}}"  class="my-page-link">{{this.page}}</label>
+                                <li>
+                                    <label style="cursor: pointer;">
+                                        <input onchange='this.form.submit();' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
+                                        {{this.page}}
+                                    </label>
                                 </li>
                             {{/if}}
                         {{/each}}
-                        <li class="my-page-item">
-                            <input onchange='this.form.submit();' style="display: none;" id="page-next" value="{{nextPage}}" type="radio" name="page"/>
-                            <label for="page-next"  class="my-page-button">Next</label>
+                        <li>
+                            <label style="cursor: pointer;" class="button next">
+                                <input onchange='this.form.submit();' style="display: none;" id="page-next" value="{{nextPage}}" type="radio" name="page"/>
+                                <!-- SVG ARROW -->
+                                <svg class="svg-arrow">
+                                    <use xlink:href="#svg-arrow"></use>
+                                </svg>
+                                <!-- /SVG ARROW -->
+                            </label>
                         </li>
-                   {{/if}}
+                    {{/if}}
                 </ul>
             </form>
             <!-- /PAGER -->
