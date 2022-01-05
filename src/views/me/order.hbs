@@ -26,7 +26,7 @@
 
 						<!-- CELL -->
 						<div class="cell my-cell">
-							<h5>Placed</h5>
+							<h5>Ordered on</h5>
 						</div>
 						<!-- /CELL -->
 
@@ -50,218 +50,128 @@
 					<!-- /ROW -->
 
 					<!-- ROW -->
-					<div class="row">
-						<!-- CELL -->
-						<div class="cell my-cell">
-							<p class="highlighted">#OD123</p>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell my-cell">
-							<p class="highlighted">15/11/2021</p>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell my-cell">
-							<p class="highlighted">$54.00</p>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell my-cell">
-							<div class="delivering-order-badge">
-                                delivering
-                            </div>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell buttons small my-cell">
-							<!-- ACTIONS -->
-							<div class="actions no-shrink">
-								<a href="/me/order/OD123" class="button" style="padding: 0 20px;">
-									Detail
-								</a>
+					{{#each userOrders}}
+						<div class="row">
+							<!-- CELL -->
+							<div class="cell my-cell">
+								<p class="highlighted">{{this.orderID}}</p>
 							</div>
-							<!-- /ACTIONS -->
-						</div>
-						<!-- /CELL -->
-					</div>
-					<!-- /ROW -->
+							<!-- /CELL -->
 
-					<!-- ROW -->
-					<div class="row">
-						<!-- CELL -->
-						<div class="cell my-cell">
-							<p class="highlighted">#OD122</p>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell my-cell">
-							<p class="highlighted">14/11/2021</p>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell my-cell">
-							<p class="highlighted">$54.00</p>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell my-cell">
-							<div class="delivering-order-badge">
-                                delivering
-                            </div>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell buttons small my-cell">
-							<!-- ACTIONS -->
-							<div class="actions no-shrink">
-								<a href="/me/order/OD123" class="button" style="padding: 0 20px;">
-									Detail
-								</a>
+							<!-- CELL -->
+							<div class="cell my-cell">
+								<p class="highlighted">{{this.orderDate}}</p>
 							</div>
-							<!-- /ACTIONS -->
-						</div>
-						<!-- /CELL -->
-					</div>
-					<!-- /ROW -->
+							<!-- /CELL -->
 
-					<!-- ROW -->
-					<div class="row">
-						<!-- CELL -->
-						<div class="cell my-cell">
-							<p class="highlighted">#OD121</p>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell my-cell">
-							<p class="highlighted">10/11/2021</p>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell my-cell">
-							<p class="highlighted">$54.00</p>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell my-cell">
-							<div class="complete-order-badge">
-                                COMPLETE
-                            </div>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell buttons small my-cell">
-							<!-- ACTIONS -->
-							<div class="actions no-shrink">
-								<a href="/me/order/OD123" class="button" style="padding: 0 20px;">
-									Detail
-								</a>
+							<!-- CELL -->
+							<div class="cell my-cell">
+								<p class="highlighted">${{this.total}}</p>
 							</div>
-							<!-- /ACTIONS -->
-						</div>
-						<!-- /CELL -->
-					</div>
-					<!-- /ROW -->
+							<!-- /CELL -->
 
-					<!-- ROW -->
-					<div class="row">
-						<!-- CELL -->
-						<div class="cell my-cell">
-							<p class="highlighted">#OD120</p>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell my-cell">
-							<p class="highlighted">5/11/2021</p>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell my-cell">
-							<p class="highlighted">$54.00</p>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell my-cell">
-							<div class="cancel-order-badge">
-                                cancel
-                            </div>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell buttons small my-cell">
-							<!-- ACTIONS -->
-							<div class="actions no-shrink">
-								<a href="/me/order/OD123" class="button" style="padding: 0 20px;">
-									Detail
-								</a>
+							<!-- CELL -->
+							<div class="cell my-cell">
+								{{#isEqual this.status 1}}
+									<div class="delivering-order-badge">
+										Pending confirmation
+									</div>
+								{{/isEqual}}
+								{{#isEqual this.status 2}}
+									<div class="delivering-order-badge">
+										Confirmed
+									</div>
+								{{/isEqual}}
+								{{#isEqual this.status 3}}
+									<div class="delivering-order-badge">
+										Pick by courier
+									</div>
+								{{/isEqual}}
+								{{#isEqual this.status 4}}
+									<div class="delivering-order-badge">
+										On their way
+									</div>
+								{{/isEqual}}
+								{{#isEqual this.status 5}}
+									<div class="delivering-order-badge">
+										Arrived
+									</div>
+								{{/isEqual}}
+								{{#isEqual this.status 6}}
+									<div class="complete-order-badge">
+                                		Completed
+                            		</div>
+								{{/isEqual}}
+								{{#isEqual this.status 7}}
+									<div class="cancel-order-badge">
+                                		Canceled
+                            		</div>
+								{{/isEqual}}
 							</div>
-							<!-- /ACTIONS -->
-						</div>
-						<!-- /CELL -->
-					</div>
-					<!-- /ROW -->
+							<!-- /CELL -->
 
-					<!-- ROW -->
-					<div class="row">
-						<!-- CELL -->
-						<div class="cell my-cell">
-							<p class="highlighted">#OD119</p>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell my-cell">
-							<p class="highlighted">15/10/2021</p>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell my-cell">
-							<p class="highlighted">$54.00</p>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell my-cell">
-							<div class="complete-order-badge">
-                                COMPLETE
-                            </div>
-						</div>
-						<!-- /CELL -->
-
-						<!-- CELL -->
-						<div class="cell buttons small my-cell">
-							<!-- ACTIONS -->
-							<div class="actions no-shrink">
-								<a href="/me/order/OD123" class="button" style="padding: 0 20px;">
-									Detail
-								</a>
+							<!-- CELL -->
+							<div class="cell buttons small my-cell">
+								<!-- ACTIONS -->
+								<div class="actions no-shrink">
+									<a href="/me/order/{{this.orderID}}" class="button" style="padding: 0 20px;">
+										Detail
+									</a>
+								</div>
+								<!-- /ACTIONS -->
 							</div>
-							<!-- /ACTIONS -->
+							<!-- /CELL -->
 						</div>
-						<!-- /CELL -->
-					</div>
-					<!-- /ROW -->
+					{{/each}}
 				</div>
 				<!-- /SHOPPING CART -->
                 <!-- PAGER -->
-                <ul class="pager">
+				<form 
+                method="GET"
+                action="/me/order">
+					<ul class="pager">
+						{{#if paginationArray}}
+							<li>
+								<label style="cursor: pointer;" class="button prev">
+									<input onchange='this.form.submit();' style="display: none;" id="page-prev" value="{{prevPage}}" type="radio" name="page"/>
+									<!-- SVG ARROW -->
+									<svg class="svg-arrow">
+										<use xlink:href="#svg-arrow"></use>
+									</svg>
+									<!-- /SVG ARROW -->
+								</label>
+							</li>
+							{{#each paginationArray }}  
+								{{#if this.isCurrent}}
+									<li class="selected">
+										<label style="cursor: pointer;">
+											<input onchange='this.form.submit();' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
+											{{this.page}}
+										</label>
+									</li>
+								{{else}}
+									<li>
+										<label style="cursor: pointer;">
+											<input onchange='this.form.submit();' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
+											{{this.page}}
+										</label>
+									</li>
+								{{/if}}
+							{{/each}}
+							<li>
+								<label style="cursor: pointer;" class="button next">
+									<input onchange='this.form.submit();' style="display: none;" id="page-next" value="{{nextPage}}" type="radio" name="page"/>
+									<!-- SVG ARROW -->
+									<svg class="svg-arrow">
+										<use xlink:href="#svg-arrow"></use>
+									</svg>
+									<!-- /SVG ARROW -->
+								</label>
+							</li>
+						{{/if}}
+					</ul>
+				</form>
+                {{!-- <ul class="pager">
                     <li>
                         <a href="#" class="button prev">
                             <!-- SVG ARROW -->
@@ -285,7 +195,7 @@
                             <!-- /SVG ARROW -->
                         </a>
                     </li>
-                </ul>
+                </ul> --}}
                 <!-- /PAGER -->
 			</div>
 

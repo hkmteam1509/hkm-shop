@@ -155,6 +155,25 @@ class UserService{
         })
     }
     
+    getUserOrders(limit, page, userID){
+        return models.order.findAll({
+            offset: (page - 1)*limit, 
+            limit: limit,
+            raw: true,
+            where:{
+                userID: userID
+            }
+        })
+    }
+
+    countUserOrder(userID){
+        return models.order.count({
+            raw: true,
+            where:{
+                userID: userID
+            }
+        })
+    }
 }
 
 module.exports = new UserService;
