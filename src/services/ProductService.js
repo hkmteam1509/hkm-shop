@@ -539,6 +539,15 @@ class ProductService{
             }
         })
     }
+
+    countProductQuantity(id){
+        return models.detail.sum('quantity', {
+            raw:true,
+            where:{
+                proID: id
+            }
+        })
+    }
 }
 
 module.exports = new ProductService;
