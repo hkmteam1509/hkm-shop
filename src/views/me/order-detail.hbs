@@ -1,7 +1,9 @@
 <!-- SECTION-NAV -->
 <div id="section-nav-wrap">
     <section id="section-nav">
-        <p>Home / Me / Order / <a href="/me/order/OD123">OD123</a></p>
+        {{#with order}}
+            <p>Home / Me / Order / <a href="/me/order/{{orderID}}">{{orderID}}</a></p>
+        {{/with}}
     </section>
 </div>
 <!-- /SECTION-NAV -->
@@ -23,511 +25,379 @@
             <!-- /SIDEBAR CONTROL -->
 
             <h3 class="title">Order Progress</h3>
-            <div class="checkout-progress">
-                
-                <h5>
-                    Confirmed Order
-                    <!-- SVG CHECK -->
-                    <svg class="svg-check">
-                        <use xlink:href="#svg-check"></use>
-                    </svg>
-                    <!-- /SVG CHECK -->
-                </h5>
-                <h5>
-                    Pickup by Courier
-                    <!-- SVG CHECK -->
-                    <svg class="svg-check">
-                        <use xlink:href="#svg-check"></use>
-                    </svg>
-                    <!-- /SVG CHECK -->
-                </h5>
-                <h5>
-                    On their way
-                    <!-- SVG GEAR -->
-                    <svg class="svg-gear" style="width: 13px; height: 10px" >
-                        <use xlink:href="#svg-gear"></use>	
-                    </svg>
-                    <!-- /SVG GEAR -->
-                </h5>
-                <h5>
-                    Delivered
-                    
-                </h5>
-                <h5>
-                    Complete
-                    
-                </h5>
-            </div>
+            {{#with order}}
+                <div class="checkout-progress">
+                    {{#isEqual status 7}}
+                        <h5 style="color: #e53935;">
+                            Canceled
+                        </h5>
+                    {{else}}
+                        {{#isEqual status 1}}
+                            <h5>
+                                Pending confirmation
+                                <!-- SVG GEAR -->
+                                <svg class="svg-gear" style="width: 13px; height: 10px" >
+                                    <use xlink:href="#svg-gear"></use>	
+                                </svg>
+                                <!-- /SVG GEAR -->
+                            </h5>
+                        {{else}}
+                            <h5>
+                                Pending confirmation
+                                <!-- SVG CHECK -->
+                                <svg class="svg-check">
+                                    <use xlink:href="#svg-check"></use>
+                                </svg>
+                                <!-- /SVG CHECK -->
+                            </h5>
+                            {{#isEqual status 2}}
+                                <h5>
+                                    Confirmed
+                                    <!-- SVG GEAR -->
+                                    <svg class="svg-gear" style="width: 13px; height: 10px" >
+                                        <use xlink:href="#svg-gear"></use>	
+                                    </svg>
+                                    <!-- /SVG GEAR -->
+                                </h5>
+                            {{else}}
+                                <h5>
+                                    Confirmed
+                                    <!-- SVG CHECK -->
+                                    <svg class="svg-check">
+                                        <use xlink:href="#svg-check"></use>
+                                    </svg>
+                                    <!-- /SVG CHECK -->
+                                </h5>
+                                {{#isEqual status 3}}
+                                    <h5>
+                                        Pick by courier
+                                        <!-- SVG GEAR -->
+                                        <svg class="svg-gear" style="width: 13px; height: 10px" >
+                                            <use xlink:href="#svg-gear"></use>	
+                                        </svg>
+                                        <!-- /SVG GEAR -->
+                                    </h5>
+                                {{else}}
+                                    <h5>
+                                        Pick by courier
+                                        <!-- SVG CHECK -->
+                                        <svg class="svg-check">
+                                            <use xlink:href="#svg-check"></use>
+                                        </svg>
+                                        <!-- /SVG CHECK -->
+                                    </h5>
+                                    {{#isEqual status 4}}
+                                        <h5>
+                                            On their way
+                                            <!-- SVG GEAR -->
+                                            <svg class="svg-gear" style="width: 13px; height: 10px" >
+                                                <use xlink:href="#svg-gear"></use>	
+                                            </svg>
+                                            <!-- /SVG GEAR -->
+                                        </h5>
+                                    {{else}}
+                                        <h5>
+                                            On their way
+                                            <!-- SVG CHECK -->
+                                            <svg class="svg-check">
+                                                <use xlink:href="#svg-check"></use>
+                                            </svg>
+                                            <!-- /SVG CHECK -->
+                                        </h5>
+                                        {{#isEqual status 5}}
+                                            <h5>
+                                                Arrived
+                                                <!-- SVG GEAR -->
+                                                <svg class="svg-gear" style="width: 13px; height: 10px" >
+                                                    <use xlink:href="#svg-gear"></use>	
+                                                </svg>
+                                                <!-- /SVG GEAR -->
+                                            </h5>
+                                        {{else}}
+                                            <h5>
+                                                Arrived
+                                                <!-- SVG CHECK -->
+                                                <svg class="svg-check">
+                                                    <use xlink:href="#svg-check"></use>
+                                                </svg>
+                                                <!-- /SVG CHECK -->
+                                            </h5>
+                                            {{#isEqual status 6}}
+                                                <h5>
+                                                    Completed
+                                                    <!-- SVG CHECK -->
+                                                    <svg class="svg-check">
+                                                        <use xlink:href="#svg-check"></use>
+                                                    </svg>
+                                                    <!-- /SVG CHECK -->
+                                                </h5>
+                                            {{/isEqual}}
+                                        {{/isEqual}}
+                                    {{/isEqual}}
+                                {{/isEqual}}
+                            {{/isEqual}}
+                        {{/isEqual}}
+                    {{/isEqual}}
+                </div>
+            {{/with}}
 
             <h3 class="title">Order Total</h3>
-            <!-- CART TOTAL -->
-            <div class="cart-total">
-                <!-- SUBTOTAL -->
-                <div class="subtotal">
-                    <h5>Order Subtotal</h5>
-                    <h5>$361.00</h5>
-                </div>
-                <!-- /SUBTOTAL -->
+            {{#with order}}
+                <!-- CART TOTAL -->
+                <div class="cart-total">
+                    <!-- SUBTOTAL -->
+                    <div class="subtotal">
+                        <h5>Order Subtotal</h5>
+                        <h5>${{total}}</h5>
+                    </div>
+                    <!-- /SUBTOTAL -->
 
-                <!-- TOTAL -->
-                <div class="total">
-                    <h5>Total Order</h5>
-                    <h5>$361.50</h5>
+                    <!-- TOTAL -->
+                    <div class="total">
+                        <h5>Total Order</h5>
+                        <h5>${{total}}</h5>
+                    </div>
+                    <!-- /TOTAL -->
                 </div>
-                <!-- /TOTAL -->
-            </div>
-            <!-- /CART TOTAL -->
+                <!-- /CART TOTAL -->
+            {{/with}}
         </aside>
         <!-- /SHOP SIDEBAR -->
 
-        <!-- SHOP PRODUCTS -->
-        <div class="shop-products">
-            <h3 class="title">Order Tracking - #OD123</h3>
-            <!-- PROFILE INFO -->
-            <div class="profile-info">
-                <!-- PROFILE HEADER -->
-                <h5 class="profile-header">
-                    <span>01</span>Order Status
-                    <!-- SVG PLUS -->
-                    <svg class="plus">
-                        <rect class="vertical" x="4" width="4" height="12"/>
-                        <rect y="4" width="12" height="4"/>
-                    </svg>
-                    <!-- /SVG PLUS -->
-                </h5>
-                <!-- /PROFILE HEADER -->
+        {{#with order}}
+            <!-- SHOP PRODUCTS -->
+            <div class="shop-products">
+                <h3 class="title">Order Tracking - {{orderID}}</h3>
+                <!-- PROFILE INFO -->
+                <div class="profile-info">
+                    <!-- PROFILE HEADER -->
+                    <h5 class="profile-header">
+                        <span>01</span>Order Status
+                        <!-- SVG PLUS -->
+                        <svg class="plus">
+                            <rect class="vertical" x="4" width="4" height="12"/>
+                            <rect y="4" width="12" height="4"/>
+                        </svg>
+                        <!-- /SVG PLUS -->
+                    </h5>
+                    <!-- /PROFILE HEADER -->
 
-                <!-- PROFILE DATA -->
-                <div class="profile-data order-tab order-status-tab">
-                    <div class="my-content">
-                        <h1 style="font-size: 20px;">Your order is on their way</h1>  
-                        <h1 style="font-size: 16px;">It will arrive before 20/11/2021</h1>
+                    <!-- PROFILE DATA -->
+                    <div class="profile-data order-tab order-status-tab">
+                        <div class="my-content">
+                            {{#isEqual this.status 1}}
+                                <h1 style="font-size: 20px;">Your order is pending confirmation</h1>
+                            {{/isEqual}}
+                            {{#isEqual this.status 2}}
+                                <h1 style="font-size: 20px;">Your order is confirmed</h1>
+                            {{/isEqual}}
+                            {{#isEqual this.status 3}}
+                                <h1 style="font-size: 20px;">Your order is pick by courier</h1>
+                            {{/isEqual}}
+                            {{#isEqual this.status 4}}
+                                <h1 style="font-size: 20px;">Your order is on their way</h1>
+                            {{/isEqual}}
+                            {{#isEqual this.status 5}}
+                                <h1 style="font-size: 20px;">Your order is arrived</h1>
+                            {{/isEqual}}
+                            {{#isEqual this.status 6}}
+                                <h1 style="font-size: 20px;">Your order is completed</h1>
+                            {{/isEqual}}
+                            {{#isEqual this.status 7}}
+                                <h1 style="font-size: 20px;">Your order is canceled</h1>
+                            {{/isEqual}}
+                            {{!-- <h1 style="font-size: 16px;">It will arrive before 20/11/2021</h1> --}}
+                        </div>
                     </div>
-                </div>
-    
-                <!-- PROFILE HEADER -->
-                <h5 class="profile-header">
-                    <span>02</span>Shipping Information
-                    <!-- SVG PLUS -->
-                    <svg class="plus">
-                        <rect class="vertical" x="4" width="4" height="12"/>
-                        <rect y="4" width="12" height="4"/>
-                    </svg>
-                    <!-- /SVG PLUS -->
-                </h5>
-                <!-- /PROFILE HEADER -->
+        
+                    <!-- PROFILE HEADER -->
+                    <h5 class="profile-header">
+                        <span>02</span>Shipping Information
+                        <!-- SVG PLUS -->
+                        <svg class="plus">
+                            <rect class="vertical" x="4" width="4" height="12"/>
+                            <rect y="4" width="12" height="4"/>
+                        </svg>
+                        <!-- /SVG PLUS -->
+                    </h5>
+                    <!-- /PROFILE HEADER -->
 
-                <!-- PROFILE DATA -->
-                <div class="profile-data">
-                    <div class="featured-form">
-                        <form class="westeros-form" id="checkout-form">
-                            <div>
-                                <label class="rl-label required">First Name</label>
-                                <input type="text" value="Kudo" disabled>
-                            </div>
-                            <div>
-                                <label class="rl-label required">Last Name</label>
-                                <input type="text" value="Kohari" disabled>
-                            </div>
-                            <div>
-                                <label class="rl-label required">Phone Number</label>
-                                <input type="text" value="0123456789" disabled>
-                            </div>
-                           
-                            {{!-- <div>
-                                <label class="rl-label required">Country</label>
-                                <label for="country2">
-                                    <select name="country" id="country2" disabled>
-                                        <option value="0" selected>Vietnam</option>
-                                    </select>
-                                    <!-- SVG ARROW -->
-                                    <svg class="svg-arrow select-arrow">
-                                        <use xlink:href="#svg-arrow"></use>
-                                    </svg>
-                                    <!-- /SVG ARROW -->
-                                </label>
-                            </div>
-                            <div>
-                                <label class="rl-label required">Town / City</label>
-                                <input type="text" value="TP HCM" disabled>
-                            </div>
-                            <div>
-                                <label class="rl-label required">State / Province</label>
-                                <input type="text" value="TP Thu Duc" disabled>
-                            </div> --}}
-                            <div>
-                                <label class="rl-label required">Province</label>
-                                <label for="country2">
-                                    {{!-- <select name="country" id="country2">
-                                        <option value="0">Select your country...</option>
-                                        <option value="1">United States</option>
-                                        <option value="2" selected>England</option>
-                                        <option value="3">France</option>
-                                        <option value="4">Spain</option>	
-                                    </select> --}}
-                                    <select name="my_ls_province" disabled style="width: 100%;">
-                                        <option value="1" selected>Ho Chi Minh</option>
-                                    </select>
-                                    <!-- SVG ARROW -->
-                                    <svg class="svg-arrow select-arrow">
-                                        <use xlink:href="#svg-arrow"></use>
-                                    </svg>
-                                    <!-- /SVG ARROW -->
-                                </label>
-                            </div>
-                            <div>
-                                {{!-- <label class="rl-label required">Town / City</label>
-                                <input type="text" value="London"> --}}
-                                <label class="rl-label required">District</label>
-                                <label for="country2">
-                                    {{!-- <select name="country" id="country2">
-                                        <option value="0">Select your country...</option>
-                                        <option value="1">United States</option>
-                                        <option value="2" selected>England</option>
-                                        <option value="3">France</option>
-                                        <option value="4">Spain</option>	
-                                    </select> --}}
-                                    <select name="my_ls_district" disabled style="width: 100%;">
-                                        <option value="1" selected>District Thu Duc</option>
-                                    </select>
-                                    <!-- SVG ARROW -->
-                                    <svg class="svg-arrow select-arrow">
-                                        <use xlink:href="#svg-arrow"></use>
-                                    </svg>
-                                    <!-- /SVG ARROW -->
-                                </label>
-                            </div>
-                            <div>
-                                {{!-- <label class="rl-label required">State / Province</label>
-                                <input type="text" value="Baker"> --}}
-                                <label class="rl-label required">Ward</label>
-                                <label for="country2">
-                                    {{!-- <select name="country" id="country2">
-                                        <option value="0">Select your country...</option>
-                                        <option value="1">United States</option>
-                                        <option value="2" selected>England</option>
-                                        <option value="3">France</option>   
-                                        <option value="4">Spain</option>	
-                                    </select> --}}
-                                   <select name="ls_ward" disabled style="width: 100%;">
-                                        <option value="1" selected>Ward Linh Trung</option>
-                                    </select>
-                                    <!-- SVG ARROW -->
-                                    <svg class="svg-arrow select-arrow">
-                                        <use xlink:href="#svg-arrow"></use>
-                                    </svg>
-                                    <!-- /SVG ARROW -->
-                                </label>
-                            </div>
-                             <div>
-                                <label class="rl-label required">Address</label>
-                                <input type="text" value="DHQG TPHCM" disabled>
-                            </div>
-                            <div class="full-input">
-                                <label class="rl-label">Special Requests</label>
-                                <textarea disabled>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores, explicabo.
-                                </textarea>
-                            </div>
-                            <div class="full-input"></div>
-                        </form>
+                    <!-- PROFILE DATA -->
+                    <div class="profile-data">
+                        <div class="featured-form">
+                            <form class="westeros-form" id="checkout-form">
+                                <div>
+                                    <label class="rl-label required">First Name</label>
+                                    <input type="text" value="{{f_firstname}}" disabled>
+                                </div>
+                                <div>
+                                    <label class="rl-label required">Last Name</label>
+                                    <input type="text" value="{{f_lastname}}" disabled>
+                                </div>
+                                <div>
+                                    <label class="rl-label required">Phone Number</label>
+                                    <input type="text" value="{{f_phone}}" disabled>
+                                </div>
+                                <div>
+                                    <label class="rl-label required">Country</label>
+                                    <input type="text" value="{{country}}" disabled>
+                                </div>
+                                <div>
+                                    <label class="rl-label required">Province</label>
+                                    <input type="text" value="{{province}}" disabled>
+                                </div>
+                                <div>
+                                    <label class="rl-label required">District</label>
+                                    <input type="text" value="{{distric}}" disabled>
+                                </div>
+                                <div>
+                                    <label class="rl-label required">Ward</label>
+                                    <input type="text" value="{{ward}}" disabled>
+                                </div>
+                                <div>
+                                    <label class="rl-label required">Address</label>
+                                    <input type="text" value="{{address}}" disabled>
+                                </div>
+                                <div class="full-input">
+                                    <label class="rl-label">Special Requests</label>
+                                    <textarea disabled>{{request}}
+                                    </textarea>
+                                </div>
+                                <div class="full-input"></div>
+                            </form>
+                        </div>
                     </div>
-                </div>
-                <!-- /PROFILE DATA -->
+                    <!-- /PROFILE DATA -->
 
-                <!-- PROFILE HEADER -->
-                <h5 class="profile-header">
-                    <span>03</span>Payment Method
-                    <!-- SVG PLUS -->
-                    <svg class="plus">
-                        <rect class="vertical" x="4" width="4" height="12"/>
-                        <rect y="4" width="12" height="4"/>
-                    </svg>
-                    <!-- /SVG PLUS -->
-                </h5>
-                <!-- /PROFILE HEADER -->
+                    <!-- PROFILE HEADER -->
+                    <h5 class="profile-header">
+                        <span>03</span>Payment Method
+                        <!-- SVG PLUS -->
+                        <svg class="plus">
+                            <rect class="vertical" x="4" width="4" height="12"/>
+                            <rect y="4" width="12" height="4"/>
+                        </svg>
+                        <!-- /SVG PLUS -->
+                    </h5>
+                    <!-- /PROFILE HEADER -->
 
-                <!-- PROFILE DATA -->
-                <div class="profile-data">
-                    <h1 style="font-size: 20px;">Payment on delivery</h1>
-                </div>
-                <!-- /PROFILE DATA -->
-
-                <!-- PROFILE HEADER -->
-                <h5 class="profile-header">
-                    <span>04</span>Order Review
-                    <!-- SVG PLUS -->
-                    <svg class="plus">
-                        <rect class="vertical" x="4" width="4" height="12"/>
-                        <rect y="4" width="12" height="4"/>
-                    </svg>
-                    <!-- /SVG PLUS -->
-                </h5>
-                <!-- /PROFILE HEADER -->
-
-                <!-- PROFILE DATA -->
-                <div class="profile-data full">
-                    <!-- SHOPPING CART -->
-                    <div class="shopping-cart order">
-                        <!-- ROW -->
-                        <div class="row header">
-                            <!-- CELL -->
-                            <div class="cell">
-                                <h5>Product Details</h5>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <h5>Code Number</h5>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <h5>Unit Price</h5>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <h5>Quantity</h5>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <h5>Subtotal</h5>			
-                            </div>
-                            <!-- /CELL -->
-                        </div>
-                        <!-- /ROW -->
-
-                        <!-- ROW -->
-                        <div class="row">
-                            <!-- CELL -->
-                            <div class="cell cart-item">
-                                <p class="highlighted">T-Shirts</p>
-                                <h3>The Devil Pin</h3>
-                                <h6>Size: <span>Large</span></h6>
-                                <h6>Color: <span>Black</span></h6>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">dp603b</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">$54.00</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">2</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">$108.00</p>
-                            </div>
-                            <!-- /CELL -->
-                        </div>
-                        <!-- /ROW -->
-
-                        <!-- ROW -->
-                        <div class="row">
-                            <!-- CELL -->
-                            <div class="cell cart-item">
-                                <p class="highlighted">Phone Cases</p>
-                                <h3>Dial Z For Zombie</h3>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">dz583g</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">$26.00</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">3</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">$78.00</p>
-                            </div>
-                            <!-- /CELL -->
-                        </div>
-                        <!-- /ROW -->
-
-                        <!-- ROW -->
-                        <div class="row">
-                            <!-- CELL -->
-                            <div class="cell cart-item">
-                                <p class="highlighted">Custom Sneakers</p>
-                                <h3>The Devil Walks</h3>
-                                <h6>Size: <span>6</span></h6>
-                                <h6>Color: <span>Red</span></h6>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">dw682r</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">$43.00</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">1</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">$43.00</p>
-                            </div>
-                            <!-- /CELL -->
-                        </div>
-                        <!-- /ROW -->
-
-                        <!-- ROW -->
-                        <div class="row">
-                            <!-- CELL -->
-                            <div class="cell cart-item">
-                                <p class="highlighted">Pin Badges</p>
-                                <h3>Mo Monster</h3>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">mm205b</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">$2.00</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">3</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">$6.00</p>
-                            </div>
-                            <!-- /CELL -->
-                        </div>
-                        <!-- /ROW -->
-
-                        <!-- ROW -->
-                        <div class="row">
-                            <!-- CELL -->
-                            <div class="cell cart-item">
-                                <p class="highlighted">T-Shirts</p>
-                                <h3>The Happy Pastry</h3>
-                                <h6>Size: <span>Medium</span></h6>
-                                <h6>Color: <span>Silver</span></h6>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">hp453s</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">$63.00</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">2</p>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">$126.00</p>
-                            </div>
-                            <!-- /CELL -->
-                        </div>
-                        <!-- /ROW -->
+                    <!-- PROFILE DATA -->
+                    <div class="profile-data">
+                        <h1 style="font-size: 20px;">{{payment}}</h1>
                     </div>
-                    <!-- /SHOPPING-CART -->
+                    <!-- /PROFILE DATA -->
 
-                    <!-- SHOPPING-CART -->
-                    <div class="shopping-cart order summary">
-                        <!-- ROW -->
-                        <div class="row">
-                            <!-- CELL -->
-                            <div class="cell cart-summary">
-                                <h3>Cart Subtotal:</h3>
-                            </div>
-                            <!-- /CELL -->
+                    <!-- PROFILE HEADER -->
+                    <h5 class="profile-header">
+                        <span>04</span>Order Review
+                        <!-- SVG PLUS -->
+                        <svg class="plus">
+                            <rect class="vertical" x="4" width="4" height="12"/>
+                            <rect y="4" width="12" height="4"/>
+                        </svg>
+                        <!-- /SVG PLUS -->
+                    </h5>
+                    <!-- /PROFILE HEADER -->
 
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">$361.00</p>
+                    <!-- PROFILE DATA -->
+                    <div class="profile-data full">
+                        <!-- SHOPPING CART -->
+                        <div class="shopping-cart order">
+                            <!-- ROW -->
+                            <div class="row header">
+                                <!-- CELL -->
+                                <div class="cell">
+                                    <h5>Product Details</h5>
+                                </div>
+                                <!-- /CELL -->
+
+                                <!-- CELL -->
+                                <div class="cell">
+                                    <h5>Unit Price</h5>
+                                </div>
+                                <!-- /CELL -->
+
+                                <!-- CELL -->
+                                <div class="cell">
+                                    <h5>Quantity</h5>
+                                </div>
+                                <!-- /CELL -->
+
+                                <!-- CELL -->
+                                <div class="cell">
+                                    <h5>Subtotal</h5>			
+                                </div>
+                                <!-- /CELL -->
                             </div>
-                            <!-- /CELL -->
+                            <!-- /ROW -->
+
+                            {{#each ../items}}
+                                <!-- ROW -->
+                                <div class="row">
+                                    <!-- CELL -->
+                                    <div class="cell cart-item" style="text-align: left;padding: 20px 0 0 14px; height: 120px">
+                                        <img src="{{this.img}}" alt="" width="70px" height="77px" style="float: left; margin-right: 15px;"/>
+                                        <p class="highlighted">
+                                            {{#each ../../navCates}}
+                                                {{#isEqual ../this.cate this.catID}}
+                                                    {{this.catName}}
+                                                {{/isEqual}}
+                                            {{/each}}
+                                        </p>
+                                        <h3>{{this.proName}}</h3>
+                                        <ul class="colorpicker" style="margin-top: 10px;">
+                                            <li><span data-color="{{this.color}}"></span></li>
+                                        </ul>
+                                    </div>
+                                    <!-- CELL -->
+                                    <div class="cell">
+                                        <p class="highlighted">${{this.unitPrice}}</p>
+                                    </div>
+                                    <!-- /CELL -->
+
+                                    <!-- CELL -->
+                                    <div class="cell">
+                                        <p class="highlighted">{{this.quantity}}</p>
+                                    </div>
+                                    <!-- /CELL -->
+
+                                    <!-- CELL -->
+                                    <div class="cell">
+                                        <p class="highlighted">${{this.totalPrice}}</p>
+                                    </div>
+                                    <!-- /CELL -->
+                                </div>
+                                <!-- /ROW -->
+                            {{/each}}
                         </div>
-                        <!-- /ROW -->
+                        <!-- /SHOPPING-CART -->
 
+                        <!-- SHOPPING-CART -->
+                        <div class="shopping-cart order summary">
+                            <div class="row">
+                                <!-- CELL -->
+                                <div class="cell cart-summary">
+                                    <h3>Order Total:</h3>
+                                </div>
+                                <!-- /CELL -->
 
-                        <!-- ROW -->
-                        <div class="row">
-                            <!-- CELL -->
-                            <div class="cell cart-summary">
-                                <h3>Order Total:</h3>
+                                <!-- CELL -->
+                                <div class="cell">
+                                    <p class="highlighted">${{total}}</p>
+                                </div>
+                                <!-- /CELL -->
                             </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">$361.50</p>
-                            </div>
-                            <!-- /CELL -->
+                            <!-- /ROW -->
                         </div>
-                        <!-- /ROW -->
+                        <!-- /SHOPPING-CART -->
                     </div>
-                    <!-- /SHOPPING-CART -->
+                    <!-- /PROFILE DATA -->
                 </div>
-                <!-- /PROFILE DATA -->
+                <!-- /PROFILE INFO -->
+
             </div>
-            <!-- /PROFILE INFO -->
-
-        </div>
-        <!-- /SHOP PRODUCTS -->
+            <!-- /SHOP PRODUCTS -->
+        {{/with}}
         <div class="clearfix"></div>
     </section>
 </div>
@@ -701,12 +571,26 @@
 {{#section 'script'}}
 <!-- SVG ENVELOPE -->
 <script src="/js/vendor/jquery-1.11.1.min.js"></script>
+<!-- jQuery -->
+<script src="/js/vendor/jquery-1.11.1.min.js"></script>
 <!-- imgLiquid -->
 <script src="/js/vendor/imgLiquid-min.js"></script>
+<!-- JRange -->
+<script src="/js/vendor/jquery.range.min.js"></script>
+<!-- Magnific Popup -->
+<script src="/js/vendor/jquery.magnific-popup.min.js"></script>
+<!-- XM Accordion -->
+<script src="/js/vendor/jquery.xmaccordion.min.js"></script>
+<!-- XM Tab -->
+<script src="/js/vendor/jquery.xmtab.min.js"></script>
 <!-- Header -->
 <script src="/js/header.js"></script>
 <!-- Menu -->
 <script src="/js/menu.js"></script>
 <!-- Checkout -->
 <script src="/js/profile.js"></script>
+<!-- Shop -->
+<script src="/js/shop.js"></script>
+<!-- Full View -->
+<script src="/js/full-view.js"></script>
 {{/section}}

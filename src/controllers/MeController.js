@@ -343,6 +343,10 @@ class MeController{
                     nextPage: (currentPage < totalPage) ? currentPage + 1 : totalPage
                 });
             })
+            .catch(err=>{
+                console.log(err);
+                next();
+            })
         }
         else{
             res.redirect("/account/register-login/");
@@ -352,17 +356,73 @@ class MeController{
 
      //[GET] /me/order/:id
     showOrderDetail(req, res, next){
+        const id = req.params.id;
+        let orderid = (id && !Number.isNaN(id)) ? parseInt(id) : next();
+
         if(req.user){
-            const arr = [
-                BrandService.getAll(),
-                CateService.getAll(),
-            ]
-            Promise.all(arr)
-            .then(([navBrands, navCates])=>{
-                res.render('me/order-detail', {
-                    navBrands,
-                    navCates
-                });
+            UserService.isValidOrder(req.user.f_ID, orderid)
+            .then(valid=>{
+                if (valid) {
+                    const arr = [
+                        BrandService.getAll(),
+                        CateService.getAll(),
+                        UserService.findOrder(orderid),
+                        UserService.orderDetailList(orderid)
+                    ]
+                    Promise.all(arr)
+                    .then(([navBrands, navCates, order, items])=>{
+                        const products = items.map(item=>{
+                            return ProductService.itemProduct(item.proID);
+                        });
+        
+                        const detailPro = items.map(item=>{
+                            return UserService.findDetailItem(item.detailID);
+                        });
+        
+                        const imgPro = items.map(item=>{
+                            return ProductService.firstImageProduct(item.proID);
+                        });
+        
+                        const myPromiseArr = products.concat(detailPro, imgPro);
+        
+                        Promise.all(myPromiseArr)
+                        .then(result=>{
+                            const itemsLength = items.length;
+                            for(let i = 0 ; i  < itemsLength; i++){
+                                items[i].proName = result[i].proName;
+                                items[i].img = result[(itemsLength)*2+i].proImage;
+                                items[i].color = result[(itemsLength)*1+i].color;
+                                items[i].brand = result[i].brandID;
+                                items[i].cate = result[i].catID;
+                                items[i].gender = result[i].sex;
+                                items[i].unitPrice = result[i].price;
+                                items[i].totalPrice = result[i].price * items[i].quantity;
+                            }
+        
+                            res.render('me/order-detail', {
+                                navBrands,
+                                navCates,
+                                order,
+                                items
+                            });
+                        })
+                        .catch(err=>{
+                            console.log(err);
+                            next();
+                        })
+                    })
+                    .catch(err=>{
+                        console.log(err);
+                        next();
+                    })
+                }
+                else {
+                    res.redirect("/404");
+                }
+            })
+            .catch(err=>{
+                console.log(err);
+                next();
             })
         }
         else{
