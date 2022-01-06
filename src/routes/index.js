@@ -23,7 +23,14 @@ function route(app){
             next();
         }
         else{
-            req.session.redirectTo = req.originalUrl;
+            if(req.originalUrl.includes("filter")){
+
+            }else{
+                if(!req.session.redirectTo){
+                    req.session.redirectTo = req.originalUrl;
+                }
+            }
+            
             next();
         }
     }, shopRouter);
