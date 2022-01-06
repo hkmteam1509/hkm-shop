@@ -26,7 +26,6 @@ app.engine('.hbs',
 			},
 			isInArr: function(item, arr, options) {
 				if(arr.includes(item)) {
-					console.log("helper:",true)
 				  return options.fn(this);
 				}
 				return options.inverse(this);

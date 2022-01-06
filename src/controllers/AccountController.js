@@ -191,6 +191,30 @@ class AccountController{
         res.redirect('/');
     }
 
+    checkUsername(req, res, next){
+        const {username, email} = req.body;
+        UserService.findAccount(username)
+        .then(result=>{
+            if(IsEmail.validate(email)){
+                if(result){
+                    res.status(200).json({isExisted: true, isInvalidEmail: false});
+                }else{
+                    res.status(200).json({isExisted: false, isInvalidEmail: false});
+                }
+            }else{
+                if(result){
+                    res.status(200).json({isExisted: true, isInvalidEmail: true});
+                }else{
+                    res.status(200).json({isExisted: false, isInvalidEmail: true});
+                }
+            }
+            
+        })
+        .catch(err=>{
+            console.log(err);
+            res.status(500).json({msg: err.message});
+        })
+    }
 }
 
 module.exports = new AccountController;

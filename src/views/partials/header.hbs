@@ -109,7 +109,12 @@
 				<!-- /LOGO -->
 				<form class="westeros-form" method="get" action="/shop">
 					
-					<input type="text" style="border-left: 1px solid #d5d5d5;" name="search" id="search" placeholder="Search Our Catalog...">
+					<input type="text" style="border-left: 1px solid #d5d5d5;"
+						{{#if searchQuery}}
+							value="{{searchQuery}}"
+						{{/if}}
+					
+					 name="search" id="search" placeholder="Search Our Catalog...">
 					{{!-- <input type="image" src="/images/icons/search-icon.png" alt="search-icon"> --}}
 					<button class="my-search-btn"><img src="/images/icons/search-icon.png" alt="search-icon"></img></button>
 				</form>
