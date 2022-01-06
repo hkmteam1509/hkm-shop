@@ -539,6 +539,16 @@ class ProductService{
             }
         })
     }
+
+    firstImageProduct(id){
+        return models.imagelink.findOne({
+            attributes: ['proImage'],
+            raw:true,
+            where:{
+                proID: id
+            }
+        })
+    }
 }
 
 module.exports = new ProductService;

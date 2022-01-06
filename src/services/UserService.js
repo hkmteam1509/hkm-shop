@@ -174,6 +174,43 @@ class UserService{
             }
         })
     }
+
+    findOrder(id){
+        return models.order.findOne({
+            raw:true,
+            where:{
+                orderID: id
+            }
+        })
+    }
+
+    orderDetailList(id){
+        return models.orderdetail.findAll({
+            raw:true,
+            where:{
+                orderID: id
+            }
+        });
+    }
+
+    findDetailItem(id){
+        return models.detail.findOne({
+            raw:true,
+            where:{
+                detailID: id
+            }
+        });
+    }
+
+    isValidOrder(userid, orderid){
+        return models.order.findOne({
+            raw:true,
+            where:{
+                userID: userid,
+                orderID: orderid
+            }
+        });
+    }
 }
 
 module.exports = new UserService;
