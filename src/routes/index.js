@@ -8,11 +8,13 @@ const CateService = require('../services/CateService');
 
 function route(app){
     app.use('/me',function(req, res, next){
+        console.log(req.body);
+        console.log(req.query);
         if(req.user){
             next();
         }
         else{
-            if(!req.session.redirectTo){
+            if(!req.session.redirectTo && req.method === 'GET'){
                 req.session.redirectTo = req.originalUrl;
             }
             res.redirect('/account/register-login')
@@ -26,7 +28,7 @@ function route(app){
             if(req.originalUrl.includes("filter")){
 
             }else{
-                if(!req.session.redirectTo){
+                if(!req.session.redirectTo && req.method === 'GET'){
                     req.session.redirectTo = req.originalUrl;
                 }
             }
