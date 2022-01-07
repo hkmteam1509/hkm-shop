@@ -14,7 +14,7 @@ function route(app){
             next();
         }
         else{
-            if(!req.session.redirectTo && !req.body){
+            if(!req.session.redirectTo && req.method === 'GET'){
                 req.session.redirectTo = req.originalUrl;
             }
             res.redirect('/account/register-login')
@@ -28,7 +28,7 @@ function route(app){
             if(req.originalUrl.includes("filter")){
 
             }else{
-                if(!req.session.redirectTo){
+                if(!req.session.redirectTo && req.method === 'GET'){
                     req.session.redirectTo = req.originalUrl;
                 }
             }
