@@ -79,37 +79,105 @@ class MeController{
     //[get] /me/checkout
     checkout(req, res, next){
         if(req.user){
-            let {products} = req.query;
-            if(products){
-                const arr = products.map(cartID=>{
-                    return UserService.getCart(cartID);
-                })
-                Promise.all(arr)
-                .then(carts=>{
-                    const proID = carts.map(cart=>{
-                        return cart.proID;
+            let userid = req.user.f_ID;
+            UserService.getShipping(userid)
+            .then(shipping=>{
+                let {products} = req.query;
+                if(products){
+                    const arr = products.map(cartID=>{
+                        return UserService.getCart(cartID);
                     })
-                    const detailID = carts.map(cart=>{
-                        return cart.detailID;
+                    Promise.all(arr)
+                    .then(carts=>{
+                        const proID = carts.map(cart=>{
+                            return cart.proID;
+                        })
+                        const detailID = carts.map(cart=>{
+                            return cart.detailID;
+                        })
+                        const quantity = carts.map(cart=>{
+                            return cart.quantity;
+                        })
+                        const n = proID.length;
+                        const productPromise = [];
+                        const detailPromise = [];
+                        const imagePromise = [];
+                        for(let i = 0 ; i < n ;i++){
+                            productPromise.push(ProductService.itemProduct(proID[i]));
+                            detailPromise.push(ProductService.getDetail(detailID[i]));
+                            imagePromise.push(ProductService.firstImageProduct(proID[i]));
+                        }
+                        const arr = [
+                            BrandService.getAll(),
+                            CateService.getAll(),
+                            Promise.all(productPromise),
+                            Promise.all(detailPromise),
+                            Promise.all(imagePromise)
+                        ]
+                        Promise.all(arr)
+                        .then(([navBrands, navCates, products, details, image])=>{
+                            
+                            const catePromise = products.map(item=>{
+                                return ProductService.getCateName(item.catID);
+                            })
+                            Promise.all(catePromise)
+                            .then(cates=>{
+                                const n = products.length;
+                                let totalOrder = 0;
+                                for(let i = 0 ; i < n ;i++){
+                                    products[i].catName = cates[i].catName;
+                                    products[i].color = details[i].color;
+                                    products[i].quantity = quantity[i];
+                                    products[i].totalPrice =  products[i].price*quantity[i];
+                                    totalOrder+=products[i].totalPrice;
+                                    products[i].img = image[i].proImage;
+                                }
+                                // console.log(products);
+                                res.render('me/checkout', {
+                                    navBrands,
+                                    navCates,
+                                    products,
+                                    totalOrder,
+                                    shipping
+                                })
+                            })
+                        
+                        })
+                        .catch(err=>{
+                            console.log(err);
+                            next(err);
+                        })
                     })
-                    const quantity = carts.map(cart=>{
-                        return cart.quantity;
+                    .catch(err=>{
+                        console.log(err);
+                        next(err);
                     })
+                }else{
+                    let {proID, detailID, quantity} = req.query;
+                    proID = Utility.convertStringToArray(proID);
+                    detailID = Utility.convertStringToArray(detailID);
+                    quantity = Utility.convertStringToArray(quantity);
                     const n = proID.length;
                     const productPromise = [];
                     const detailPromise = [];
+                    const imagePromise = [];
                     for(let i = 0 ; i < n ;i++){
+                        proID[i] = parseInt(proID[i]);
+                        detailID[i] = parseInt(detailID[i]);
+                        quantity[i] = parseInt(quantity[i]);
                         productPromise.push(ProductService.itemProduct(proID[i]));
                         detailPromise.push(ProductService.getDetail(detailID[i]));
+                        imagePromise.push(ProductService.firstImageProduct(proID[i]));
                     }
                     const arr = [
                         BrandService.getAll(),
                         CateService.getAll(),
                         Promise.all(productPromise),
-                        Promise.all(detailPromise)
+                        Promise.all(detailPromise),
+                        Promise.all(imagePromise)
                     ]
                     Promise.all(arr)
-                    .then(([navBrands, navCates, products, details])=>{
+                    .then(([navBrands, navCates, products, details, image])=>{
                         
                         const catePromise = products.map(item=>{
                             return ProductService.getCateName(item.catID);
@@ -124,79 +192,28 @@ class MeController{
                                 products[i].quantity = quantity[i];
                                 products[i].totalPrice =  products[i].price*quantity[i];
                                 totalOrder+=products[i].totalPrice;
+                                products[i].img = image[i].proImage;
                             }
-                            console.log(products);
                             res.render('me/checkout', {
                                 navBrands,
                                 navCates,
                                 products,
-                                totalOrder
+                                totalOrder,
+                                shipping
                             })
                         })
-                       
+                    
                     })
                     .catch(err=>{
                         console.log(err);
                         next(err);
                     })
-                })
-                .catch(err=>{
-                    console.log(err);
-                    next(err);
-                })
-            }else{
-                let {proID, detailID, quantity} = req.query;
-                proID = Utility.convertStringToArray(proID);
-                detailID = Utility.convertStringToArray(detailID);
-                quantity = Utility.convertStringToArray(quantity);
-                const n = proID.length;
-                const productPromise = [];
-                const detailPromise = [];
-                for(let i = 0 ; i < n ;i++){
-                    proID[i] = parseInt(proID[i]);
-                    detailID[i] = parseInt(detailID[i]);
-                    quantity[i] = parseInt(quantity[i]);
-                    productPromise.push(ProductService.itemProduct(proID[i]));
-                    detailPromise.push(ProductService.getDetail(detailID[i]));
                 }
-                const arr = [
-                    BrandService.getAll(),
-                    CateService.getAll(),
-                    Promise.all(productPromise),
-                    Promise.all(detailPromise)
-                ]
-                Promise.all(arr)
-                .then(([navBrands, navCates, products, details])=>{
-                    
-                    const catePromise = products.map(item=>{
-                        return ProductService.getCateName(item.catID);
-                    })
-                    Promise.all(catePromise)
-                    .then(cates=>{
-                        const n = products.length;
-                        let totalOrder = 0;
-                        for(let i = 0 ; i < n ;i++){
-                            products[i].catName = cates[i].catName;
-                            products[i].color = details[i].color;
-                            products[i].quantity = quantity[i];
-                            products[i].totalPrice =  products[i].price*quantity[i];
-                            totalOrder+=products[i].totalPrice;
-                        }
-                        console.log(products);
-                        res.render('me/checkout', {
-                            navBrands,
-                            navCates,
-                            products,
-                            totalOrder
-                        })
-                    })
-                   
-                })
-                .catch(err=>{
-                    console.log(err);
-                    next(err);
-                })
-            }
+            })
+            .catch(err=>{
+                console.log(err);
+                next();
+            })
         }
         else{
             res.redirect("/account/register-login/");
@@ -634,6 +651,25 @@ class MeController{
             res.status(500).json({msg: 'Bad request'});
         });
         
+    }
+
+    //[POST] /me/checkout
+    createOrder(req, res, next){
+        if (req.user) {
+            const {firstname, lastname, phone, province, district, ward, address, request, payment} = req.body;
+            console.log(firstname);
+            console.log(lastname);
+            console.log(phone);
+            console.log(province);
+            console.log(district);
+            console.log(ward);
+            console.log(address);
+            console.log(request);
+            console.log(payment);
+        }
+        else{
+            res.redirect("/account/register-login/");
+        }
     }
 }
 function getGenderSlug(sex) {

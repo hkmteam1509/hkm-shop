@@ -61,237 +61,267 @@
         <!-- SHOP PRODUCTS -->
         <div class="shop-products">
             <h3 class="title">Order Checkout</h3>
-            <!-- PROFILE INFO -->
-            <div class="profile-info">
- 
-                <!-- PROFILE HEADER -->
-                <h5 class="profile-header">
-                    <span>01</span>Shipping Information
-                    <!-- SVG PLUS -->
-                    <svg class="plus">
-                        <rect class="vertical" x="4" width="4" height="12"/>
-                        <rect y="4" width="12" height="4"/>
-                    </svg>
-                    <!-- /SVG PLUS -->
-                </h5>
-                <!-- /PROFILE HEADER -->
+            <form method="post" id="checkout-form" action="/me/checkout">
+                <!-- PROFILE INFO -->
+                <div class="profile-info">
+    
+                    <!-- PROFILE HEADER -->
+                    <h5 class="profile-header">
+                        <span>01</span>Shipping Information
+                        <!-- SVG PLUS -->
+                        <svg class="plus">
+                            <rect class="vertical" x="4" width="4" height="12"/>
+                            <rect y="4" width="12" height="4"/>
+                        </svg>
+                        <!-- /SVG PLUS -->
+                    </h5>
+                    <!-- /PROFILE HEADER -->
 
-                <!-- PROFILE DATA -->
-                <div class="profile-data">
-                    <div class="featured-form">
-                        <form class="westeros-form" id="checkout-form">
-                            <div>
-                                <label class="rl-label required">First Name</label>
-                                <input type="text" placeholder="Enter your first name here...">
-                            </div>
-                            <div>
-                                <label class="rl-label required">Last Name</label>
-                                <input type="text" placeholder="Enter your last name here...">
-                            </div>
-                           
-                            <div>
-                                <label class="rl-label required">Phone Number</label>
-                                <input type="text" placeholder="Enter your phone number here...">
-                            </div>
-                            
-                            <div>
-                                <label class="rl-label required">Province</label>
-                                <label for="country2">
-                                    <select name="ls_province" style="width: 100%;"></select>
-                                   
-                                    <!-- SVG ARROW -->
-                                    <svg class="svg-arrow select-arrow">
-                                        <use xlink:href="#svg-arrow"></use>
-                                    </svg>
-                                    <!-- /SVG ARROW -->
-                                </label>
-                            </div>
-                            <div>
-                               
-                                <label class="rl-label required">District</label>
-                                <label for="country2">
-                                   
-                                    <select name="ls_district" style="width: 100%;"></select>
-                                   
-                                    <!-- SVG ARROW -->
-                                    <svg class="svg-arrow select-arrow">
-                                        <use xlink:href="#svg-arrow"></use>
-                                    </svg>
-                                    <!-- /SVG ARROW -->
-                                </label>
-                            </div>
-                            <div>
+                    <!-- PROFILE DATA -->
+                    <div class="profile-data">
+                        <div class="featured-form">
+                            <div class="westeros-form" id="checkout-form">
+                                <div>
+                                    <label class="rl-label required">First Name</label>
+                                    <input name="shippingFirstname" type="text" required
+                                        {{#if shipping.f_firstname}}
+                                            value="{{shipping.f_firstname}}"
+                                        {{else}}
+                                            value="{{user.f_firstname}}"
+                                        {{/if}}
+                                    >
+                                </div>
+                                <div>
+                                    <label class="rl-label required">Last Name</label>
+                                    <input name="shippingLastname" type="text" required
+                                        {{#if shipping.f_lastname}}
+                                            value="{{shipping.f_lastname}}"
+                                        {{else}}
+                                            value="{{user.f_lastname}}"
+                                        {{/if}}
+                                    >
+                                </div>
+                                <div>
+                                    <label class="rl-label required">Phone Number</label>
+                                    <input name="shippingPhone" style="margin-bottom: 0;" type="text" required
+                                        {{#if shipping.f_phone}}
+                                            value="{{shipping.f_phone}}"
+                                        {{else}}
+                                            placeholder="Your phone number"
+                                        {{/if}}
+                                    >
+                                    <div class="my-invalid-feedback" id="invalid-shipping-phone">
+                                        Invalid phone number
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="rl-label required">Province</label>
+                                    <label for="country2">
+                                        <select required name="ls_province" style="width: 100%;"></select>
+                                    
+                                        <!-- SVG ARROW -->
+                                        <svg class="svg-arrow select-arrow">
+                                            <use xlink:href="#svg-arrow"></use>
+                                        </svg>
+                                        <!-- /SVG ARROW -->
+                                    </label>
+                                </div>
+                                <div>
                                 
-                                <label class="rl-label required">Ward</label>
-                                <label for="country2">
-                                   
-                                    <select name="ls_ward" style="width: 100%;"></select>
-                                   
-                                    <!-- SVG ARROW -->
-                                    <svg class="svg-arrow select-arrow">
-                                        <use xlink:href="#svg-arrow"></use>
-                                    </svg>
-                                    <!-- /SVG ARROW -->
-                                </label>
+                                    <label class="rl-label required ">District</label>
+                                    <label for="country2">
+                                        <select required name="ls_district" style="width: 100%;"></select>
+                                    
+                                        <!-- SVG ARROW -->
+                                        <svg class="svg-arrow select-arrow">
+                                            <use xlink:href="#svg-arrow"></use>
+                                        </svg>
+                                        <!-- /SVG ARROW -->
+                                    </label>
+                                </div>
+                                <div>
+                                    
+                                    <label class="rl-label required">Ward</label>
+                                    <label for="country2">
+                                    
+                                        <select required name="ls_ward" style="width: 100%;"></select>
+                                    
+                                        <!-- SVG ARROW -->
+                                        <svg class="svg-arrow select-arrow">
+                                            <use xlink:href="#svg-arrow"></use>
+                                        </svg>
+                                        <!-- /SVG ARROW -->
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="rl-label required">Address</label>
+                                    <input name="shippingAddress" type="text" required
+                                        {{#if shipping.address}}
+                                                value="{{shipping.address}}"
+                                        {{else}}
+                                            placeholder="Your address"
+                                        {{/if}}
+                                    >
+                                </div>
+                                <div class="full-input" style="margin-top: 25px;">
+                                    <label class="rl-label">Special Requests</label>
+                                    <textarea placeholder="Write your special requests or notes for us to know here..." maxlength="255" name="shippingRequest"></textarea>
+                                </div>
                             </div>
-                            <div>
-                                <label class="rl-label required">Address</label>
-                                <input type="text" placeholder="Enter your billing address here...">
-                            </div>
-                            <div class="full-input">
-                                <label class="rl-label">Special Requests</label>
-                                <textarea placeholder="Write your special requests or notes for us to know here..."></textarea>
-                            </div>
-                            <div class="full-input"></div>
-                            <div>
-                                <input type="checkbox" id="autocomplete2" name="autocomplete2" checked>
-                                <label for="autocomplete2"><span class="checkbox"><span></span></span>Autocomplete with your profile info</label>
-                            </div>
-                            
-                        </form>
-                    </div>
-                </div>
-                <!-- /PROFILE DATA -->
-
-                
-
-                <!-- PROFILE HEADER -->
-                <h5 class="profile-header">
-                    <span>02</span>Payment Method
-                    <!-- SVG PLUS -->
-                    <svg class="plus">
-                        <rect class="vertical" x="4" width="4" height="12"/>
-                        <rect y="4" width="12" height="4"/>
-                    </svg>
-                    <!-- /SVG PLUS -->
-                </h5>
-                <!-- /PROFILE HEADER -->
-
-                <!-- PROFILE DATA -->
-                <div class="profile-data">
-                    <div class="featured-form">
-                        <form class="westeros-form">
-
-                            <div class="full-input">
-                                {{!-- <input type="radio" id="paypal" name="payment_method" value="paypal"> --}}
-                                <label class="rl-label" for="paypal">Payment on delivery</label>
-                            </div>
-
-                        </form>
-                    </div>
-                </div>
-                <!-- /PROFILE DATA -->
-
-                <!-- PROFILE HEADER -->
-                <h5 class="profile-header">
-                    <span>03</span>Order Review
-                    <!-- SVG PLUS -->
-                    <svg class="plus">
-                        <rect class="vertical" x="4" width="4" height="12"/>
-                        <rect y="4" width="12" height="4"/>
-                    </svg>
-                    <!-- /SVG PLUS -->
-                </h5>
-                <!-- /PROFILE HEADER -->
-
-                <!-- PROFILE DATA -->
-                <div class="profile-data full">
-                    <!-- SHOPPING CART -->
-                    <div class="shopping-cart order">
-                        <!-- ROW -->
-                        <div class="row header">
-                            <!-- CELL -->
-                            <div class="cell">
-                                <h5>Product Details</h5>
-                            </div>
-                            <!-- /CELL -->
-
-                            {{!-- <!-- CELL -->
-                            <div class="cell">
-                                <h5>Code Number</h5>
-                            </div>
-                            <!-- /CELL --> --}}
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <h5>Unit Price</h5>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <h5>Quantity</h5>
-                            </div>
-                            <!-- /CELL -->
-
-                            <!-- CELL -->
-                            <div class="cell">
-                                <h5>Subtotal</h5>			
-                            </div>
-                            <!-- /CELL -->
                         </div>
-                        <!-- /ROW -->
+                    </div>
+                    <!-- /PROFILE DATA -->
 
-                        {{#each products}}
+                    
+
+                    <!-- PROFILE HEADER -->
+                    <h5 class="profile-header">
+                        <span>02</span>Payment Method
+                        <!-- SVG PLUS -->
+                        <svg class="plus">
+                            <rect class="vertical" x="4" width="4" height="12"/>
+                            <rect y="4" width="12" height="4"/>
+                        </svg>
+                        <!-- /SVG PLUS -->
+                    </h5>
+                    <!-- /PROFILE HEADER -->
+
+                    <!-- PROFILE DATA -->
+                    <div class="profile-data">
+                        <div class="featured-form">
+                            <div class="westeros-form">
+                                <div class="full-input" style="margin-bottom: 0px;">
+                                    <input type="radio" id="bank" name="payment_method" value="Direct Bank Transfer">
+                                    <label class="rl-label" for="bank"><span class="radio"><span></span></span>Direct Bank Transfer</label>
+                                    {{!-- <p>Lorem ipsum dolor sit amet, consectetur er adipisicing elit, sed do eiusmod eru tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim darea veniam.</p> --}}
+                                </div>
+
+                                <div class="full-input">
+                                    <input type="radio" id="paypal" name="payment_method" value="Payment on delivery">
+                                    <label class="rl-label" for="paypal"><span class="radio"><span></span></span>Payment on delivery</label>
+                                </div>
+
+                                <div class="full-input">
+                                    <input type="radio" id="cheque" name="payment_method" value="Paypal" checked>
+                                    <label class="rl-label" for="cheque"><span class="radio"><span></span></span>Paypal</label>
+                                </div>
+
+                                {{!-- <button class="button login">Continue</button> --}}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /PROFILE DATA -->
+
+                    <!-- PROFILE HEADER -->
+                    <h5 class="profile-header">
+                        <span>03</span>Order Review
+                        <!-- SVG PLUS -->
+                        <svg class="plus">
+                            <rect class="vertical" x="4" width="4" height="12"/>
+                            <rect y="4" width="12" height="4"/>
+                        </svg>
+                        <!-- /SVG PLUS -->
+                    </h5>
+                    <!-- /PROFILE HEADER -->
+
+                    <!-- PROFILE DATA -->
+                    <div class="profile-data full">
+                        <!-- SHOPPING CART -->
+                        <div class="shopping-cart order">
                             <!-- ROW -->
-                            <div class="row">
-                                <!-- CELL -->
-                                <div class="cell cart-item" style="text-align: left;padding: 20px 0 0 14px; height: 120px">
-                                   
-                                    <p class="highlighted">{{this.catName}}</p>
-                                    <h3>{{this.proName}}</h3>
-                                    <h6>Size: <span>Free size</span></h6>
-                                    <ul class="colorpicker">
-                                        <li><span data-color="{{this.color}}"></span></li>
-                                    </ul>
-                                </div>
+                            <div class="row header">
                                 <!-- CELL -->
                                 <div class="cell">
-                                    <p class="highlighted">${{this.price}}</p>
+                                    <h5>Product Details</h5>
+                                </div>
+                                <!-- /CELL -->
+
+                                {{!-- <!-- CELL -->
+                                <div class="cell">
+                                    <h5>Code Number</h5>
+                                </div>
+                                <!-- /CELL --> --}}
+
+                                <!-- CELL -->
+                                <div class="cell">
+                                    <h5>Unit Price</h5>
                                 </div>
                                 <!-- /CELL -->
 
                                 <!-- CELL -->
                                 <div class="cell">
-                                    <p class="highlighted">{{this.quantity}}</p>
+                                    <h5>Quantity</h5>
                                 </div>
                                 <!-- /CELL -->
 
                                 <!-- CELL -->
                                 <div class="cell">
-                                    <p class="highlighted">${{this.totalPrice}}</p>
+                                    <h5>Subtotal</h5>			
                                 </div>
                                 <!-- /CELL -->
                             </div>
                             <!-- /ROW -->
-                        {{/each}}
-                    </div>
-                    <!-- /SHOPPING-CART -->
 
-                    <!-- SHOPPING-CART -->
-                    <div class="shopping-cart order summary">
-                        <div class="row">
-                            <!-- CELL -->
-                            <div class="cell cart-summary">
-                                <h3>Order Total:</h3>
-                            </div>
-                            <!-- /CELL -->
+                            {{#each products}}
+                                <!-- ROW -->
+                                <div class="row">
+                                    <!-- CELL -->
+                                    <div class="cell cart-item" style="text-align: left;padding: 20px 0 0 14px; height: 120px">
+                                        <img src="{{this.img}}" alt="" width="70px" height="77px" style="float: left; margin-right: 15px;"/>
+                                        <p class="highlighted">{{this.catName}}</p>
+                                        <h3>{{this.proName}}</h3>
+                                        <ul class="colorpicker">
+                                            <li><span data-color="{{this.color}}"></span></li>
+                                        </ul>
+                                    </div>
+                                    <!-- CELL -->
+                                    <div class="cell">
+                                        <p class="highlighted">${{this.price}}</p>
+                                    </div>
+                                    <!-- /CELL -->
 
-                            <!-- CELL -->
-                            <div class="cell">
-                                <p class="highlighted">${{totalOrder}}</p>
-                            </div>
-                            <!-- /CELL -->
+                                    <!-- CELL -->
+                                    <div class="cell">
+                                        <p class="highlighted">{{this.quantity}}</p>
+                                    </div>
+                                    <!-- /CELL -->
+
+                                    <!-- CELL -->
+                                    <div class="cell">
+                                        <p class="highlighted">${{this.totalPrice}}</p>
+                                    </div>
+                                    <!-- /CELL -->
+                                </div>
+                                <!-- /ROW -->
+                            {{/each}}
                         </div>
-                        <!-- /ROW -->
-                    </div>
-                    <!-- /SHOPPING-CART -->
-                </div>
-                <!-- /PROFILE DATA -->
-            </div>
-            <!-- /PROFILE INFO -->
+                        <!-- /SHOPPING-CART -->
 
-            <button form="checkout-form" class="button checkout-button">Place order now!</button>
+                        <!-- SHOPPING-CART -->
+                        <div class="shopping-cart order summary">
+                            <div class="row">
+                                <!-- CELL -->
+                                <div class="cell cart-summary">
+                                    <h3>Order Total:</h3>
+                                </div>
+                                <!-- /CELL -->
+
+                                <!-- CELL -->
+                                <div class="cell">
+                                    <p class="highlighted">${{totalOrder}}</p>
+                                </div>
+                                <!-- /CELL -->
+                            </div>
+                            <!-- /ROW -->
+                        </div>
+                        <!-- /SHOPPING-CART -->
+                    </div>
+                    <!-- /PROFILE DATA -->
+                </div>
+                <!-- /PROFILE INFO -->
+
+                <button type="submit" class="button checkout-button">Place order now!</button>
+            </form>
         </div>
         <!-- /SHOP PRODUCTS -->
         <div class="clearfix"></div>
@@ -491,12 +521,35 @@
 <script src="/js/profile.js"></script>
 
 <script>
+    function isVietnamesePhoneNumber(number) {
+        return /(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/.test(number);
+    }
     $(document).ready(function(){
+        let district = "{{shipping.distric}}";
+        let ward = "{{shipping.ward}}";
+        let province = "{{shipping.province}}";
         var localpicker = new LocalPicker({
             province: "ls_province",
             district: "ls_district",
-            ward: "ls_ward"
+            ward: "ls_ward",
+            defaultValue: {province: province, district: district, ward: ward}
     	});
+
+        const form = document.getElementById("checkout-form");
+        const shippingPhone = document.getElementsByName("shippingPhone")[0];
+        form.addEventListener('submit',(e)=>{
+            console.log("submit");
+            
+            if(!isVietnamesePhoneNumber(shippingPhone.value)){
+                e.preventDefault();
+                document.getElementById("invalid-shipping-phone").style.display="block";
+                document.getElementById("place-holder-invalid").style.display="block";
+                
+            }else{
+                document.getElementById("invalid-shipping-phone").style.display="none";
+                document.getElementById("place-holder-invalid").style.display="none";
+            }
+        })
     })
 </script>
 {{/section}}

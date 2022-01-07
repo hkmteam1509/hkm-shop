@@ -28,8 +28,13 @@
             {{#with order}}
                 <div class="checkout-progress">
                     {{#isEqual status 7}}
-                        <h5 style="color: #e53935;">
+                        <h5>
                             Canceled
+                            <!-- SVG CHECK -->
+                            <svg class="svg-plus">
+                                <use xlink:href="#svg-plus"></use>
+                            </svg>
+                            <!-- /SVG CHECK -->
                         </h5>
                     {{else}}
                         {{#isEqual status 1}}
