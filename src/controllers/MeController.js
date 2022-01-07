@@ -131,6 +131,7 @@ class MeController{
                                     products[i].totalPrice =  products[i].price*quantity[i];
                                     totalOrder+=products[i].totalPrice;
                                     products[i].img = image[i].proImage;
+                                    products[i].detailID = details[i].detailID;
                                 }
                                 // console.log(products);
                                 res.render('me/checkout', {
@@ -193,6 +194,7 @@ class MeController{
                                 products[i].totalPrice =  products[i].price*quantity[i];
                                 totalOrder+=products[i].totalPrice;
                                 products[i].img = image[i].proImage;
+                                products[i].detailID = details[i].detailID;
                             }
                             res.render('me/checkout', {
                                 navBrands,
@@ -656,16 +658,55 @@ class MeController{
     //[POST] /me/checkout
     createOrder(req, res, next){
         if (req.user) {
-            const {firstname, lastname, phone, province, district, ward, address, request, payment} = req.body;
-            console.log(firstname);
-            console.log(lastname);
-            console.log(phone);
-            console.log(province);
-            console.log(district);
-            console.log(ward);
-            console.log(address);
-            console.log(request);
-            console.log(payment);
+            const userid = req.user.f_ID;
+            const {shippingFirstname, shippingLastname, shippingPhone, ls_province, ls_district, ls_ward, shippingAddress, shippingRequest, payment_method, prosID, detailsID, quantities, totalOrder} = req.body;
+            const newOrder = {
+                ShippingID: 0,
+                orderDate: new Date(),
+                userID: userid,
+                payment: payment_method,
+                total: totalOrder,
+                f_firstname: shippingFirstname,
+                f_lastname: shippingLastname,
+                f_phone: shippingPhone,
+                address: shippingAddress,
+                ward: ls_ward,
+                distric: ls_district,
+                province: ls_province,
+                country: 'Vietnam',
+                request: shippingRequest,
+                status: 1
+            }
+            console.log(prosID);
+            console.log(detailsID);
+            console.log(quantities);
+            UserService.createOrder(newOrder)
+            .then(result=>{
+                const orderid = result.orderID;
+                let detailsLength = prosID.length;
+                const details = [];
+                for(let i = 0 ; i < detailsLength ; i++){
+                    let item = {}; 
+                    item.orderID = orderid;
+                    item.proID = prosID[i];
+                    item.detailID = detailsID[i];
+                    item.quantity = quantities[i];
+                    item.price = 0;
+                    details.push(item);
+                }
+                UserService.createOrderDetail(details)
+                .then(result1=>{
+                    res.redirect("/me/order/"+result.orderID);
+                })
+                .catch(err=>{
+                    console.log(err);
+                    next();
+                })
+            })
+            .catch(err=>{
+                console.log(err);
+                next();
+            })
         }
         else{
             res.redirect("/account/register-login/");

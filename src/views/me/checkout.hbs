@@ -197,13 +197,13 @@
                                 </div>
 
                                 <div class="full-input">
-                                    <input type="radio" id="paypal" name="payment_method" value="Payment on delivery">
-                                    <label class="rl-label" for="paypal"><span class="radio"><span></span></span>Payment on delivery</label>
+                                    <input type="radio" id="on_delivery" name="payment_method" value="Payment on delivery">
+                                    <label class="rl-label" for="on_delivery"><span class="radio"><span></span></span>Payment on delivery</label>
                                 </div>
 
                                 <div class="full-input">
-                                    <input type="radio" id="cheque" name="payment_method" value="Paypal" checked>
-                                    <label class="rl-label" for="cheque"><span class="radio"><span></span></span>Paypal</label>
+                                    <input type="radio" id="paypal" name="payment_method" value="Paypal" checked>
+                                    <label class="rl-label" for="paypal"><span class="radio"><span></span></span>Paypal</label>
                                 </div>
 
                                 {{!-- <button class="button login">Continue</button> --}}
@@ -274,15 +274,20 @@
                                             <li><span data-color="{{this.color}}"></span></li>
                                         </ul>
                                     </div>
+                                    <input type="number" name="prosID"  value="{{this.proID}}" style="display: none;">
+                                    <input type="number" name="detailsID"  value="{{this.detailID}}" style="display: none;">
+                                    <!-- CELL -->
+
                                     <!-- CELL -->
                                     <div class="cell">
                                         <p class="highlighted">${{this.price}}</p>
                                     </div>
                                     <!-- /CELL -->
-
+                                    
                                     <!-- CELL -->
                                     <div class="cell">
                                         <p class="highlighted">{{this.quantity}}</p>
+                                        <input type="text" name="quantities"  value="{{this.quantity}}" style="display: none;">
                                     </div>
                                     <!-- /CELL -->
 
@@ -309,6 +314,7 @@
                                 <!-- CELL -->
                                 <div class="cell">
                                     <p class="highlighted">${{totalOrder}}</p>
+                                    <input type="number" name="totalOrder"  value="{{totalOrder}}" style="display: none;">
                                 </div>
                                 <!-- /CELL -->
                             </div>
