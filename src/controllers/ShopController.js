@@ -358,10 +358,11 @@ class ShopController{
 							ProductService.sumRatingProduct(proID), 
 							BrandService.getAll(), 
 							CateService.getAll(),
-							ProductService.countProductReview(proID)
+							ProductService.countProductReview(proID),
+							ProductService.countProductQuantity(proID),
 						])
-						.then(([details, images, reviews, cntrate, sumrate , navBrands, navCates, total])=>{
-							
+						.then(([details, images, reviews, cntrate, sumrate , navBrands, navCates, total, quantity])=>{
+							item.quantity = quantity;
 							const totalReview=total;
 							totalReviewPage=Math.ceil(totalReview/reviewPerpage);
 							let paginationArray = [];

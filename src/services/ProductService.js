@@ -540,6 +540,15 @@ class ProductService{
         })
     }
 
+
+    countProductQuantity(id){
+        return models.detail.sum('quantity', {
+              raw:true,
+              where:{
+                proID: id
+            }
+        });
+    }
     firstImageProduct(id){
         return models.imagelink.findOne({
             attributes: ['proImage'],

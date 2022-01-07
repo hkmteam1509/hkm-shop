@@ -26,9 +26,10 @@ function route(app){
             if(req.originalUrl.includes("filter")){
 
             }else{
-                req.session.redirectTo = req.originalUrl;
+                if(!req.session.redirectTo){
+                    req.session.redirectTo = req.originalUrl;
+                }
             }
-           
             next();
         }
     }, shopRouter);
