@@ -32,7 +32,6 @@ function route(app){
                     req.session.redirectTo = req.originalUrl;
                 }
             }
-            
             next();
         }
     }, shopRouter);

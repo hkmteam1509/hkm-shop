@@ -126,7 +126,6 @@ class UserService{
         })
     }
 
-
     updateProductCartQuantity(cartID, quantity){
         return models.cart.update({
             quantity: quantity
@@ -210,6 +209,14 @@ class UserService{
                 orderID: orderid
             }
         });
+    }
+
+    createOrder(newOrder){
+        return models.order.create(newOrder);
+    }
+
+    createOrderDetail(details){
+        return models.orderdetail.bulkCreate(details)
     }
 }
 
