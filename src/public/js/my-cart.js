@@ -58,7 +58,7 @@ $(document).ready(function(){
         let quantity = $(this).val();
         const price = $(this).data("price");
         $.ajax({
-            url:'/me/cart/update-quantity',
+            url:'/me/cart/api/update-quantity',
             method: 'post',
             data:{
                 cartID,
@@ -99,7 +99,7 @@ $(document).ready(function(){
     removeCart.click(function(){
         let cartID = $(this).data("id");
         $.ajax({
-            url:'/me/cart/delete',
+            url:'/me/cart/api/delete',
             method: 'delete',
             data:{
                 cartID,

@@ -37,7 +37,7 @@ $(document).ready(function(){
         if(selectedColor >= 0){
             if(user){
                 $.ajax({
-                    url:'/me/cart',
+                    url:'/me/cart/api',
                     method: 'post',
                     data:{
                         productID,
@@ -49,7 +49,7 @@ $(document).ready(function(){
                         const userId = parseInt(user.innerText);
                         console.log(userId);
                         $.ajax({
-                            url:'/me/cart/header',
+                            url:'/me/cart/api/header',
                             method: 'get',
                             data:{
                                 userId

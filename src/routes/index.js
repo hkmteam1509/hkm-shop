@@ -14,7 +14,7 @@ function route(app){
             next();
         }
         else{
-            if(!req.session.redirectTo && req.method === 'GET'){
+            if(!req.session.redirectTo && req.method === 'GET' && req.originalUrl.indexOf("api") < 0 && req.originalUrl.indexOf("filter") < 0){
                 req.session.redirectTo = req.originalUrl;
             }
             res.redirect('/account/register-login')
