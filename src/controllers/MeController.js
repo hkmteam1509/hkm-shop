@@ -661,8 +661,6 @@ class MeController{
             const userid = req.user.f_ID;
             const {shippingFirstname, shippingLastname, shippingPhone, ls_province, ls_district, ls_ward, shippingAddress, shippingRequest, payment_method, prosID, detailsID, quantities, totalOrder} = req.body;
             const newOrder = {
-                ShippingID: 0,
-                orderDate: new Date(),
                 userID: userid,
                 payment: payment_method,
                 total: totalOrder,
@@ -691,7 +689,6 @@ class MeController{
                     item.proID = prosID[i];
                     item.detailID = detailsID[i];
                     item.quantity = quantities[i];
-                    item.price = 0;
                     details.push(item);
                 }
                 UserService.createOrderDetail(details)
