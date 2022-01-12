@@ -34,10 +34,6 @@ module.exports = function(sequelize, DataTypes) {
     quantity: {
       type: DataTypes.INTEGER,
       allowNull: false
-    },
-    price: {
-      type: DataTypes.BIGINT,
-      allowNull: false
     }
   }, {
     sequelize,

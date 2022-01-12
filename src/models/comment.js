@@ -23,10 +23,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    dateComment: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
     proID: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
