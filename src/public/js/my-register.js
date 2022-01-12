@@ -87,7 +87,7 @@ $(document).ready(function(){
         }
         console.log("here");
         $.ajax({
-            url:'/account/check-username',
+            url:'/account/api/check-username',
             method: 'post',
             data:{
                 username: username.value,

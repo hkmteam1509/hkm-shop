@@ -10,7 +10,7 @@ router.post("/login", passport.authenticate('local',
         failureRedirect: '/account/register-login',
         failureFlash: true 
     }), AccountController.login);
-router.post("/check-username", AccountController.checkUsername)
+router.post("/api/check-username", AccountController.checkUsername)
 router.post("/register", AccountController.register);
 router.get('/register-login', AccountController.registerLogin);
 router.get('/forgot-password', AccountController.forgotPassword);

@@ -160,10 +160,8 @@ class AccountController{
             }
             else
             {
-                console.log("Redirect: ", req.session.redirectTo);
                 var redirectTo = req.session.redirectTo || '/';
                 delete req.session.redirectTo;
-                console.log("Redirect: ", req.session.redirectTo);
                 res.redirect(redirectTo);
             }
         }else{
@@ -172,6 +170,10 @@ class AccountController{
     }
 
     blockedGuest(req, res, next){
+        if(req.user){
+            next();
+            return;
+        }
         const arr = [
             BrandService.getAll(),
             CateService.getAll(),
