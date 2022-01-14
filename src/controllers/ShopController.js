@@ -5,7 +5,6 @@ const product = require('../models/product');
 const category = require('../models/category');
 const { getDataSlug } = require('../util/Utility');
 const BrandService = require('../services/BrandService');
-const CommentService=require('../services/CommentService')
 
 
 let maximumPagination=5;
@@ -549,11 +548,6 @@ class ShopController{
 			next()
 		})
     }
-
-	//[GET]/:Rate
-	rateProduct(req,res,next){
-
-	}
 
 }
 
