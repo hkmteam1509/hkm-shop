@@ -5,6 +5,8 @@ const ShopController = require('../controllers/ShopController');
 
 router.get('/:brand/:gender/:category/:id', ShopController.fullview);
 
+router.get('/:brand/:gender/:category/:id/rate', ShopController.rateProduct);
+
 router.get('/:brand/:gender/:category', ShopController.shopByCategory);
 
 router.get('/:brand/:gender', ShopController.shopByGender);

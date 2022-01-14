@@ -617,20 +617,20 @@
 								<form class="westeros-form">
 									<div class="left">
 										<label class="rl-label required">Your Name</label>
-										<input type="text" placeholder="Enter your name or nickname here...">
+										<input name="authorName" id="name-review" type="text" placeholder="{{#if user}} {{user.f_firstname}} {{user.f_lastname}}{{else}} Enter your name {{/if}}">
 									</div>
 									<div class="right">
 										<label class="rl-label">Review Summary</label>
-										<input type="text" placeholder="Enter a short title here...">
+										<input name="sumary"id="review-summary" type="text" placeholder="Enter a short title here...">
 									</div>
 									<div>
 										<label class="rl-label">Your Review</label>
-										<textarea placeholder="Write your full review here..."></textarea>
+										<input type="text" name="com" id="full-review" placeholder="Write your full review here..."></input>
 									</div>
 									<div class="left">
 										<label class="rl-label required">Your Stars Rating</label>
 										<!-- RATING -->
-										<ul class="rating large rater">
+										<ul id="rate-review"class="rating large rater">
 											<li>
 												<!-- SVG STAR -->
 												<svg class="svg-star">
@@ -669,7 +669,7 @@
 										</ul>
 										<!-- /RATING -->
 									</div>
-									<button class="button">Post Your Review</button>
+									<button  id="post-review-btn" class="button">Post Your Review</button>
 								</form>
 							</div>
 						</div>

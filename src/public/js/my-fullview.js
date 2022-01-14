@@ -153,4 +153,14 @@ $(document).ready(function(){
             alert("please choose product color !");
         }
     });
+
+   // console.log(document.getElementById("rate-review").);
+
+    $("#post-review-btn").click(function(){
+
+        
+        $ajax({
+
+        })
+    })
 })
