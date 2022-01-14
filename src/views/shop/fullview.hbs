@@ -480,6 +480,7 @@
 
 						<!-- REVIEW -->
 						{{#each reviews}}
+							
 							<div class="sub-item review">
 								<h5>{{this.sumary}}</h5>
 								<!-- RATING -->
@@ -574,6 +575,7 @@
 								<p class="author">{{this.authorName}} - {{this.date}}</p>
 								<p class="comment">{{this.com}}</p>
 							</div>
+							
 						{{/each}}
 						<!-- /REVIEW -->
 
@@ -633,15 +635,15 @@
 								<form class="westeros-form">
 									<div class="left">
 										<label class="rl-label required">Your Name</label>
-										<input type="text" placeholder="Enter your name or nickname here...">
+										<input name="authorName" id="name-review" type="text" placeholder="{{#if user}}{{user.f_firstname}} {{user.f_lastname}}{{else}}Enter your name or nickname here...{{/if}}">
 									</div>
 									<div class="right">
 										<label class="rl-label">Review Summary</label>
-										<input type="text" placeholder="Enter a short title here...">
+										<input name="sumary"id="review-summary" type="text" placeholder="Enter a short title here...">
 									</div>
 									<div>
 										<label class="rl-label">Your Review</label>
-										<textarea placeholder="Write your full review here..."></textarea>
+										<input name="com" id="full-review" type="text" placeholder="Write your full review here..."></input>
 									</div>
 									<div class="left">
 										<label class="rl-label required">Your Stars Rating</label>
@@ -685,7 +687,7 @@
 										</ul>
 										<!-- /RATING -->
 									</div>
-									<button class="button">Post Your Review</button>
+									<button id="post-review-btn" class="button">Post Your Review</button>
 								</form>
 							</div>
 						</div>

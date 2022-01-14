@@ -152,4 +152,12 @@ $(document).ready(function(){
             alert("please choose product color !");
         }
     });
+
+    $("#post-review-btn").click(function(){
+
+        $ajax({
+
+        });
+    });
+    
 })
