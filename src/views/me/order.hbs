@@ -15,7 +15,7 @@
 				<h3 class="title">My Order</h3>
 
 				<!-- SHOPPING CART -->
-				<div class="shopping-cart wishlist-cart">
+				<div class="shopping-cart wishlist-cart" id="order-table">
 					<!-- ROW -->
 					<div class="row header">
 						<!-- CELL -->
@@ -50,6 +50,7 @@
 					<!-- /ROW -->
 
 					<!-- ROW -->
+<<<<<<< HEAD
 					<div class="row">
 						<!-- CELL -->
 						<div class="cell my-cell">
@@ -287,6 +288,128 @@
                     </li>
                 </ul>
                 <!-- /PAGER -->
+=======
+					{{!-- <div id="my-table-body"> --}}
+						{{#each userOrders}}
+							<div class="row my-order-row" >
+								<!-- CELL -->
+								<div class="cell my-cell">
+									<p class="highlighted">{{this.orderID}}</p>
+								</div>
+								<!-- /CELL -->
+
+								<!-- CELL -->
+								<div class="cell my-cell">
+									<p class="highlighted">{{this.orderDate}}</p>
+								</div>
+								<!-- /CELL -->
+
+								<!-- CELL -->
+								<div class="cell my-cell">
+									<p class="highlighted">${{this.total}}</p>
+								</div>
+								<!-- /CELL -->
+
+								<!-- CELL -->
+								<div class="cell my-cell">
+									{{#isEqual this.status 1}}
+										<div class="delivering-order-badge">
+											Pending confirmation
+										</div>
+									{{/isEqual}}
+									{{#isEqual this.status 2}}
+										<div class="delivering-order-badge">
+											Confirmed
+										</div>
+									{{/isEqual}}
+									{{#isEqual this.status 3}}
+										<div class="delivering-order-badge">
+											Pick by courier
+										</div>
+									{{/isEqual}}
+									{{#isEqual this.status 4}}
+										<div class="delivering-order-badge">
+											On their way
+										</div>
+									{{/isEqual}}
+									{{#isEqual this.status 5}}
+										<div class="delivering-order-badge">
+											Arrived
+										</div>
+									{{/isEqual}}
+									{{#isEqual this.status 6}}
+										<div class="complete-order-badge">
+											Completed
+										</div>
+									{{/isEqual}}
+									{{#isEqual this.status 7}}
+										<div class="cancel-order-badge">
+											Canceled
+										</div>
+									{{/isEqual}}
+								</div>
+								<!-- /CELL -->
+
+								<!-- CELL -->
+								<div class="cell buttons small my-cell">
+									<!-- ACTIONS -->
+									<div class="actions no-shrink">
+										<a href="/me/order/{{this.orderID}}" class="button" style="padding: 0 20px;">
+											Detail
+										</a>
+									</div>
+									<!-- /ACTIONS -->
+								</div>
+								<!-- /CELL -->
+							</div>
+						{{/each}}
+					{{!-- </div> --}}
+					
+				</div>
+				<!-- /SHOPPING CART -->
+                <!-- PAGER -->
+					<ul class="pager" id="my-pagination">
+						{{#if paginationArray}}
+							<li>
+								<label style="cursor: pointer;" class="button prev">
+									<input onchange='changePager(this);' style="display: none;" id="page-prev" value="{{prevPage}}" type="radio" name="page"/>
+									<!-- SVG ARROW -->
+									<svg class="svg-arrow">
+										<use xlink:href="#svg-arrow"></use>
+									</svg>
+									<!-- /SVG ARROW -->
+								</label>
+							</li>
+							{{#each paginationArray }}  
+								{{#if this.isCurrent}}
+									<li class="selected">
+										<label style="cursor: pointer;">
+											<input onchange='changePager(this);' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
+											{{this.page}}
+										</label>
+									</li>
+								{{else}}
+									<li>
+										<label style="cursor: pointer;">
+											<input onchange='changePager(this);' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
+											{{this.page}}
+										</label>
+									</li>
+								{{/if}}
+							{{/each}}
+							<li>
+								<label style="cursor: pointer;" class="button next">
+									<input onchange='changePager(this);' style="display: none;" id="page-next" value="{{nextPage}}" type="radio" name="page"/>
+									<!-- SVG ARROW -->
+									<svg class="svg-arrow">
+										<use xlink:href="#svg-arrow"></use>
+									</svg>
+									<!-- /SVG ARROW -->
+								</label>
+							</li>
+						{{/if}}
+					</ul>
+>>>>>>> 726a29724d010d3a6f76727b87be8883e0178fdf
 			</div>
 
 			<!-- /SHOP PRODUCTS -->
@@ -552,4 +675,141 @@
 <script src="/js/shop.js"></script>
 <!-- Full View -->
 <script src="/js/full-view.js"></script>
+
+<script>
+	function generateOrder(orders){
+		let statusArr=["Pending confirmation", "Confirmed", "Pick by courier", "On their way", "Arrived", "Completed", "Cancel"];
+		return orders.map(order=>{
+			return `
+			<div class="row my-order-row">
+				<!-- CELL -->
+				<div class="cell my-cell">
+					<p class="highlighted">${order.orderID}</p>
+				</div>
+				<!-- /CELL -->
+
+				<!-- CELL -->
+				<div class="cell my-cell">
+					<p class="highlighted">${order.orderDate}</p>
+				</div>
+				<!-- /CELL -->
+
+				<!-- CELL -->
+				<div class="cell my-cell">
+					<p class="highlighted">\$ ${order.total}</p>
+				</div>
+				<!-- /CELL -->
+
+				<!-- CELL -->
+				<div class="cell my-cell">
+					<div class="delivering-order-badge">
+						${statusArr[parseInt(order.status)-1]}
+					</div>
+				</div>
+				<!-- /CELL -->
+
+				<!-- CELL -->
+				<div class="cell buttons small my-cell">
+					<!-- ACTIONS -->
+					<div class="actions no-shrink">
+						<a href="/me/order/${order.orderID}" class="button" style="padding: 0 20px;">
+							Detail
+						</a>
+					</div>
+					<!-- /ACTIONS -->
+				</div>
+				<!-- /CELL -->
+			</div>
+		`
+		}) ;
+	}
+
+    function generatePager(paginationArray, prevPage, nextPage){
+        let result = [];
+        result.push(`
+            <li>
+                <label style="cursor: pointer;" class="button prev">
+                    <input onchange='changePager(this)' style="display: none;" id="page-prev" value="${prevPage}" type="radio" name="page"/>
+                    <!-- SVG ARROW -->
+                    <svg class="svg-arrow">
+                        <use xlink:href="#svg-arrow"></use>
+                    </svg>
+                    <!-- /SVG ARROW -->
+                </label>
+            </li>
+        `)
+        paginationArray.forEach(page=>{
+            if(page.isCurrent){
+                result.push(`
+                    <li class="selected">
+                        <label style="cursor: pointer;">
+                            <input onchange='changePager(this)' style="display: none;" id="page-${page.page}" value="${page.page}" type="radio" name="page"/>
+                            ${page.page}
+                        </label>
+                    </li>
+                `)
+            }else{
+                result.push(`
+                    <li>
+                        <label style="cursor: pointer;">
+                            <input onchange='changePager(this)' style="display: none;" id="page-${page.page}" value="${page.page}" type="radio" name="page"/>
+                            ${page.page}
+                        </label>
+                    </li>
+                `)
+            }
+        });
+        result.push(`
+            <li>
+                <label style="cursor: pointer;" class="button next">
+                    <input onchange='changePager(this)' style="display: none;" id="page-next" value="${nextPage}" type="radio" name="page"/>
+                    <svg class="svg-arrow">
+                        <use xlink:href="#svg-arrow"></use>
+                    </svg>
+                </label>
+            </li>
+        `)
+        return result;
+	}
+	
+	function changePager(ele){
+		const data = {};
+		data.page = $("input[name='page']:checked").val();
+		
+		let queryString = "";
+		if(!data.page){
+			data.page = '1';
+		}
+		if(data.page.length > 0){
+			queryString += ("page=" + data.page);
+		}
+		const newRelativePathQuery = window.location.pathname + '?' + queryString;
+		history.pushState(null, '', newRelativePathQuery);
+			$.ajax({
+			method:'get',
+			url: '/me/order/api',
+			data: data,
+			success: function(data){
+				$("#my-pagination").empty();
+				if(data.paginationArray && data.paginationArray.length > 0){
+					const pageView = generatePager(data.paginationArray, data.prevPage, data.nextPage);
+					pageView.forEach(page=>{
+						$("#my-pagination").append(page);
+					});
+				}
+				const orderView = generateOrder(data.userOrders);
+				$(".my-order-row").remove();
+				orderView.forEach(order=>{
+					$("#order-table").append(order);
+				});
+			},
+			error: function(err){
+				console.log(err);
+				alert("An error has occurred, please try again");
+			}
+		})
+	}
+
+</script>
+
 {{/section}}

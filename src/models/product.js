@@ -23,18 +23,9 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.TEXT,
       allowNull: false
     },
-    quantity: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
     sold: {
       type: DataTypes.INTEGER,
       allowNull: false
-    },
-    date: {
-      type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP')
     },
     catID: {
       type: DataTypes.INTEGER.UNSIGNED,

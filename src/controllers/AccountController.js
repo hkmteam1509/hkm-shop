@@ -152,16 +152,52 @@ class AccountController{
 
     login(req, res, next){
         if(req.user){
+<<<<<<< HEAD
             console.log("Redirect: ", req.session.redirectTo);
             var redirectTo = req.session.redirectTo || '/';
             delete req.session.redirectTo;
             console.log("Redirect: ", req.session.redirectTo);
             res.redirect(redirectTo);
+=======
+            let permission = req.user.f_permission;
+            if (permission === -1)
+            {
+                req.logout();
+                res.redirect("blocked");
+            }
+            else
+            {
+                var redirectTo = req.session.redirectTo || '/';
+                delete req.session.redirectTo;
+                res.redirect(redirectTo);
+            }
+>>>>>>> 726a29724d010d3a6f76727b87be8883e0178fdf
         }else{
             res.redirect("back");
         }
     }
 
+<<<<<<< HEAD
+=======
+    blockedGuest(req, res, next){
+        if(req.user){
+            next();
+            return;
+        }
+        const arr = [
+            BrandService.getAll(),
+            CateService.getAll(),
+        ]
+        Promise.all(arr)
+        .then(([navBrands, navCates])=>{
+            res.render('blocked', {
+                navBrands,
+                navCates
+            });
+        })
+    }
+
+>>>>>>> 726a29724d010d3a6f76727b87be8883e0178fdf
     logout(req, res, next){
         res.clearCookie('remember_me');
         req.logout();

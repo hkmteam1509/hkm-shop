@@ -7,10 +7,6 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
-    orderDate: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
     userID: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -18,10 +14,6 @@ module.exports = function(sequelize, DataTypes) {
         model: 'user',
         key: 'f_ID'
       }
-    },
-    ShippingID: {
-      type: DataTypes.STRING(255),
-      allowNull: false
     },
     payment: {
       type: DataTypes.STRING(255),

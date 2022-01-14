@@ -6,6 +6,13 @@ const bcrypt = require('bcrypt');
 const { SALT_BCRYPT } = require("../config/app");
 const Utility = require("../util/Utility");
 
+<<<<<<< HEAD
+=======
+const orderPerPage = 1;
+const maximumPagination = 5;
+let currentPage = 1;
+let totalPage = 1;
+>>>>>>> 726a29724d010d3a6f76727b87be8883e0178fdf
 
 class MeController{
     //[GET] /me/cart
@@ -524,6 +531,132 @@ class MeController{
         });
         
     }
+<<<<<<< HEAD
+=======
+
+    //[POST] /me/checkout
+    createOrder(req, res, next){
+        if (req.user) {
+            const userid = req.user.f_ID;
+            const {shippingFirstname, shippingLastname, shippingPhone, ls_province, ls_district, ls_ward, shippingAddress, shippingRequest, payment_method, prosID, detailsID, quantities, totalOrder} = req.body;
+            const newOrder = {
+                userID: userid,
+                payment: payment_method,
+                total: totalOrder,
+                f_firstname: shippingFirstname,
+                f_lastname: shippingLastname,
+                f_phone: shippingPhone,
+                address: shippingAddress,
+                ward: ls_ward,
+                distric: ls_district,
+                province: ls_province,
+                country: 'Vietnam',
+                request: shippingRequest,
+                status: 1
+            }
+            console.log(prosID);
+            console.log(detailsID);
+            console.log(quantities);
+            UserService.createOrder(newOrder)
+            .then(result=>{
+                const orderid = result.orderID;
+                let detailsLength = prosID.length;
+                const details = [];
+                for(let i = 0 ; i < detailsLength ; i++){
+                    let item = {}; 
+                    item.orderID = orderid;
+                    item.proID = prosID[i];
+                    item.detailID = detailsID[i];
+                    item.quantity = quantities[i];
+                    details.push(item);
+                }
+                UserService.createOrderDetail(details)
+                .then(result1=>{
+                    res.redirect("/me/order/"+result.orderID);
+                })
+                .catch(err=>{
+                    console.log(err);
+                    next();
+                })
+            })
+            .catch(err=>{
+                console.log(err);
+                next();
+            })
+        }
+        else{
+            res.redirect("/account/register-login/");
+        }
+    }
+
+    //[GET] /me/order
+    showOrderApi(req, res, next){
+        if(req.user){
+            const pageNumber = req.query.page;
+            currentPage = (pageNumber && !Number.isNaN(pageNumber)) ? parseInt(pageNumber) : 1;
+            currentPage = (currentPage > 0) ? currentPage : 1;
+            currentPage = (currentPage <= totalPage) ? currentPage : totalPage
+            currentPage = (currentPage < 1) ? 1 : currentPage;
+            const arr = [
+                UserService.getUserOrders(orderPerPage,currentPage,req.user.f_ID),
+                UserService.countUserOrder(req.user.f_ID)
+            ]
+            Promise.all(arr)
+            .then(([userOrders, totalOrders])=>{
+                let totalOrder = totalOrders;
+                let paginationArray = [];
+                totalPage = Math.ceil(totalOrder/orderPerPage);
+                let pageDisplace = Math.min(totalPage - currentPage + 2, maximumPagination);
+                if(currentPage === 1){
+                    pageDisplace -= 1;
+                }
+                for(let i = 0 ; i < pageDisplace; i++){
+                    if(currentPage === 1){
+                        paginationArray.push({
+                            page: currentPage + i,
+                            isCurrent:  (currentPage + i)===currentPage
+                        });
+                    }
+                    else{
+                        paginationArray.push({
+                            page: currentPage + i - 1,
+                            isCurrent:  (currentPage + i - 1)===currentPage
+                        });
+                    }
+                }
+                if(pageDisplace < 2){
+                    paginationArray=[];
+                }
+                
+                const ordersLength = userOrders.length;
+                for(let i = 0 ; i  < ordersLength; i++){
+                    const date = new Date(userOrders[i].createdAt);
+                    if (!isNaN(date.getTime())) {
+                        let d = date.getDate();
+                        let m = date.getMonth() + 1;
+                        let y = date.getFullYear();
+                        userOrders[i].orderDate = d + '/' + m + '/' + y;
+                    }
+                }
+                res.status(200).json({
+                    userOrders,
+                    currentPage,
+                    paginationArray,
+                    prevPage: (currentPage > 1) ? currentPage - 1 : 1,
+                    nextPage: (currentPage < totalPage) ? currentPage + 1 : totalPage
+                });
+            })
+            .catch(err=>{
+                console.log(err);
+                next();
+            })
+        }
+        else{
+            res.redirect("/account/register-login/");
+        }
+        
+    }
+>>>>>>> 726a29724d010d3a6f76727b87be8883e0178fdf
 }
 function getGenderSlug(sex) {
 	let gender="unisex";

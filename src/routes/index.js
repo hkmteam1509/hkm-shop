@@ -12,7 +12,11 @@ function route(app){
             next();
         }
         else{
+<<<<<<< HEAD
             if(!req.session.redirectTo){
+=======
+            if(!req.session.redirectTo && req.method === 'GET' && req.originalUrl.indexOf("api") < 0 && req.originalUrl.indexOf("filter") < 0){
+>>>>>>> 726a29724d010d3a6f76727b87be8883e0178fdf
                 req.session.redirectTo = req.originalUrl;
             }
             res.redirect('/account/register-login')
