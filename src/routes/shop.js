@@ -22,4 +22,6 @@ router.get('/:brand', ShopController.shopByBrand);
 router.get('/', ShopController.shop);
 
 
+router.post('/api/rate', ShopController.rateProduct);
+
 module.exports = router;

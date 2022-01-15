@@ -154,10 +154,32 @@ $(document).ready(function(){
     });
 
     $("#post-review-btn").click(function(){
-
-        $ajax({
-
-        });
-    });
+        console.log("get in to ajax")
+        let userID=null;
+        if (user){
+            userID=parseInt(user.innerText);
+        }
+        let rate=document.querySelectorAll("#user-rater .filled").length;
+        let authorName=$('input[name=authorName]').val();
+        let sumary=$('input[name=sumary]').val();
+        let com=$('input[name=com').val();
+    
+        $.ajax({
+            url:'/shop/api/rate',
+            method: 'post',
+            data:{
+                userID,
+                proID:productID,
+                authorName,
+                rate,
+                sumary,
+                com,
+            },
+            success:function(data){
+                console.log(data)
+            }
+        })
+    })
     
 })
+

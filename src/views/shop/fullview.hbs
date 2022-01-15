@@ -633,9 +633,10 @@
 							<h5>Write a Review</h5>
 							<div class="featured-form">
 								<form class="westeros-form">
+									<input name="proID "type="hidden" value="{{proID}}">
 									<div class="left">
 										<label class="rl-label required">Your Name</label>
-										<input name="authorName" id="name-review" type="text" placeholder="{{#if user}}{{user.f_firstname}} {{user.f_lastname}}{{else}}Enter your name or nickname here...{{/if}}">
+										<input name="authorName" id="name-review" type="text" value="{{#if user}}{{user.f_firstname}} {{user.f_lastname}}{{else}}Enter your name or nickname here...{{/if}}">
 									</div>
 									<div class="right">
 										<label class="rl-label">Review Summary</label>
@@ -648,7 +649,7 @@
 									<div class="left">
 										<label class="rl-label required">Your Stars Rating</label>
 										<!-- RATING -->
-										<ul class="rating large rater">
+										<ul id="user-rater" class="rating large rater">
 											<li>
 												<!-- SVG STAR -->
 												<svg class="svg-star">

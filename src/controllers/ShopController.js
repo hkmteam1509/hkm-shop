@@ -5,6 +5,7 @@ const product = require('../models/product');
 const category = require('../models/category');
 const { getDataSlug } = require('../util/Utility');
 const BrandService = require('../services/BrandService');
+const CommentService = require('../services/CommentService');
 
 
 let maximumPagination=5;
@@ -776,6 +777,27 @@ class ShopController{
 			next()
 		})
     }
+
+	//[post]/:rate
+	rateProduct(req,res,next){
+		console.log("da vao toi controler");
+		const {userID,authorName,rate,proID,sumary,com} =req.body;
+		console.log(req.body);
+		
+		console.log(userID)
+
+		CommentService.add(userID,authorName,rate,proID,sumary,com)
+		.then(result=>{
+			//console.log(authorName);
+			res.status(201).json(result);
+		}).catch(err=>{
+			console.log("LỖi :")
+			console.log(err)
+			res.status(500).json({
+				message: err=>message,
+			});
+		})
+	};
 }
 
 function shopbycate(req,res,next,brand,gender,category) {

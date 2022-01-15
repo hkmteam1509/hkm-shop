@@ -4,16 +4,18 @@ const { Op } = require("sequelize");
 
 
 class CommentService{
-    add(userID,authorName,rate,proID,sumary,com){
-        let dateCom=Date.now().toLocaleString;
+
+
+    add(userID,authorName,rate,proID,sumary,coms){
+        if (userID=='')
+            userID=null;
         return models.comment.create({
             userID: userID,
             authorName: authorName,
             rate: rate,
-            dateComment: dateCom,
             proID:proID,
             sumary:sumary,
-            com:com,
+            com:coms
         })
     }
 }
