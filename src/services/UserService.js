@@ -142,7 +142,6 @@ class UserService{
             proID: proID,
             quantity: quantity,
             detailID: detailID,
-            price: 0,
         })   
     }
 
