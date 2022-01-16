@@ -89,6 +89,7 @@ $(document).ready(function(){
                                     $(".cart.westeros-dropdown").append(`<li class="order clearfix">
                                                                             <a href="/me/cart" class="button secondary">Go to Cart</a>
                                                                         </li>`); 
+                                    alert("Add product to cart successfully!");
                                 }
                             },
                             error:function(response){  

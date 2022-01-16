@@ -152,6 +152,13 @@ class AccountController{
 
     login(req, res, next){
         if(req.user){
+<<<<<<< HEAD
+            console.log("Redirect: ", req.session.redirectTo);
+            var redirectTo = req.session.redirectTo || '/';
+            delete req.session.redirectTo;
+            console.log("Redirect: ", req.session.redirectTo);
+            res.redirect(redirectTo);
+=======
             let permission = req.user.f_permission;
             if (permission === -1)
             {
@@ -164,11 +171,14 @@ class AccountController{
                 delete req.session.redirectTo;
                 res.redirect(redirectTo);
             }
+>>>>>>> 726a29724d010d3a6f76727b87be8883e0178fdf
         }else{
             res.redirect("back");
         }
     }
 
+<<<<<<< HEAD
+=======
     blockedGuest(req, res, next){
         if(req.user){
             next();
@@ -187,36 +197,13 @@ class AccountController{
         })
     }
 
+>>>>>>> 726a29724d010d3a6f76727b87be8883e0178fdf
     logout(req, res, next){
         res.clearCookie('remember_me');
         req.logout();
         res.redirect('/');
     }
 
-    checkUsername(req, res, next){
-        const {username, email} = req.body;
-        UserService.findAccount(username)
-        .then(result=>{
-            if(IsEmail.validate(email)){
-                if(result){
-                    res.status(200).json({isExisted: true, isInvalidEmail: false});
-                }else{
-                    res.status(200).json({isExisted: false, isInvalidEmail: false});
-                }
-            }else{
-                if(result){
-                    res.status(200).json({isExisted: true, isInvalidEmail: true});
-                }else{
-                    res.status(200).json({isExisted: false, isInvalidEmail: true});
-                }
-            }
-            
-        })
-        .catch(err=>{
-            console.log(err);
-            res.status(500).json({msg: err.message});
-        })
-    }
 }
 
 module.exports = new AccountController;

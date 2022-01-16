@@ -3401,7 +3401,7 @@ svg.sidebar-control {
     .pager li:last-child {
       margin-right: 0;
       border: none; }
-    .pager li label {
+    .pager li a {
       display: block;
       text-align: center;
       line-height: 28px;
@@ -3411,9 +3411,9 @@ svg.sidebar-control {
       -webkit-transition: all 0.3s ease;
       transition: all 0.3s ease;
       position: relative; }
-      .pager li label:hover {
+      .pager li a:hover {
         color: #00b0ff; }
-    .pager li.selected label {
+    .pager li.selected a {
       color: #00b0ff;
       font-weight: 700; }
     .pager li .button {

@@ -126,6 +126,7 @@ class UserService{
         })
     }
 
+
     updateProductCartQuantity(cartID, quantity){
         return models.cart.update({
             quantity: quantity
@@ -154,70 +155,6 @@ class UserService{
         })
     }
     
-    getUserOrders(limit, page, userID){
-        return models.order.findAll({
-            offset: (page - 1)*limit, 
-            limit: limit,
-            raw: true,
-            where:{
-                userID: userID
-            }
-        })
-    }
-
-    countUserOrder(userID){
-        return models.order.count({
-            raw: true,
-            where:{
-                userID: userID
-            }
-        })
-    }
-
-    findOrder(id){
-        return models.order.findOne({
-            raw:true,
-            where:{
-                orderID: id
-            }
-        })
-    }
-
-    orderDetailList(id){
-        return models.orderdetail.findAll({
-            raw:true,
-            where:{
-                orderID: id
-            }
-        });
-    }
-
-    findDetailItem(id){
-        return models.detail.findOne({
-            raw:true,
-            where:{
-                detailID: id
-            }
-        });
-    }
-
-    isValidOrder(userid, orderid){
-        return models.order.findOne({
-            raw:true,
-            where:{
-                userID: userid,
-                orderID: orderid
-            }
-        });
-    }
-
-    createOrder(newOrder){
-        return models.order.create(newOrder);
-    }
-
-    createOrderDetail(details){
-        return models.orderdetail.bulkCreate(details)
-    }
 }
 
 module.exports = new UserService;
