@@ -18,10 +18,6 @@ module.exports = function(sequelize, DataTypes) {
     brandImage: {
       type: DataTypes.STRING(255),
       allowNull: false
-    },
-    quantity: {
-      type: DataTypes.INTEGER,
-      allowNull: false
     }
   }, {
     sequelize,
