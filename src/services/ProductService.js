@@ -12,7 +12,8 @@ class ProductService{
             models.category.findAll({
                 attributes: ['catID']
             })
-        ]
+        ];
+
         return Promise.all(arrPro)
             .then(([brandIDList, catIDList])=>{
             
@@ -72,7 +73,7 @@ class ProductService{
                 }
                 if(name && name.length > 0){
                     switch (sort) {
-                        case 1:
+                        case "1":
                             return models.product.findAll({
                                 offset: (page - 1)*limit, 
                                 limit: limit, 
@@ -92,7 +93,7 @@ class ProductService{
                                     ['price','DESC']
                                 ]
                             });
-                        case 2:
+                        case "2":
                             return models.product.findAll({
                                 offset: (page - 1)*limit, 
                                 limit: limit, 

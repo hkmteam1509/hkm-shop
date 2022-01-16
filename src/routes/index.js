@@ -8,15 +8,16 @@ const CateService = require('../services/CateService');
 
 function route(app){
     app.use('/me',function(req, res, next){
-        console.log(req.body);
-        console.log(req.query);
+        console.log(1);
+        console.log(req.session.redirectTo);
+        console.log(req.originalUrl);
         if(req.user){
             next();
         }
         else{
-            if(!req.session.redirectTo && req.method === 'GET' && req.originalUrl.indexOf("api") < 0 && req.originalUrl.indexOf("filter") < 0){
-                req.session.redirectTo = req.originalUrl;
-            }
+            // if(!req.session.redirectTo && req.method === 'GET' && req.originalUrl.indexOf("api") < 0 && req.originalUrl.indexOf("filter") < 0){
+            //     req.session.redirectTo = req.originalUrl;
+            // }
             res.redirect('/account/register-login')
         }
     }, meRouter);
@@ -25,12 +26,11 @@ function route(app){
             next();
         }
         else{
-            if(req.originalUrl.includes("filter")){
-
-            }else{
-                if(!req.session.redirectTo && req.method === 'GET'){
-                    req.session.redirectTo = req.originalUrl;
-                }
+            console.log(2);
+            console.log(req.session.redirectTo);
+            console.log(req.originalUrl);
+            if(req.method === 'GET' && req.originalUrl.indexOf("api") < 0 && req.originalUrl.indexOf("filter") < 0){
+                req.session.redirectTo = req.originalUrl;
             }
             next();
         }

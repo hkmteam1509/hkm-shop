@@ -98,7 +98,6 @@ $(document).ready(function(){
                                 alert('Bad Request'); 
                             } 
                         });
-                        alert("Add product to cart successfully!");
                     },
                     error:function(response){  
                         alert('Bad Request'); 

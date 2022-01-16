@@ -189,6 +189,7 @@ class AccountController{
 
     logout(req, res, next){
         res.clearCookie('remember_me');
+        req.session.redirectTo = null;
         req.logout();
         res.redirect('/');
     }

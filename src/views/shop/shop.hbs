@@ -857,10 +857,10 @@
         value.prices = formData.getAll('prices[]');
         const shopSearch = document.getElementById("shop-search");
         value.search = (shopSearch) ? shopSearch.value : "";
-        if(ele.getAttribute("name") !== "page" && ele.getAttribute("name") !== "sort"){
+        if(ele.getAttribute("name") !== "page"){
             value.page = 1;
         }
-
+        console.log(value);
         let queryString = "";
         queryString += ("search=" + value.search + "&");
         value.categories.forEach(cate=>{
