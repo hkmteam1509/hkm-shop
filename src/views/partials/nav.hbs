@@ -1,0 +1,127 @@
+    <!-- MOBILE MENU COVER -->
+	<div class="mobile-menu-cover"></div>
+	<!-- /MOBILE MENU COVER -->
+
+	<!-- MOBILE MENU -->
+	<nav class="mobile-menu">
+		<img src="/images/logo-footer.png" alt="logo">
+		<!-- SVG PLUS -->
+		<svg class="svg-plus pull-nav">
+			<use xlink:href="#svg-plus"></use>
+		</svg>
+		<!-- /SVG PLUS -->
+
+		<!-- MENU LIST -->
+		<ul>
+			<li>
+				<a href="/">Home</a>
+			</li>
+			<li>
+				<a href="/shop/all/women">Women</a>
+			</li>
+			<li>
+				<a href="/shop/all/men">Men</a>
+			</li>
+			<li>
+				<a href="/shop/all/unisex">Unisex</a>
+			</li>
+			<li>
+				<a href="#">Brands
+					<!-- SVG ARROW -->
+					<svg class="svg-arrow">
+						<use xlink:href="#svg-arrow"></use>
+					</svg>
+					<!-- /SVG ARROW -->
+				</a>
+				<!-- SUBMENU LIST -->
+				<ul>
+					
+					{{#each navBrands}}
+						<li>
+							<a href="/shop/{{this.brangSlug}}">{{this.brandName}}</a>
+						</li>
+					{{/each}}
+				</ul>
+				<!-- /SUBMENU LIST -->
+			</li>
+				<li>
+				<a href="#">Categories
+					<!-- SVG ARROW -->
+					<svg class="svg-arrow">
+						<use xlink:href="#svg-arrow"></use>
+					</svg>
+					<!-- /SVG ARROW -->
+				</a>
+				<!-- SUBMENU LIST -->
+				<ul>
+					</li>
+					{{#each navCates}}
+						<li>
+							<a href="/shop/all/all/{{this.catSlug}}">{{this.catName}}</a>
+						</li>
+					{{/each}}
+				</ul>
+				<!-- /SUBMENU LIST -->
+			</li>
+			<li>
+				<a href="/contact">Contact</a>
+			</li>
+			
+		</ul>
+		<!-- /MENU LIST -->
+	</nav>
+	<!-- /MOBILE MENU -->
+
+	<!-- MAIN MENU -->
+	<nav id="main-menu">
+		<img class="pull-nav" src="/images/icons/pull-icon.png" alt="pull-icon">
+		<ul >
+			<li><a href="/">Home</a></li>
+			<li>
+				<a style="cursor: pointer;">Brands</a>
+				<!-- SUBMENU MEDIUM -->
+				<ul class="submenu-medium">
+					<li>
+						
+						{{#each navBrands}}
+							<article class="submenu-list double">
+							<a href="/shop/{{this.brandSlug}}" class="my-brand-logo">
+								<img src="{{this.brandImage}}" alt="">
+								<h6>{{this.brandName}}</h6>
+							</a>
+						</article>
+						{{/each}}
+					</li>
+				</ul>
+				<!-- /SUBMENU MEDIUM -->
+			</li>
+			<li>
+				<a style="cursor: pointer;">Categories</a>
+				<!-- SUBMENU MEDIUM -->
+				<ul class="submenu-medium">
+					<li>
+
+						{{#each navCates}}
+							<article class="submenu-list double">
+							<a href="/shop/all/all/{{this.catSlug}}" class="my-brand-logo">
+								<img src="{{this.catImage}}" alt="">
+								<h6>{{this.catName}}</h6>
+							</a>
+						</article>
+						{{/each}}
+					</li>
+				</ul>
+				<!-- /SUBMENU MEDIUM -->
+			</li>
+			<li>
+				<a href="/shop/all/women">
+					Women
+				</a>
+			</li>
+			<li><a href="/shop/all/men">Men</a></li>
+            <li><a href="/shop/all/unisex">Unisex</a></li>
+            <li><a href="/shop">Shop</a></li>
+			<li><a href="/contact">Contact</a></li>
+		</ul>
+	</nav>
+	<!-- /MAIN MENU -->

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/vendor/jquery.range.css">
+	<link rel="stylesheet" href="/css/vendor/xmcountdown.css">
+    <link rel="stylesheet" href="/css/vendor/owl.carousel.css">
+	<link rel="stylesheet" href="/css/vendor/magnific-popup.css">
+	<link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/my.css">
+	<link rel="stylesheet" href="/css/vendor/xmcountdown.css">
+	<!-- favicon -->
+	<link rel="icon" href="/images/favicon.ico">
+    <title>HKM Shop</title>
+</head>
+<body>
+    <div class="app">
+        {{> header this}}
+        {{> nav this}}
+        <div>
+            {{{body}}}
+        </div>
+        {{> footer}}
+    </div>
+     {{{_sections.script}}}
+     <script>
+		$(document).ready(function(){
+			const user = document.getElementById("user");
+			if(user){
+				const userId = parseInt(user.innerText);
+				console.log(userId);
+				$.ajax({
+					url:'/me/cart/api/header',
+					method: 'get',
+					data:{
+						userId
+					},
+					success: function(data){
+						console.log(data);
+						const nItem = data.length;
+						$(".cart-content-short").text(nItem);
+						$(".cart-content-long").text(nItem + " item (s)");
+						if(nItem > 0){
+							$(".cart.westeros-dropdown").empty();
+                            $(".cart.westeros-dropdown").append(`
+                            <li class="item clearfix" style="padding: 10px 0; text-align:center; height: auto">
+                                <h5>Lastest product</h5>
+                            </li>
+                            `)
+							for(let i = 0 ; i < ((nItem < 3) ? nItem : 3) ; i++){
+								let newItem = `<li class="item clearfix">
+													<div class="picture">
+														<figure class="liquid">
+															<img src="` + data[i].image +`" alt="product1">
+														</figure>
+													</div>
+													<div class="description">									
+														<p class="highlighted category">`+ data[i].cate + `</p>
+														<h6>`+data[i].proName+`</h6>
+													</div>
+													<div class="quantity">
+														<h6>`+ data[i].quantity +`</h6>
+													</div>
+													<div class="price">
+														<p class="highlighted">$`+ data[i].quantity*data[i].price +`.00</p>
+													</div>
+												</li>`
+								$(".cart.westeros-dropdown").append(newItem);
+							}
+							$(".cart.westeros-dropdown").append(`<li class="order clearfix">
+																	<a href="/me/cart" class="button secondary">Go to Cart</a>
+																</li>`); 
+							
+						}
+						
+					},
+					error:function(response){  
+						alert('Bad Request'); 
+					} 
+				})
+			
+			}
+		});
+	</script>
+</body>
+</html>

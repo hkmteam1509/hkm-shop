@@ -1,0 +1,39 @@
+{
+  "name": "project",
+  "version": "0.0.0",
+  "private": true,
+  "nodemonConfig": {
+    "ext": "js, css, hbs, json"
+  },
+  "scripts": {
+    "start": "node src/app.js",
+    "work": "nodemon --inspect src/app.js",
+    "sasstocss": "node-sass src/public/css/sass/main.scss src/public/css/style.css -w"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^10.0.0",
+    "express": "~4.16.1",
+    "express-handlebars": "^5.3.4",
+    "express-session": "^1.17.2",
+    "hbs": "~4.0.4",
+    "http-errors": "~1.6.3",
+    "isemail": "^3.2.0",
+    "method-override": "^3.0.0",
+    "morgan": "~1.9.1",
+    "mysql2": "^2.3.3",
+    "passport": "^0.5.0",
+    "passport-local": "^1.0.0",
+    "passport-remember-me": "^0.0.1",
+    "sequelize": "^6.9.0",
+    "sequelize-auto": "^0.8.5"
+  },
+  "devDependencies": {
+    "node-sass": "^6.0.1",
+    "nodemon": "^2.0.15"
+  }
+}
