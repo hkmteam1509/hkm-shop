@@ -15,37 +15,43 @@ let totalPage=1;
 const itemPerPage=9;
 
 const getShop = (req, res, next, brand, brandID, cat, catID, gender, genderID, link, hbs) =>{
-	const pageNumber = req.query.page;
+	const pageNumber=req.query.page;
 	let genderIDs = (req.query.genders) ? req.query.genders : [];
 	let brandIDs = (req.query.brands) ? req.query.brands : [];
 	let catIDs = (req.query.categories) ? req.query.categories : [];
-	let prices = (req.query.prices) ? (req.query.prices) : [];
 	let name = (req.query.search) ? req.query.search : "";
 	let sort = (req.query.sort) ? req.query.sort : 0;
-	console.log(req.query);
+	const priceStr = req.query.price;
 	if(brandID){
 		brandIDs = [brandID];
 	}
-	brandIDs = [].concat(brandIDs ?? []);
 	if(catID){
 		catIDs = [catID];
 	}
-	catIDs = [].concat(catIDs ?? []);
+	
 	if(genderID){
 		genderIDs = [genderID];
 	}
-	genderIDs = [].concat(genderIDs ?? []);
-	prices = [].concat(prices ?? []);
-	if(prices.length == 0){
-		prices = [0];
+	let price;
+	if(priceStr){
+		price = priceStr.split(",");
+		const n = price.length;
+		if(n > 0){
+			for(let i = 0 ; i < n ; i++){
+				price[i] = parseInt(price[i]);
+			}
+		}
+	}else{
+		price = [];
 	}
+	
 	currentPage =(pageNumber && !Number.isNaN(pageNumber)) ? parseInt(pageNumber) : 1;
 	currentPage = (currentPage > 0) ? currentPage : 1;
 	currentPage = (currentPage <= totalPage) ? currentPage : totalPage;
 	currentPage = (currentPage < 1) ? 1: currentPage;
 	const productPromises=[
-		ProductService.list(itemPerPage,currentPage, name, brandIDs, catIDs, genderIDs, prices, sort),
-		ProductService.getProductTotal(name, brandIDs, catIDs, genderIDs, prices),
+		ProductService.list(itemPerPage,currentPage, name, brandIDs, catIDs, genderIDs, price, sort),
+		ProductService.getProductTotal(name, brandIDs, catIDs, genderIDs, price),
 		ProductService.listByFeaturedLimit(4),
 	]
 
@@ -139,6 +145,23 @@ const getShop = (req, res, next, brand, brandID, cat, catID, gender, genderID, l
 				CateService.getAll(),
 			]
 
+			const brandQuery=brandIDs.map(id=>{
+				return{
+					brandID: id,
+				}
+			})
+			const catQuery=catIDs.map(id=>{
+				return{
+					catID: id,
+				}
+			})
+			const genderQuery=genderIDs.map(id=>{
+				return{
+					genderID: id,
+				}
+			})
+
+			const priceQuery = price.join(",");
 			let startNumber = (currentPage - 1)*itemPerPage + 1;
 			let endNumber = startNumber+products.length - 1;
 			if(endNumber === 0){
@@ -146,11 +169,6 @@ const getShop = (req, res, next, brand, brandID, cat, catID, gender, genderID, l
 			}
 			Promise.all(arr)
 			.then(([navBrands, navCates])=>{
-				console.log(150);
-				console.log(brandIDs);
-				console.log(catIDs);
-				console.log(genderIDs);
-				console.log(prices);
 				res.render(hbs,{
 					featureProducts,
 					brandIDs,
@@ -163,10 +181,11 @@ const getShop = (req, res, next, brand, brandID, cat, catID, gender, genderID, l
 					navBrands,
 					products,
 					currentPage,
-					brandQuery: brandIDs,
-					catQuery: catIDs,
-					genderQuery: genderIDs,
-					priceQuery: prices,
+					genderQuery,
+					brandQuery,
+					catQuery,
+					priceQuery,
+					sortQuery: sort,
 					searchQuery: name,
 					totalPage,
 					paginationArray,
@@ -197,125 +216,6 @@ const getShop = (req, res, next, brand, brandID, cat, catID, gender, genderID, l
 	})
 }
 
-const getShopFilter = (req, res, next, brandID, catID, genderID)=>{
-	const pageNumber = req.query.page;
-	let genderIDs = (req.query.genders) ? req.query.genders : [];
-	let brandIDs = (req.query.brands) ? req.query.brands : [];
-	let catIDs = (req.query.categories) ? req.query.categories : [];
-	let name = (req.query.search) ? req.query.search : "";
-	let sort = (req.query.sort) ? req.query.sort : 0;
-	let prices = (req.query.prices) ? req.query.prices : [];
-	if(brandID){
-		brandIDs = [brandID];
-	}
-	if(catID){
-		catIDs = [catID];
-	}
-	
-	if(genderID){
-		genderIDs = [genderID];
-	}
-	
-	
-	currentPage =(pageNumber && !Number.isNaN(pageNumber)) ? parseInt(pageNumber) : 1;
-	currentPage = (currentPage > 0) ? currentPage : 1;
-	currentPage = (currentPage <= totalPage) ? currentPage : totalPage;
-	currentPage = (currentPage < 1) ? 1: currentPage;
-	const productPromises=[
-		ProductService.list(itemPerPage,currentPage, name, brandIDs, catIDs, genderIDs, prices, sort),
-		ProductService.getProductTotal(name, brandIDs, catIDs, genderIDs, prices),
-	]
-
-	//đợi promises
-	Promise.all(productPromises)
-	.then(result=>{
-		let products=result[0];
-		const totalProduct=result[1];
-		//Lấy max số trang
-		totalPage=Math.ceil(totalProduct/itemPerPage);
-
-		let paginationArray = [];
-
-		let pageDisplace = Math.min(totalPage - currentPage + 2, maximumPagination);
-		if(currentPage === 1){
-			pageDisplace -= 1;
-		}
-		for(let i = 0 ; i < pageDisplace; i++){
-			if(currentPage === 1){
-				paginationArray.push({
-					page: currentPage + i,
-					isCurrent:  (currentPage + i)===currentPage
-				});
-			}
-			else{
-				paginationArray.push({
-					page: currentPage + i - 1,
-					isCurrent:  (currentPage + i - 1)===currentPage
-				});
-			}
-		}
-		if(pageDisplace < 2){
-			paginationArray=[];
-		}
-
-		const productLength=products.length;
-		let detailPromises=[];
-
-		//Lấy detail Product
-		for (let i=0;i<productLength;i++){
-			detailPromises.push(ProductService.getImageLink(products[i].proID));
-			detailPromises.push(ProductService.getProductDetail(products[i].proID));
-			detailPromises.push(ProductService.getCateName(products[i].catID))
-			detailPromises.push(ProductService.getBrandSlug(products[i].brandID));
-			detailPromises.push(ProductService.getCateSlug(products[i].catID));
-			detailPromises.push(ProductService.countRatingProduct(products[i].proID));
-			detailPromises.push(ProductService.sumRatingProduct(products[i].proID));
-		}
-		
-		//Chuẩn bị render
-		Promise.all(detailPromises)
-		.then((result)=>{
-		
-			for (let i=0;i<productLength;i++){
-				products[i].image=result[i*7][0].proImage;
-				products[i].detail=result[i*7+1];
-				products[i].cate=result[i*7+2].catName;
-				products[i].brandslug=result[i*7+3].brandSlug;
-				products[i].cateslug=result[i*7+4].catSlug;
-				products[i].star=Math.floor(result[i*7+6]/result[i*7+5]);
-				products[i].starLeft=5 - Math.floor(result[i*7+6]/result[i*7+5]);
-				products[i].genderslug=getGenderSlug(products[i].sex)
-			}
-
-			let startNumber = (currentPage - 1)*itemPerPage + 1;
-			let endNumber = startNumber+products.length - 1;
-			if(endNumber === 0){
-				startNumber = 0;
-			}
-			res.status(200).json({
-				total: totalProduct,
-				startNumber,
-				endNumber,
-				products,
-				currentPage,
-				searchQuery: name,
-				totalPage,
-				paginationArray,
-				prevPage: (currentPage > 1) ? currentPage - 1 : 1,
-				nextPage: (currentPage < totalPage) ? currentPage + 1 : totalPage,
-			});
-		})
-		.catch(err=>{
-			console.log(err);
-			res.status(500).json(err);
-		})
-	})
-	.catch(err=>{
-		console.log(err);
-		res.status(500).json(err);
-	})
-}
-
 const maximumReviewPagination = 3;
 let currentReviewPage = 1;
 let totalReviewPage = 1;
@@ -323,7 +223,6 @@ const reviewPerpage = 3;
 class ShopController{
     
 	shop(req, res, next){
-		console.log(req.query);
 		getShop(req, res, next,  null, null, null, null, null, null, null, "shop/shop")
     }
 
@@ -358,11 +257,10 @@ class ShopController{
 							ProductService.sumRatingProduct(proID), 
 							BrandService.getAll(), 
 							CateService.getAll(),
-							ProductService.countProductReview(proID),
-							ProductService.countProductQuantity(proID),
+							ProductService.countProductReview(proID)
 						])
-						.then(([details, images, reviews, cntrate, sumrate , navBrands, navCates, total, quantity])=>{
-							item.quantity = quantity;
+						.then(([details, images, reviews, cntrate, sumrate , navBrands, navCates, total])=>{
+							
 							const totalReview=total;
 							totalReviewPage=Math.ceil(totalReview/reviewPerpage);
 							let paginationArray = [];
@@ -557,7 +455,9 @@ class ShopController{
 									genderUI = util.getUIgender(gender);
 								}
 								categoryUI = util.getUICategory(category);
+		
 								shopbycate(req,res,next,brand,gender,category);
+		
 							}
 						}
 					})
@@ -649,136 +549,10 @@ class ShopController{
 		})
     }
 
-	shopFilter(req,res,next){
-		console.log(req.query);
-		getShopFilter(req, res, next,  null, null, null);
-	}
-
-	shopByBrandFilter(req, res, next){
-        const brand = req.params.brand;
-		BrandService.findSlug(brand)
-		.then(result=>{
-			if(!result && brand!=="all"){
-				next()
-
-			}else{
-				if(brand === "all"){
-					res.redirect("/shop");
-				}
-				shopbybrandfilter(req,res,next,brand);
-			}
-		})
-		.catch(err=>{
-			console.log(err);
-			next()
-		})
-    }
-
-	shopByGenderFilter(req, res, next){
-        const brand = req.params.brand;
-        const gender = req.params.gender;
-		BrandService.findSlug(brand)
-		.then(result=>{
-			if(!result && brand!=="all"){
-				next()
-			}else{
-				if(gender !== "women" &&
-					gender !== "men"&&
-					gender !== "unisex" &&
-					gender !== "all"){
-				next();
-			}else{
-					if(brand === 'all'){
-						if(gender === 'all'){
-							res.redirect("/shop");
-						}
-						else{
-							shopbysexfilter(req,res,next,gender); 
-						}
-					}
-					else{
-						if(gender === 'all'){
-							res.redirect("/shop/" + brand);
-						}
-						else{
-							const arr = [
-								BrandService.getAll(),
-								CateService.getAll(),
-							]
-							Promise.all(arr)
-							.then(([navBrands, navCates])=>{
-								res.render("shop/" + gender,{
-									navCates,
-									navBrands,
-									brand : util.getUIBrandName(brand),
-									gender : util.getUIgender(gender),
-									link: "/shop/" +brand + "/" +gender
-								})
-							})
-						}
-					}
-				}
-			}
-		})
-		.catch(err=>{
-			console.log(err);
-			next()
-		})
-    }
-
-	shopByCategoryFilter(req, res, next){
-        const brand = req.params.brand;
-        const gender = req.params.gender;
-        const category = req.params.category;
-		BrandService.findSlug(brand)
-		.then(result=>{
-			if(!result && brand !== 'all'){
-				next();
-			}else{
-				if(gender !== "women" &&
-					gender !== "men"&&
-					gender !== "unisex" &&
-					gender !== "all"){
-					next();
-				}else {
-					CateService.findSlug(category)
-					.then(result=>{
-						if(!result && category !== "all"){
-							next();
-						}
-						else{
-							if(category === "all"){
-								if(gender === "all"){
-									if(brand === "all"){
-										res.redirect("/shop");
-									}else{
-										res.redirect("/shop/" + brand);
-									}
-								}
-								else{
-									res.redirect("/shop/" + brand + "/" + gender);
-								}
-							}
-							else{
-								shopbycatefilter(req,res,next,category);
-							}
-						}
-					})
-					.catch(err=>{
-						console.log(err);
-						next()
-					})
-				}
-			}
-		})
-		.catch(err=>{
-			console.log(err);
-			next()
-		})
-    }
 }
 
 function shopbycate(req,res,next,brand,gender,category) {
+
 	let cateID=0;
 
 	const catePormises=[
@@ -794,43 +568,9 @@ function shopbycate(req,res,next,brand,gender,category) {
 		console.log(err);
 		next();
 	})
-}
 
-function shopbycatefilter(req,res,next, category) {
-	let cateID=0;
-	const catePormises=[
-		ProductService.getCateID(category),
-	]
-	Promise.all(catePormises)
-	.then(resultID=>{
-		cateID=resultID[0].CatID;
-		getShopFilter(req, res, next, null, cateID, null);
-	})
-	.catch(err=>{
-		console.log(err);
-		next();
-	})
-}
 
-function shopbybrandfilter(req,res,next,brand) {
-
-	let brandID=0;
-	const brandPormises=[
-		ProductService.getBrandID(brand),
-	]
 	
-	Promise.all(brandPormises)
-	.then(resultID=>{
-		brandID=resultID[0].brandID;
-		link = "/shop/" + brand;
-		hbs = "shop/brand";
-		getShopFilter(req, res, next, brandID,null,null);
-		
-	})
-	.catch(err=>{
-		console.log(err);
-		next();
-	})
 }
 
 function shopbybrand(req,res,next,brand) {
@@ -855,6 +595,8 @@ function shopbybrand(req,res,next,brand) {
 }
 
 function shopbysex(req,res,next,gender,brand) {
+	
+	
 	let sex=2;
 	if (gender==="women")
 		sex=1;
@@ -864,16 +606,7 @@ function shopbysex(req,res,next,gender,brand) {
 	const link = "/shop/" +brand + "/" +gender;
 	const hbs = "shop/gender"
 	getShop(req, res, next, brand, null, null, null, gender, sex, link, hbs);
-}
-
-function shopbysexfilter(req,res,next,gender) {
-	let sex=2;
-	if (gender==="women")
-		sex=1;
-	if (gender==="men")
-		sex=0;
-
-	getShopFilter(req, res, next, null , null,sex, null);
+	
 }
 
 function getGenderSlug(sex) {
