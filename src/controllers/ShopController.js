@@ -5,7 +5,7 @@ const product = require('../models/product');
 const category = require('../models/category');
 const { getDataSlug } = require('../util/Utility');
 const BrandService = require('../services/BrandService');
-
+const CommentService = require('../services/CommentService');
 
 let maximumPagination=5;
 let currentPage=1;
@@ -776,6 +776,77 @@ class ShopController{
 			next()
 		})
     }
+
+	//[post]/:rate
+	rateProduct(req,res,next){
+		console.log("da vao toi controler");
+		const {userID,authorName,rate,proID,sumary,com} =req.body;
+		console.log(req.body);
+		
+		console.log(userID)
+
+		CommentService.add(userID,authorName,rate,proID,sumary,com)
+		.then(result=>{
+			//console.log(authorName);
+			res.status(201).json(result);
+		}).catch(err=>{
+			console.log("LỖi :")
+			console.log(err)
+			res.status(500).json({
+				message: err=>message,
+			});
+		})
+	};
+
+	getRating(req,res,next){
+		const pageNumber = req.query.page;
+		const proID=req.query.proID;
+
+		currentPage =(pageNumber && !Number.isNaN(pageNumber)) ? parseInt(pageNumber) : 1;
+		currentPage = (currentPage > 0) ? currentPage : 1;
+		currentPage = (currentPage <= totalPage) ? currentPage : totalPage;
+		currentPage = (currentPage < 1) ? 1: currentPage;
+
+		const commentPromise=[CommentService.list(3,currentPage,proID),CommentService.totalComment(proID)];
+		
+		Promise.all(commentPromise).then(result=>{
+			let totalComment=result[1];
+			let paginationArray = [];
+            totalPage = Math.ceil(totalComment/3);
+            let pageDisplace = Math.min(totalPage - currentPage + 2, maximumPagination);
+            if(currentPage === 1){
+                pageDisplace -= 1;
+            }
+            for(let i = 0 ; i < pageDisplace; i++){
+                if(currentPage === 1){
+                    paginationArray.push({
+                        page: currentPage + i,
+                        isCurrent:  (currentPage + i)===currentPage
+                    });
+                }
+                else{
+                    paginationArray.push({
+                        page: currentPage + i - 1,
+                        isCurrent:  (currentPage + i - 1)===currentPage
+                    });
+                }
+            }
+			console.log(pageDisplace)
+            if(pageDisplace < 2){
+                paginationArray=[];
+            }
+			res.status(200).json({
+				comment: result[0],
+				currentPage,
+                paginationArray,
+                prevPage: (currentPage > 1) ? currentPage - 1 : 1,
+                nextPage: (currentPage < totalPage) ? currentPage + 1 : totalPage,
+			})
+		}).catch(err=>{
+			console.log(err);
+			res.status(500);
+		})
+	}
 }
 
 function shopbycate(req,res,next,brand,gender,category) {

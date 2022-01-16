@@ -19,6 +19,10 @@ router.get('/:brand/:gender', ShopController.shopByGender);
 
 router.get('/:brand', ShopController.shopByBrand);
 
+router.post('/api/rate', ShopController.rateProduct);
+
+router.get('/api/rating',ShopController.getRating);
+
 router.get('/', ShopController.shop);
 
 

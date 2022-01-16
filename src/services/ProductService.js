@@ -305,7 +305,10 @@ class ProductService{
             limit: limit,
             where:{
                 proID: id
-            }
+            },
+            order:[
+                ['createdAt', 'DESC']
+            ]
         });
     }
 
