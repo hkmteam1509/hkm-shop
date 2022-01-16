@@ -7,6 +7,8 @@ $(document).ready(function(){
     const productID = parseInt($("#product-id").val());
     let totalQuantity = parseInt(spanMaximum.innerText);
     const user =document.getElementById("user");
+    const lastname = document.getElementById("lastname-holder");
+    const firstname = document.getElementById("firstname-holder");
     let details = [];
     detailHolder.toArray().forEach((item, index)=>{
         let color = item.dataset.color;
@@ -157,14 +159,21 @@ $(document).ready(function(){
     $("#post-review-btn").click(function(){
         console.log("get in to ajax")
         let userID=null;
+
+        let author = "";
         if (user){
             userID=parseInt(user.innerText);
         }
+
+        if(lastname && firstname){
+            author = firstname.innerText + " " + lastname.innerText;
+        }
+
         let rate=document.querySelectorAll("#user-rater .filled").length;
         let authorName=$('input[name=authorName]').val();
         let sumary=$('input[name=sumary]').val();
         let com=$('input[name=com').val();
-    
+
         $.ajax({
             url:'/shop/api/rate',
             method: 'post',
@@ -177,7 +186,12 @@ $(document).ready(function(){
                 com,
             },
             success:function(data){
-                console.log(data)
+
+                alert("Your comment has been added successfully");
+                $('input[name=authorName]').val(author);
+                $('input[name=sumary]').val("");
+                $('input[name=com').val("");
+
             }
         })
     })

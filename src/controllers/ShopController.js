@@ -6,7 +6,6 @@ const category = require('../models/category');
 const { getDataSlug } = require('../util/Utility');
 const BrandService = require('../services/BrandService');
 const CommentService = require('../services/CommentService');
-const comment = require('../models/comment');
 
 
 let maximumPagination=5;

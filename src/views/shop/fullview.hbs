@@ -637,21 +637,25 @@
 									<input name="proID "type="hidden" value="{{proID}}">
 									<div class="left">
 										<label class="rl-label required">Your Name</label>
-										<input name="authorName" id="name-review" type="text" value="{{#if user}}{{user.f_firstname}} {{user.f_lastname}}{{else}}Enter your name or nickname here...{{/if}}">
+                    
+										<input required name="authorName" id="name-review" type="text" placeholder="Enter your name or nickname here..." value="{{#if user}}{{user.f_firstname}} {{user.f_lastname}}{{/if}}">
 									</div>
 									<div class="right">
-										<label class="rl-label">Review Summary</label>
-										<input name="sumary"id="review-summary" type="text" placeholder="Enter a short title here...">
+										<label class="rl-label required">Review Summary</label>
+										<input required name="sumary"id="review-summary" type="text" placeholder="Enter a short title here...">
 									</div>
 									<div>
-										<label class="rl-label">Your Review</label>
-										<input name="com" id="full-review" type="text" placeholder="Write your full review here..."></input>
+										<label class="rl-label required">Your Review</label>
+										<input required name="com" id="full-review" type="text" placeholder="Write your full review here..."></input>
+
 									</div>
 									<div class="left">
 										<label class="rl-label required">Your Stars Rating</label>
 										<!-- RATING -->
 										<ul id="user-rater" class="rating large rater">
-											<li>
+
+											<li class="filled">
+
 												<!-- SVG STAR -->
 												<svg class="svg-star">
 													<use xlink:href="#svg-star"></use>
@@ -689,7 +693,8 @@
 										</ul>
 										<!-- /RATING -->
 									</div>
-									<button id="post-review-btn" class="button">Post Your Review</button>
+									<button id="post-review-btn" type="button" class="button">Post Your Review</button>
+
 								</form>
 							</div>
 						</div>
@@ -887,6 +892,8 @@
 
 {{#if user}}
 	<span style="display: none;" id="user">{{user.f_ID}}</span>
+	<span style="display: none;" id="lastname-holder">{{user.f_lastname}}</span>
+	<span style="display: none;" id="firstname-holder">{{user.f_firstname}}</span>
 {{else}}
 	<form method="post" action="/me/cart" style="display: none;" id="no-user-form-cart"></form>
 	<form method="post" action="/me/checkout" style="display: none;" id="no-user-form-checkout"></form>
@@ -1168,7 +1175,6 @@
         })
     }
 
-
     function generatePager(paginationArray, prevPage, nextPage){
         let result = [];
 			if (paginationArray){
@@ -1179,7 +1185,6 @@
 									<use xlink:href="#svg-arrow"></use>
 								</svg>
 							</label>
-							</li>`)
 
 				paginationArray.forEach(page=>{
 										if(page.isCurrent){
@@ -1214,8 +1219,6 @@
 			}
         return result;
     }
-
-    
 
     function startSubmit(ele){
         const data = {};

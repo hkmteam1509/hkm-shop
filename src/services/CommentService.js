@@ -26,7 +26,11 @@ class CommentService{
             raw:true,
             where:{
                 proID:proID
-            }
+            },
+            order:[
+                ['createdAt', 'DESC']
+            ]
+
         })
     }
 
