@@ -5,6 +5,8 @@ const product = require('../models/product');
 const category = require('../models/category');
 const { getDataSlug } = require('../util/Utility');
 const BrandService = require('../services/BrandService');
+const CommentService = require('../services/CommentService');
+const comment = require('../models/comment');
 
 
 let maximumPagination=5;
@@ -548,6 +550,206 @@ class ShopController{
 			next()
 		})
     }
+
+
+	shopFilter(req,res,next){
+		console.log(req.query);
+		getShopFilter(req, res, next,  null, null, null);
+	}
+
+	shopByBrandFilter(req, res, next){
+        const brand = req.params.brand;
+		BrandService.findSlug(brand)
+		.then(result=>{
+			if(!result && brand!=="all"){
+				next()
+
+			}else{
+				if(brand === "all"){
+					res.redirect("/shop");
+				}
+				shopbybrandfilter(req,res,next,brand);
+			}
+		})
+		.catch(err=>{
+			console.log(err);
+			next()
+		})
+    }
+
+	shopByGenderFilter(req, res, next){
+        const brand = req.params.brand;
+        const gender = req.params.gender;
+		BrandService.findSlug(brand)
+		.then(result=>{
+			if(!result && brand!=="all"){
+				next()
+			}else{
+				if(gender !== "women" &&
+					gender !== "men"&&
+					gender !== "unisex" &&
+					gender !== "all"){
+				next();
+			}else{
+					if(brand === 'all'){
+						if(gender === 'all'){
+							res.redirect("/shop");
+						}
+						else{
+							shopbysexfilter(req,res,next,gender); 
+						}
+					}
+					else{
+						if(gender === 'all'){
+							res.redirect("/shop/" + brand);
+						}
+						else{
+							const arr = [
+								BrandService.getAll(),
+								CateService.getAll(),
+							]
+							Promise.all(arr)
+							.then(([navBrands, navCates])=>{
+								res.render("shop/" + gender,{
+									navCates,
+									navBrands,
+									brand : util.getUIBrandName(brand),
+									gender : util.getUIgender(gender),
+									link: "/shop/" +brand + "/" +gender
+								})
+							})
+						}
+					}
+				}
+			}
+		})
+		.catch(err=>{
+			console.log(err);
+			next()
+		})
+    }
+
+	shopByCategoryFilter(req, res, next){
+        const brand = req.params.brand;
+        const gender = req.params.gender;
+        const category = req.params.category;
+		BrandService.findSlug(brand)
+		.then(result=>{
+			if(!result && brand !== 'all'){
+				next();
+			}else{
+				if(gender !== "women" &&
+					gender !== "men"&&
+					gender !== "unisex" &&
+					gender !== "all"){
+					next();
+				}else {
+					CateService.findSlug(category)
+					.then(result=>{
+						if(!result && category !== "all"){
+							next();
+						}
+						else{
+							if(category === "all"){
+								if(gender === "all"){
+									if(brand === "all"){
+										res.redirect("/shop");
+									}else{
+										res.redirect("/shop/" + brand);
+									}
+								}
+								else{
+									res.redirect("/shop/" + brand + "/" + gender);
+								}
+							}
+							else{
+								shopbycatefilter(req,res,next,category);
+							}
+						}
+					})
+					.catch(err=>{
+						console.log(err);
+						next()
+					})
+				}
+			}
+		})
+		.catch(err=>{
+			console.log(err);
+			next()
+		})
+    }
+
+	//[post]/:rate
+	rateProduct(req,res,next){
+		console.log("da vao toi controler");
+		const {userID,authorName,rate,proID,sumary,com} =req.body;
+		console.log(req.body);
+		
+		console.log(userID)
+
+		CommentService.add(userID,authorName,rate,proID,sumary,com)
+		.then(result=>{
+			//console.log(authorName);
+			res.status(201).json(result);
+		}).catch(err=>{
+			console.log("LỖi :")
+			console.log(err)
+			res.status(500).json({
+				message: err=>message,
+			});
+		})
+	};
+
+	getRating(req,res,next){
+		const pageNumber = req.query.page;
+		const proID=req.query.proID;
+
+		currentPage =(pageNumber && !Number.isNaN(pageNumber)) ? parseInt(pageNumber) : 1;
+		currentPage = (currentPage > 0) ? currentPage : 1;
+		currentPage = (currentPage <= totalPage) ? currentPage : totalPage;
+		currentPage = (currentPage < 1) ? 1: currentPage;
+
+		const commentPromise=[CommentService.list(3,currentPage,proID),CommentService.totalComment(proID)];
+		
+		Promise.all(commentPromise).then(result=>{
+			let totalComment=result[1];
+			let paginationArray = [];
+            totalPage = Math.ceil(totalComment/3);
+            let pageDisplace = Math.min(totalPage - currentPage + 2, maximumPagination);
+            if(currentPage === 1){
+                pageDisplace -= 1;
+            }
+            for(let i = 0 ; i < pageDisplace; i++){
+                if(currentPage === 1){
+                    paginationArray.push({
+                        page: currentPage + i,
+                        isCurrent:  (currentPage + i)===currentPage
+                    });
+                }
+                else{
+                    paginationArray.push({
+                        page: currentPage + i - 1,
+                        isCurrent:  (currentPage + i - 1)===currentPage
+                    });
+                }
+            }
+			console.log(pageDisplace)
+            if(pageDisplace < 2){
+                paginationArray=[];
+            }
+			res.status(200).json({
+				comment: result[0],
+				currentPage,
+                paginationArray,
+                prevPage: (currentPage > 1) ? currentPage - 1 : 1,
+                nextPage: (currentPage < totalPage) ? currentPage + 1 : totalPage,
+			})
+		}).catch(err=>{
+			console.log(err);
+			res.status(500);
+		})
+	}
 
 }
 

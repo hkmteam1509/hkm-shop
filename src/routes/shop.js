@@ -13,5 +13,8 @@ router.get('/:brand', ShopController.shopByBrand);
 
 router.get('/', ShopController.shop);
 
+router.post('/api/rate', ShopController.rateProduct);
+
+router.get('/api/rating',ShopController.getRating);
 
 module.exports = router;

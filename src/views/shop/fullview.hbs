@@ -479,7 +479,9 @@
 						<!-- /RATE -->
 
 						<!-- REVIEW -->
+						<div id="review-body">
 						{{#each reviews}}
+							
 							<div class="sub-item review">
 								<h5>{{this.sumary}}</h5>
 								<!-- RATING -->
@@ -574,36 +576,53 @@
 								<p class="author">{{this.authorName}} - {{this.date}}</p>
 								<p class="comment">{{this.com}}</p>
 							</div>
+						
 						{{/each}}
+						</div>
 						<!-- /REVIEW -->
 
 						<!-- PAGER -->
 						<form 
 							method="GET"
-							action="/shop/{{item.brandslug}}/{{item.genderslug}}/{{item.categoryslug}}/{{item.proID}}"
 						>
-							<ul class="my-pagination">
-							{{#if paginationArray}}
-									<li class="my-page-item">
-										<input onchange='this.form.submit();' style="display: none;" id="page-prev" value="{{prevPage}}" type="radio" name="page"/>
-										<label for="page-prev"  class="my-page-button">Prev</label>
+							<ul class="pager" id="my-pagination">
+								{{#if paginationArray}}
+									<li>
+										<label style="cursor: pointer;" class="button prev">
+											<input onchange='startSubmit(this);' style="display: none;" id="page-prev" value="{{prevPage}}" type="radio" name="page"/>
+											<!-- SVG ARROW -->
+											<svg class="svg-arrow">
+												<use xlink:href="#svg-arrow"></use>
+											</svg>
+											<!-- /SVG ARROW -->
+										</label>
 									</li>
 									{{#each paginationArray }}  
 										{{#if this.isCurrent}}
-											<li class="my-page-item">
-												<input onchange='this.form.submit();' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
-												<label for="page-{{this.page}}"  class="my-page-link my-current-page">{{this.page}}</label>
+											<li class="selected">
+												<label style="cursor: pointer;">
+													<input onchange='startSubmit(this);' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
+													{{this.page}}
+												</label>
 											</li>
 										{{else}}
-											<li class="my-page-item">
-												<input onchange='this.form.submit();' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
-												<label for="page-{{this.page}}"  class="my-page-link">{{this.page}}</label>
+											<li>
+												<label style="cursor: pointer;">
+													<input onchange='startSubmit(this);' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
+													{{this.page}}
+												</label>
 											</li>
 										{{/if}}
 									{{/each}}
-									<li class="my-page-item">
-										<input onchange='this.form.submit();' style="display: none;" id="page-next" value="{{nextPage}}" type="radio" name="page"/>
-										<label for="page-next"  class="my-page-button">Next</label>
+									<li>
+										<label style="cursor: pointer;" class="button next">
+											<input onchange='startSubmit(this);' style="display: none;" id="page-next" value="{{nextPage}}" type="radio" name="page"/>
+											<!-- SVG ARROW -->
+											<svg class="svg-arrow">
+												<use xlink:href="#svg-arrow"></use>
+											</svg>
+											<!-- /SVG ARROW -->
+										</label>
 									</li>
 							{{/if}}
 							</ul>
@@ -615,22 +634,23 @@
 							<h5>Write a Review</h5>
 							<div class="featured-form">
 								<form class="westeros-form">
+									<input name="proID "type="hidden" value="{{proID}}">
 									<div class="left">
 										<label class="rl-label required">Your Name</label>
-										<input type="text" placeholder="Enter your name or nickname here...">
+										<input name="authorName" id="name-review" type="text" value="{{#if user}}{{user.f_firstname}} {{user.f_lastname}}{{else}}Enter your name or nickname here...{{/if}}">
 									</div>
 									<div class="right">
 										<label class="rl-label">Review Summary</label>
-										<input type="text" placeholder="Enter a short title here...">
+										<input name="sumary"id="review-summary" type="text" placeholder="Enter a short title here...">
 									</div>
 									<div>
 										<label class="rl-label">Your Review</label>
-										<textarea placeholder="Write your full review here..."></textarea>
+										<input name="com" id="full-review" type="text" placeholder="Write your full review here..."></input>
 									</div>
 									<div class="left">
 										<label class="rl-label required">Your Stars Rating</label>
 										<!-- RATING -->
-										<ul class="rating large rater">
+										<ul id="user-rater" class="rating large rater">
 											<li>
 												<!-- SVG STAR -->
 												<svg class="svg-star">
@@ -669,7 +689,7 @@
 										</ul>
 										<!-- /RATING -->
 									</div>
-									<button class="button">Post Your Review</button>
+									<button id="post-review-btn" class="button">Post Your Review</button>
 								</form>
 							</div>
 						</div>
@@ -1111,4 +1131,131 @@
 
 
 <script src="/js/my-fullview.js"></script>
+
+<script> 
+	 const productID = parseInt($("#product-id").val());
+	
+	function genderateReview(comment){
+        return comment.map(comment=>{
+            let star = ``;
+			console.log(comment.rate)
+            for(let i = 0 ; i < comment.rate;i++){
+                star += 	`<li class="filled">
+                                <svg class="svg-star">
+                                    <use xlink:href="#svg-star"></use>
+                                </svg>
+                            </li>`
+            }
+			for (let i=0;i<5-comment.rate;i++){
+				 star += 	`<li >
+                                <svg class="svg-star">
+                                    <use xlink:href="#svg-star"></use>
+                                </svg>
+                            </li>`
+			}
+			console.log(star);
+            return `<div class="sub-item review">
+				<h5>${comment.sumary}</h5>
+				<ul  class="rating big">
+					<ul class="rating big">
+                    `+ star +`
+					</ul>
+                </ul>
+                <p class="author">${comment.authorName}-${comment.createdAt} </p>
+                <p class="comment">${comment.com}</p>
+				</class=>`
+        	;
+        })
+    }
+
+
+    function generatePager(paginationArray, prevPage, nextPage){
+        let result = [];
+			if (paginationArray){
+				result.push(`<li>
+							<label style="cursor: pointer;" class="button prev">
+								<input onchange='startSubmit(this);' style="display: none;" id="page-prev" value="${prevPage}" type="radio" name="page"/>
+								<svg class="svg-arrow">
+									<use xlink:href="#svg-arrow"></use>
+								</svg>
+							</label>
+							</li>`)
+
+				paginationArray.forEach(page=>{
+										if(page.isCurrent){
+											result.push(`<li class="selected">
+															<label style="cursor: pointer;">
+																<input onchange='startSubmit(this);' style="display: none;" id="page-${page.page}" value="${page.page}" type="radio" name="page"/>
+																${page.page}
+															</label>
+														</li>`)
+										}
+										else{
+											result.push(
+											`<li>
+												<label style="cursor: pointer;">
+													<input onchange='startSubmit(this);' style="display: none;" id="page-${page.page}" value="${page.page}" type="radio" name="page"/>
+													${page.page}
+												</label>
+											</li>`
+											)
+										
+										}							
+				})
+
+			result.push(`<li>
+						<label style="cursor: pointer;" class="button next">
+							<input onchange='startSubmit(this);' style="display: none;" id="page-next" value="${nextPage}" type="radio" name="page"/>
+							<svg class="svg-arrow">
+								<use xlink:href="#svg-arrow"></use>
+							</svg>
+						</label>
+						</li>`)
+			}
+        return result;
+    }
+
+    
+
+    function startSubmit(ele){
+        const data = {};
+        data.proID=productID;
+        data.page = $("input[name='page']:checked").val();
+        
+        if(!data.page){
+            data.page = '1';
+        }
+        if(ele.getAttribute("name") !== "page"){
+            data.page = '1';
+        }
+         $.ajax({
+            method:'get',
+            url: '/shop/api/rating',
+            data: data,
+            success: function(data){
+                $("#my-pagination").empty();
+                if(data.paginationArray && data.paginationArray.length > 0){
+                    const pageView = generatePager(data.paginationArray, data.prevPage, data.nextPage);
+                    pageView.forEach(page=>{
+                        $("#my-pagination").append(page);
+                    });
+                }
+                const reviewView=genderateReview(data.comment);
+                $("#review-body").empty();
+                reviewView.forEach(comment=>{
+					console.log('h');
+                    $("#review-body").append(comment);
+                });
+				console.log(reviewView);
+				console.log(data.comment);
+            },
+            error: function(err){
+                console.log(err);
+                alert("An error has occurred, please try again");
+            }
+        })
+    }
+    
+</script>
+
 {{/section}}
