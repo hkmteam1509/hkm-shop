@@ -481,6 +481,7 @@
 						<!-- REVIEW -->
 						<div id="review-body">
 						{{#each reviews}}
+							
 							<div class="sub-item review">
 								<h5>{{this.sumary}}</h5>
 								<!-- RATING -->
@@ -575,6 +576,7 @@
 								<p class="author">{{this.authorName}} - {{this.date}}</p>
 								<p class="comment">{{this.com}}</p>
 							</div>
+						
 						{{/each}}
 						</div>
 						<!-- /REVIEW -->
@@ -635,6 +637,7 @@
 									<input name="proID "type="hidden" value="{{proID}}">
 									<div class="left">
 										<label class="rl-label required">Your Name</label>
+                    
 										<input required name="authorName" id="name-review" type="text" placeholder="Enter your name or nickname here..." value="{{#if user}}{{user.f_firstname}} {{user.f_lastname}}{{/if}}">
 									</div>
 									<div class="right">
@@ -644,12 +647,15 @@
 									<div>
 										<label class="rl-label required">Your Review</label>
 										<input required name="com" id="full-review" type="text" placeholder="Write your full review here..."></input>
+
 									</div>
 									<div class="left">
 										<label class="rl-label required">Your Stars Rating</label>
 										<!-- RATING -->
 										<ul id="user-rater" class="rating large rater">
+
 											<li class="filled">
+
 												<!-- SVG STAR -->
 												<svg class="svg-star">
 													<use xlink:href="#svg-star"></use>
@@ -688,6 +694,7 @@
 										<!-- /RATING -->
 									</div>
 									<button id="post-review-btn" type="button" class="button">Post Your Review</button>
+
 								</form>
 							</div>
 						</div>
@@ -1131,6 +1138,7 @@
 
 
 <script src="/js/my-fullview.js"></script>
+
 <script> 
 	 const productID = parseInt($("#product-id").val());
 	
@@ -1166,6 +1174,7 @@
         	;
         })
     }
+
     function generatePager(paginationArray, prevPage, nextPage){
         let result = [];
 			if (paginationArray){
@@ -1176,7 +1185,7 @@
 									<use xlink:href="#svg-arrow"></use>
 								</svg>
 							</label>
-							</li>`)
+
 				paginationArray.forEach(page=>{
 										if(page.isCurrent){
 											result.push(`<li class="selected">
@@ -1198,6 +1207,7 @@
 										
 										}							
 				})
+
 			result.push(`<li>
 						<label style="cursor: pointer;" class="button next">
 							<input onchange='startSubmit(this);' style="display: none;" id="page-next" value="${nextPage}" type="radio" name="page"/>
@@ -1209,7 +1219,7 @@
 			}
         return result;
     }
-    
+
     function startSubmit(ele){
         const data = {};
         data.proID=productID;
@@ -1250,4 +1260,5 @@
     }
     
 </script>
+
 {{/section}}

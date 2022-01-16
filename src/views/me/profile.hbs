@@ -327,6 +327,9 @@
                                         </svg>
                                         <!-- /SVG ARROW -->
                                     </label>
+                                    <div class="my-invalid-feedback" id="place-holder-invalid">
+                                        Invalid phone number
+                                    </div>
                                 </div>
                                 <div>
 
@@ -626,8 +629,8 @@
     }
     $(document).ready(function(){
         //Address
-        let district = "{{shipping.distric}}";
-        let ward = "{{shipping.ward}}";
+         let district = "{{shipping.distric}}";
+         let ward = "{{shipping.ward}}";
         let province = "{{shipping.province}}";
         var localpicker = new LocalPicker({
             province: "ls_province",

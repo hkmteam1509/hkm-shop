@@ -3,7 +3,7 @@ const Util = require('../util/Utility');
 const { Op } = require("sequelize");
 class ProductService{
 
-	list(limit, page, name, brandIDs, catIDs, genderIDs, prices, sort){
+	list(limit, page, name, brandIDs, catIDs, genderIDs, price, sort){
       
         const arrPro = [
             models.brand.findAll({
@@ -29,35 +29,13 @@ class ProductService{
                 if(genderIDs.length < 1){
                     genderIDs = [0,1,2];
                 }
-
-                let priceQuery;
-                if(parseInt(prices[0])===0){
-                    priceQuery = {
-                        [Op.not] : null
-                    }
-                }else{
-                    let priceRange = prices.map(price=>{
-                        let p = parseInt(price);
-                        if(p === 5){
-                            return {
-                                [Op.gte]:100
-                            }
-                        }
-                        else{
-                            let min = (p-1)*25;
-                            let max = p*25-1;
-                            return {
-                                [Op.between]:[min, max]
-                            }
-                        }
-                    });
-                    priceQuery = {
-                        [Op.or]:priceRange
-                    }
+                if(price.length < 1){
+                    price[0] = 1;
+                    price[1] = 200;
                 }
+                let minPrice = price[0];
+                let maxPrice = price[1];
                 
-                console.log(brandIDs);
-                console.log(60);
                 let n = brandIDs.length;
                 for(let i = 0 ; i< n ; i++){
                     brandIDs[i] = parseInt(brandIDs[i])
@@ -85,8 +63,11 @@ class ProductService{
                                         [Op.substring]:name
                                     },
                                     price:{
-                                        ...priceQuery
+                                        [Op.gte]:minPrice
                                     },
+                                    price:{
+                                        [Op.lte]:maxPrice
+                                    }
                                 },
                                 order:[
                                     ['price','DESC']
@@ -105,8 +86,11 @@ class ProductService{
                                         [Op.substring]:name
                                     },
                                     price:{
-                                        ...priceQuery
+                                        [Op.gte]:minPrice
                                     },
+                                    price:{
+                                        [Op.lte]:maxPrice
+                                    }
                                 },
                                 order:[
                                     ['price','ASC']
@@ -126,8 +110,11 @@ class ProductService{
                                         [Op.substring]:name
                                     },
                                     price:{
-                                        ...priceQuery
+                                        [Op.gte]:minPrice
                                     },
+                                    price:{
+                                        [Op.lte]:maxPrice
+                                    }
                                 }
                             });
                     }
@@ -144,8 +131,11 @@ class ProductService{
                                     catID: catIDs,
                                     sex: genderIDs,
                                     price:{
-                                        ...priceQuery
+                                        [Op.gte]:minPrice
                                     },
+                                    price:{
+                                        [Op.lte]:maxPrice
+                                    }
                                 },
                                 order:[
                                     ['price','DESC']
@@ -162,8 +152,11 @@ class ProductService{
                                     catID: catIDs,
                                     sex: genderIDs,
                                     price:{
-                                        ...priceQuery
+                                        [Op.gte]:minPrice
                                     },
+                                    price:{
+                                        [Op.lte]:maxPrice
+                                    }
                                 },
                                 order:[
                                     ['price','ASC']
@@ -181,8 +174,11 @@ class ProductService{
                                     catID: catIDs,
                                     sex: genderIDs,
                                     price:{
-                                        ...priceQuery
+                                        [Op.gte]:minPrice
                                     },
+                                    price:{
+                                        [Op.lte]:maxPrice
+                                    }
                                 }
                             });
                     }
@@ -191,7 +187,7 @@ class ProductService{
         
     }
 
-    getProductTotal(name, brandIDs, catIDs, genderIDs, prices){
+    getProductTotal(name, brandIDs, catIDs, genderIDs, price){
         const arrPro = [
             models.brand.findAll({
                 attributes: ['brandID']
@@ -215,31 +211,12 @@ class ProductService{
                 if(genderIDs.length < 1){
                     genderIDs = [0,1,2];
                 }
-                let priceQuery;
-                if(parseInt(prices[0])===0){
-                    priceQuery = {
-                        [Op.not] : null
-                    }
-                }else{
-                    let priceRange = prices.map(price=>{
-                        let p = parseInt(price);
-                        if(p === 6){
-                            return {
-                                [Op.gte]:100
-                            }
-                        }
-                        else{
-                            let min = (p-1)*25;
-                            let max = p*25-1;
-                            return {
-                                [Op.between]:[min, max]
-                            }
-                        }
-                    });
-                    priceQuery = {
-                        [Op.or]:priceRange
-                    }
+                if(price.length < 1){
+                    price[0] = 0;
+                    price[1] = 200;
                 }
+                let minPrice = price[0];
+                let maxPrice = price[1];
                 if(name){
                     return models.product.count({
                         raw:true,
@@ -251,8 +228,11 @@ class ProductService{
                                 [Op.substring]:name
                             },
                             price:{
-                                ...priceQuery
+                                [Op.gte]:minPrice
                             },
+                            price:{
+                                [Op.lte]:maxPrice
+                            }
                         }
                     });
                 }
@@ -264,8 +244,11 @@ class ProductService{
                             catID: catIDs,
                             sex: genderIDs,
                             price:{
-                                ...priceQuery
+                                [Op.gte]:minPrice
                             },
+                            price:{
+                                [Op.lte]:maxPrice
+                            }
                         }
                     });
                 }
@@ -539,25 +522,6 @@ class ProductService{
         }, {
             where:{
                 proID: proID
-            }
-        })
-    }
-
-
-    countProductQuantity(id){
-        return models.detail.sum('quantity', {
-              raw:true,
-              where:{
-                proID: id
-            }
-        });
-    }
-    firstImageProduct(id){
-        return models.imagelink.findOne({
-            attributes: ['proImage'],
-            raw:true,
-            where:{
-                proID: id
             }
         })
     }

@@ -159,6 +159,7 @@ $(document).ready(function(){
     $("#post-review-btn").click(function(){
         console.log("get in to ajax")
         let userID=null;
+
         let author = "";
         if (user){
             userID=parseInt(user.innerText);
@@ -167,6 +168,7 @@ $(document).ready(function(){
         if(lastname && firstname){
             author = firstname.innerText + " " + lastname.innerText;
         }
+
         let rate=document.querySelectorAll("#user-rater .filled").length;
         let authorName=$('input[name=authorName]').val();
         let sumary=$('input[name=sumary]').val();
@@ -184,12 +186,15 @@ $(document).ready(function(){
                 com,
             },
             success:function(data){
+
                 alert("Your comment has been added successfully");
                 $('input[name=authorName]').val(author);
                 $('input[name=sumary]').val("");
                 $('input[name=com').val("");
-                console.log(data)
+
             }
         })
     })
+
 })
+

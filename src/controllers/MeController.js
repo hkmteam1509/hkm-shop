@@ -6,10 +6,13 @@ const bcrypt = require('bcrypt');
 const { SALT_BCRYPT } = require("../config/app");
 const Utility = require("../util/Utility");
 
+<<<<<<< HEAD
+=======
 const orderPerPage = 1;
 const maximumPagination = 5;
 let currentPage = 1;
 let totalPage = 1;
+>>>>>>> 726a29724d010d3a6f76727b87be8883e0178fdf
 
 class MeController{
     //[GET] /me/cart
@@ -79,106 +82,37 @@ class MeController{
     //[get] /me/checkout
     checkout(req, res, next){
         if(req.user){
-            let userid = req.user.f_ID;
-            UserService.getShipping(userid)
-            .then(shipping=>{
-                let {products} = req.query;
-                if(products){
-                    const arr = products.map(cartID=>{
-                        return UserService.getCart(cartID);
+            let {products} = req.query;
+            if(products){
+                const arr = products.map(cartID=>{
+                    return UserService.getCart(cartID);
+                })
+                Promise.all(arr)
+                .then(carts=>{
+                    const proID = carts.map(cart=>{
+                        return cart.proID;
                     })
-                    Promise.all(arr)
-                    .then(carts=>{
-                        const proID = carts.map(cart=>{
-                            return cart.proID;
-                        })
-                        const detailID = carts.map(cart=>{
-                            return cart.detailID;
-                        })
-                        const quantity = carts.map(cart=>{
-                            return cart.quantity;
-                        })
-                        const n = proID.length;
-                        const productPromise = [];
-                        const detailPromise = [];
-                        const imagePromise = [];
-                        for(let i = 0 ; i < n ;i++){
-                            productPromise.push(ProductService.itemProduct(proID[i]));
-                            detailPromise.push(ProductService.getDetail(detailID[i]));
-                            imagePromise.push(ProductService.firstImageProduct(proID[i]));
-                        }
-                        const arr = [
-                            BrandService.getAll(),
-                            CateService.getAll(),
-                            Promise.all(productPromise),
-                            Promise.all(detailPromise),
-                            Promise.all(imagePromise)
-                        ]
-                        Promise.all(arr)
-                        .then(([navBrands, navCates, products, details, image])=>{
-                            
-                            const catePromise = products.map(item=>{
-                                return ProductService.getCateName(item.catID);
-                            })
-                            Promise.all(catePromise)
-                            .then(cates=>{
-                                const n = products.length;
-                                let totalOrder = 0;
-                                for(let i = 0 ; i < n ;i++){
-                                    products[i].catName = cates[i].catName;
-                                    products[i].color = details[i].color;
-                                    products[i].quantity = quantity[i];
-                                    products[i].totalPrice =  products[i].price*quantity[i];
-                                    totalOrder+=products[i].totalPrice;
-                                    products[i].img = image[i].proImage;
-                                    products[i].detailID = details[i].detailID;
-                                }
-                                // console.log(products);
-                                res.render('me/checkout', {
-                                    navBrands,
-                                    navCates,
-                                    products,
-                                    totalOrder,
-                                    shipping
-                                })
-                            })
-                        
-                        })
-                        .catch(err=>{
-                            console.log(err);
-                            next(err);
-                        })
+                    const detailID = carts.map(cart=>{
+                        return cart.detailID;
                     })
-                    .catch(err=>{
-                        console.log(err);
-                        next(err);
+                    const quantity = carts.map(cart=>{
+                        return cart.quantity;
                     })
-                }else{
-                    let {proID, detailID, quantity} = req.query;
-                    proID = Utility.convertStringToArray(proID);
-                    detailID = Utility.convertStringToArray(detailID);
-                    quantity = Utility.convertStringToArray(quantity);
                     const n = proID.length;
                     const productPromise = [];
                     const detailPromise = [];
-                    const imagePromise = [];
                     for(let i = 0 ; i < n ;i++){
-                        proID[i] = parseInt(proID[i]);
-                        detailID[i] = parseInt(detailID[i]);
-                        quantity[i] = parseInt(quantity[i]);
                         productPromise.push(ProductService.itemProduct(proID[i]));
                         detailPromise.push(ProductService.getDetail(detailID[i]));
-                        imagePromise.push(ProductService.firstImageProduct(proID[i]));
                     }
                     const arr = [
                         BrandService.getAll(),
                         CateService.getAll(),
                         Promise.all(productPromise),
-                        Promise.all(detailPromise),
-                        Promise.all(imagePromise)
+                        Promise.all(detailPromise)
                     ]
                     Promise.all(arr)
-                    .then(([navBrands, navCates, products, details, image])=>{
+                    .then(([navBrands, navCates, products, details])=>{
                         
                         const catePromise = products.map(item=>{
                             return ProductService.getCateName(item.catID);
@@ -193,29 +127,79 @@ class MeController{
                                 products[i].quantity = quantity[i];
                                 products[i].totalPrice =  products[i].price*quantity[i];
                                 totalOrder+=products[i].totalPrice;
-                                products[i].img = image[i].proImage;
-                                products[i].detailID = details[i].detailID;
                             }
+                            console.log(products);
                             res.render('me/checkout', {
                                 navBrands,
                                 navCates,
                                 products,
-                                totalOrder,
-                                shipping
+                                totalOrder
                             })
                         })
-                    
+                       
                     })
                     .catch(err=>{
                         console.log(err);
                         next(err);
                     })
+                })
+                .catch(err=>{
+                    console.log(err);
+                    next(err);
+                })
+            }else{
+                let {proID, detailID, quantity} = req.query;
+                proID = Utility.convertStringToArray(proID);
+                detailID = Utility.convertStringToArray(detailID);
+                quantity = Utility.convertStringToArray(quantity);
+                const n = proID.length;
+                const productPromise = [];
+                const detailPromise = [];
+                for(let i = 0 ; i < n ;i++){
+                    proID[i] = parseInt(proID[i]);
+                    detailID[i] = parseInt(detailID[i]);
+                    quantity[i] = parseInt(quantity[i]);
+                    productPromise.push(ProductService.itemProduct(proID[i]));
+                    detailPromise.push(ProductService.getDetail(detailID[i]));
                 }
-            })
-            .catch(err=>{
-                console.log(err);
-                next();
-            })
+                const arr = [
+                    BrandService.getAll(),
+                    CateService.getAll(),
+                    Promise.all(productPromise),
+                    Promise.all(detailPromise)
+                ]
+                Promise.all(arr)
+                .then(([navBrands, navCates, products, details])=>{
+                    
+                    const catePromise = products.map(item=>{
+                        return ProductService.getCateName(item.catID);
+                    })
+                    Promise.all(catePromise)
+                    .then(cates=>{
+                        const n = products.length;
+                        let totalOrder = 0;
+                        for(let i = 0 ; i < n ;i++){
+                            products[i].catName = cates[i].catName;
+                            products[i].color = details[i].color;
+                            products[i].quantity = quantity[i];
+                            products[i].totalPrice =  products[i].price*quantity[i];
+                            totalOrder+=products[i].totalPrice;
+                        }
+                        console.log(products);
+                        res.render('me/checkout', {
+                            navBrands,
+                            navCates,
+                            products,
+                            totalOrder
+                        })
+                    })
+                   
+                })
+                .catch(err=>{
+                    console.log(err);
+                    next(err);
+                })
+            }
         }
         else{
             res.redirect("/account/register-login/");
@@ -303,68 +287,17 @@ class MeController{
     //[GET] /me/order
     showOrder(req, res, next){
         if(req.user){
-            const pageNumber = req.query.page;
-            currentPage = (pageNumber && !Number.isNaN(pageNumber)) ? parseInt(pageNumber) : 1;
-            currentPage = (currentPage > 0) ? currentPage : 1;
-            currentPage = (currentPage <= totalPage) ? currentPage : totalPage
-            currentPage = (currentPage < 1) ? 1 : currentPage;
-
             const arr = [
                 BrandService.getAll(),
                 CateService.getAll(),
-                UserService.getUserOrders(orderPerPage,currentPage,req.user.f_ID),
-                UserService.countUserOrder(req.user.f_ID)
+    
             ]
             Promise.all(arr)
-            .then(([navBrands, navCates, userOrders, totalOrders])=>{
-                let totalOrder = totalOrders;
-                let paginationArray = [];
-                totalPage = Math.ceil(totalOrder/orderPerPage);
-                let pageDisplace = Math.min(totalPage - currentPage + 2, maximumPagination);
-                if(currentPage === 1){
-                    pageDisplace -= 1;
-                }
-                for(let i = 0 ; i < pageDisplace; i++){
-                    if(currentPage === 1){
-                        paginationArray.push({
-                            page: currentPage + i,
-                            isCurrent:  (currentPage + i)===currentPage
-                        });
-                    }
-                    else{
-                        paginationArray.push({
-                            page: currentPage + i - 1,
-                            isCurrent:  (currentPage + i - 1)===currentPage
-                        });
-                    }
-                }
-                if(pageDisplace < 2){
-                    paginationArray=[];
-                }
-                
-                const ordersLength = userOrders.length;
-                for(let i = 0 ; i  < ordersLength; i++){
-                    const date = new Date(userOrders[i].createdAt);
-                    if (!isNaN(date.getTime())) {
-                        let d = date.getDate();
-                        let m = date.getMonth() + 1;
-                        let y = date.getFullYear();
-                        userOrders[i].orderDate = d + '/' + m + '/' + y;
-                    }
-                }
+            .then(([navBrands, navCates])=>{
                 res.render('me/order', {
                     navBrands,
-                    navCates,
-                    userOrders,
-                    currentPage,
-                    paginationArray,
-                    prevPage: (currentPage > 1) ? currentPage - 1 : 1,
-                    nextPage: (currentPage < totalPage) ? currentPage + 1 : totalPage
+                    navCates
                 });
-            })
-            .catch(err=>{
-                console.log(err);
-                next();
             })
         }
         else{
@@ -375,73 +308,17 @@ class MeController{
 
      //[GET] /me/order/:id
     showOrderDetail(req, res, next){
-        const id = req.params.id;
-        let orderid = (id && !Number.isNaN(id)) ? parseInt(id) : next();
-
         if(req.user){
-            UserService.isValidOrder(req.user.f_ID, orderid)
-            .then(valid=>{
-                if (valid) {
-                    const arr = [
-                        BrandService.getAll(),
-                        CateService.getAll(),
-                        UserService.findOrder(orderid),
-                        UserService.orderDetailList(orderid)
-                    ]
-                    Promise.all(arr)
-                    .then(([navBrands, navCates, order, items])=>{
-                        const products = items.map(item=>{
-                            return ProductService.itemProduct(item.proID);
-                        });
-        
-                        const detailPro = items.map(item=>{
-                            return UserService.findDetailItem(item.detailID);
-                        });
-        
-                        const imgPro = items.map(item=>{
-                            return ProductService.firstImageProduct(item.proID);
-                        });
-        
-                        const myPromiseArr = products.concat(detailPro, imgPro);
-        
-                        Promise.all(myPromiseArr)
-                        .then(result=>{
-                            const itemsLength = items.length;
-                            for(let i = 0 ; i  < itemsLength; i++){
-                                items[i].proName = result[i].proName;
-                                items[i].img = result[(itemsLength)*2+i].proImage;
-                                items[i].color = result[(itemsLength)*1+i].color;
-                                items[i].brand = result[i].brandID;
-                                items[i].cate = result[i].catID;
-                                items[i].gender = result[i].sex;
-                                items[i].unitPrice = result[i].price;
-                                items[i].totalPrice = result[i].price * items[i].quantity;
-                            }
-        
-                            res.render('me/order-detail', {
-                                navBrands,
-                                navCates,
-                                order,
-                                items
-                            });
-                        })
-                        .catch(err=>{
-                            console.log(err);
-                            next();
-                        })
-                    })
-                    .catch(err=>{
-                        console.log(err);
-                        next();
-                    })
-                }
-                else {
-                    res.redirect("/404");
-                }
-            })
-            .catch(err=>{
-                console.log(err);
-                next();
+            const arr = [
+                BrandService.getAll(),
+                CateService.getAll(),
+            ]
+            Promise.all(arr)
+            .then(([navBrands, navCates])=>{
+                res.render('me/order-detail', {
+                    navBrands,
+                    navCates
+                });
             })
         }
         else{
@@ -654,6 +531,8 @@ class MeController{
         });
         
     }
+<<<<<<< HEAD
+=======
 
     //[POST] /me/checkout
     createOrder(req, res, next){
@@ -777,6 +656,7 @@ class MeController{
         }
         
     }
+>>>>>>> 726a29724d010d3a6f76727b87be8883e0178fdf
 }
 function getGenderSlug(sex) {
 	let gender="unisex";

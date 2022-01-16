@@ -15,6 +15,5 @@ router.get('/order/:id', MeController.showOrderDetail);
 router.get('/order/api', MeController.showOrderApi);
 router.get('/order', MeController.showOrder);
 router.get('/checkout', MeController.checkout);
-router.post('/checkout',MeController.createOrder);
 router.get('/change-password', MeController.changePassword);
 module.exports = router;

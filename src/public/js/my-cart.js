@@ -8,10 +8,10 @@ $(document).ready(function(){
     checkboxAll.change(function(){
         let isCheckedAll = $(this).prop('checked');
         productItemCheckbox.prop('checked', isCheckedAll) ;
-        let total = 0;
         if(!isCheckedAll){
             $("#total-cost").text("$0.00");
         }else{
+            let total = 0;
             productItemQuantity.toArray().forEach(item=>{
                 let price = item.dataset.price;
                 price = parseInt(price);
@@ -21,10 +21,9 @@ $(document).ready(function(){
             });	
             $("#total-cost").text("$"+total+".00");
         }
-        if(total === 0){
+        if(total == 0){
             $("#go-checkout-btn").hide(0);
         }else{
-            console.log("here")
             $("#go-checkout-btn").show(0);
         }
     });
@@ -72,23 +71,7 @@ $(document).ready(function(){
                 }
                 input.val(data.quantity);
                 input.siblings("h5").text(data.quantity);
-                
-                $("#product-total-price-" + data.cartID).text("$"+data.quantity*price+".00");
-                let total = 0;
-                productItemCheckbox.toArray().forEach(item=>{
-                    if(item.checked){
-                        productItemQuantity.toArray().forEach(item1=>{
-                            if(parseInt(item.value) === parseInt(item1.dataset.id)){
-                                let price = item1.dataset.price;
-                                price = parseInt(price);
-                                let quantity = item1.value;
-                                quantity = parseInt(quantity);
-                                total += price*quantity;
-                            }
-                        });	
-                        $("#total-cost").text("$"+total+".00");
-                    }
-                });
+                $("#product-total-price-" + data.cartID).text("$"+data.quantity*price+".00")
             },
             error: function(err){
                 alert("Bad request");

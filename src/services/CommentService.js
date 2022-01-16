@@ -30,6 +30,7 @@ class CommentService{
             order:[
                 ['createdAt', 'DESC']
             ]
+
         })
     }
 
