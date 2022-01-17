@@ -31,7 +31,7 @@ const getShop = (req, res, next, brand, brandID, cat, catID, gender, genderID, l
 		catIDs = [catID];
 	}
 	catIDs = [].concat(catIDs ?? []);
-	if(genderID){
+	if(genderID || genderID === 0){
 		genderIDs = [genderID];
 	}
 	genderIDs = [].concat(genderIDs ?? []);
@@ -43,6 +43,7 @@ const getShop = (req, res, next, brand, brandID, cat, catID, gender, genderID, l
 	currentPage = (currentPage > 0) ? currentPage : 1;
 	currentPage = (currentPage <= totalPage) ? currentPage : totalPage;
 	currentPage = (currentPage < 1) ? 1: currentPage;
+	
 	const productPromises=[
 		ProductService.list(itemPerPage,currentPage, name, brandIDs, catIDs, genderIDs, prices, sort),
 		ProductService.getProductTotal(name, brandIDs, catIDs, genderIDs, prices),
