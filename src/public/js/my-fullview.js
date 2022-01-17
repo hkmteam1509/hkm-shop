@@ -1,3 +1,120 @@
+
+	
+function genderateReview(comment){
+    return comment.map(comment=>{
+        let star = ``;
+        for(let i = 0 ; i < comment.rate;i++){
+            star += 	`<li class="filled">
+                            <svg class="svg-star">
+                                <use xlink:href="#svg-star"></use>
+                            </svg>
+                        </li>`
+        }
+        for (let i=0;i<5-comment.rate;i++){
+             star += 	`<li >
+                            <svg class="svg-star">
+                                <use xlink:href="#svg-star"></use>
+                            </svg>
+                        </li>`
+        }
+        return `<div class="sub-item review">
+            <h5>${comment.sumary}</h5>
+            <ul  class="rating big">
+                <ul class="rating big">
+                `+ star +`
+                </ul>
+            </ul>
+            <p class="author">${comment.authorName} - ${comment.createdAt} </p>
+            <p class="comment">${comment.com}</p>
+            </class=>`
+        ;
+    })
+}
+function generatePager(paginationArray, prevPage, nextPage){
+    let result = [];
+        if (paginationArray){
+            result.push(`<li>
+                        <label style="cursor: pointer;" class="button prev">
+                            <input onchange='startSubmit(this);' style="display: none;" id="page-prev" value="${prevPage}" type="radio" name="page"/>
+                            <svg class="svg-arrow">
+                                <use xlink:href="#svg-arrow"></use>
+                            </svg>
+                        </label>
+                        </li>`)
+            paginationArray.forEach(page=>{
+                                    if(page.isCurrent){
+                                        result.push(`<li class="selected">
+                                                        <label style="cursor: pointer;">
+                                                            <input onchange='startSubmit(this);' style="display: none;" id="page-${page.page}" value="${page.page}" type="radio" name="page"/>
+                                                            ${page.page}
+                                                        </label>
+                                                    </li>`)
+                                    }
+                                    else{
+                                        result.push(
+                                        `<li>
+                                            <label style="cursor: pointer;">
+                                                <input onchange='startSubmit(this);' style="display: none;" id="page-${page.page}" value="${page.page}" type="radio" name="page"/>
+                                                ${page.page}
+                                            </label>
+                                        </li>`
+                                        )
+                                    
+                                    }							
+            })
+        result.push(`<li>
+                    <label style="cursor: pointer;" class="button next">
+                        <input onchange='startSubmit(this);' style="display: none;" id="page-next" value="${nextPage}" type="radio" name="page"/>
+                        <svg class="svg-arrow">
+                            <use xlink:href="#svg-arrow"></use>
+                        </svg>
+                    </label>
+                    </li>`)
+        }
+    return result;
+}
+
+function startSubmit(ele){
+    const data = {};
+    const productID = parseInt($("#product-id").val());
+    data.proID=productID;
+    data.page = $("input[name='page']:checked").val();
+    
+    if(!data.page){
+        data.page = '1';
+    }
+    if(!ele){
+        data.page = '1';
+    }
+    else if(ele.getAttribute("name") !== "page"){
+        data.page = '1';
+    }
+     $.ajax({
+        method:'get',
+        url: '/shop/api/rating',
+        data: data,
+        success: function(data){
+            $("#my-pagination").empty();
+            if(data.paginationArray && data.paginationArray.length > 0){
+                const pageView = generatePager(data.paginationArray, data.prevPage, data.nextPage);
+                pageView.forEach(page=>{
+                    $("#my-pagination").append(page);
+                });
+            }
+            const reviewView=genderateReview(data.comment);
+            $("#review-body").empty();
+            reviewView.forEach(comment=>{
+                $("#review-body").append(comment);
+            });
+        },
+        error: function(err){
+            console.log(err);
+            alert("An error has occurred, please try again");
+        }
+    })
+}
+
+
 $(document).ready(function(){
     let selectedColor = -1;
     const detailHolder = $(".detail-holder");
@@ -47,9 +164,7 @@ $(document).ready(function(){
                         quantity: parseInt(productQuantity.val()),
                     },
                     success: function(data){
-                        console.log(data);
                         const userId = parseInt(user.innerText);
-                        console.log(userId);
                         $.ajax({
                             url:'/me/cart/api/header',
                             method: 'get',
@@ -57,7 +172,6 @@ $(document).ready(function(){
                                 userId
                             },
                             success: function(data){
-                                console.log(data);
                                 const nItem = data.length;
                                 $(".cart-content-short").text(nItem);
                                 $(".cart-content-long").text(nItem + " item (s)");
@@ -155,8 +269,9 @@ $(document).ready(function(){
         }
     });
 
+
+
     $("#post-review-btn").click(function(){
-        console.log("get in to ajax")
         let userID=null;
         let author = "";
         if (user){
@@ -184,10 +299,10 @@ $(document).ready(function(){
             },
             success:function(data){
                 alert("Your comment has been added successfully");
+                startSubmit(null);
                 $('input[name=authorName]').val(author);
                 $('input[name=sumary]').val("");
                 $('input[name=com').val("");
-                console.log(data)
             }
         })
     })
