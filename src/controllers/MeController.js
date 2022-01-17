@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const { SALT_BCRYPT } = require("../config/app");
 const Utility = require("../util/Utility");
 
-const orderPerPage = 1;
+const orderPerPage = 5;
 const maximumPagination = 5;
 let currentPage = 1;
 let totalPage = 1;
