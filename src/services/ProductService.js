@@ -494,7 +494,8 @@ class ProductService{
             raw:true,
             order: [
                 ['sold', 'DESC'],
-            ]
+            ],
+            limit:10
         })
     }
 
